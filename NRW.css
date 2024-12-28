@@ -1,0 +1,225 @@
+﻿body {
+    overflow:auto;
+    background:green;
+}
+
+#site {
+     font-size: xx-large;
+     width:50%;
+     margin: 0;
+     padding: 0;
+     float:left;
+     background: #F1A983;
+     text-shadow: 2px 2px 5px white;
+}
+
+#main {
+    width: 100%;
+    font-size: x-large;
+    background: #F1A983;
+    box-shadow: 0 4px 0px 0 #018eaa, 0 6px 0px 0 rgba(0, 0, 0, 0.19);
+    display:inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    
+
+}
+
+#controls{
+    width: 150px;
+    height:100%;
+    font-size: x-large;
+    background: #F0F0F0;
+    box-shadow: 0 4px 0px 0 #018eaa, 0 6px 0px 0 rgba(0, 0, 0, 0.19);
+    display:iblock;
+    font-family: Arial, Helvetica, sans-serif;
+    
+
+}
+
+
+#catchphrase {
+    padding: 0px;
+    padding-bottom: 10px;
+    float:right;
+    text-align:right;
+    width:50%;
+    
+}
+
+ .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #71b151;
+    float:left;
+}
+
+ .sidemenu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: gray;
+    float:left;
+}
+
+                                                
+.menu li {
+    float: left;
+    font-size:medium;
+    border-right: 1px solid #bbb;
+                                                    
+}
+                                                
+.menu li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 13px 12px;
+    background-image:url('Images/login.png');
+    background-repeat:no-repeat;
+    text-decoration: none;
+    vertical-align:top;                                            
+}
+                                                
+.menu li a:hover:not(.active) {
+    background-color: #fadf48;
+}
+
+.sidemenu li {
+    float: left;
+    width:100%;
+    font-size:medium;
+    border-bottom: 1px solid #bbb;
+                                                    
+}
+                                                
+.sidemenu li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 13px 12px;
+    background-image:url('Images/login.png');
+    background-repeat:no-repeat;
+    text-decoration: none;
+    vertical-align:top;                                            
+}
+                                                
+.sidemenu li a:hover:not(.active) {
+    background-color: #fadf48;
+}
+
+                                                
+.active {
+    background-color:#525D2F;
+}
+
+.round a{
+    background: #ff4052;
+    padding-bottom: 4px;
+    padding-right: 7px;
+    padding-left: 12px;
+    padding-top: 4px;
+    border: 2px solid #333;
+    border-radius: 20px 20px 20px 20px;
+    width:180px;
+    float:right;
+    text-decoration: none;
+    color: black;
+}
+
+.round a:hover{
+	background:#018eaa;
+    border: 2px solid #333;
+    border-radius: 20px 20px 20px 20px;
+    width:180px;
+    float:right;
+    text-decoration: none;
+	color:black;
+}
+.menu {
+   
+    padding-bottom: 4px;
+    padding-right: 7px;
+    padding-left: 12px;
+    padding-top: 4px;
+    font-size:large;  
+}
+.sidemenu {
+   
+    padding-bottom: 4px;
+    padding-right: 7px;
+    padding-left: 12px;
+    padding-top: 4px;
+    font-size:large;  
+}
+
+.hold {
+	text-shadow: 4px 4px 10px white;
+	text-shadow: 4px 4px 10px white;
+}
+
+
+.top {
+	width:100%;
+}
+.logbar {
+    background: #018eaa;
+    text-align: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    padding: 5px;
+    outline-style: double;
+    outline-color: #018eaa;
+    outline-width: 3px;
+}  
+
+#frm {
+    border: solid grey 1px;
+    width: 20%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: white;
+    padding: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#lock {
+    border: solid grey 1px;
+    width: 20%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: red;
+    padding-left: 50px;
+    padding-right: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+} 
+
+#fail {
+border: solid grey 1px;
+    
+    border-radius: 5px;
+    margin: 5px auto;
+    background: pink;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.iframeclass {
+    border-style: none;
+    border-color: inherit;
+    border-width: 0;
+    position: relative;
+    padding-bottom: 56.25%; /* proportion value to aspect ratio 16:9 (9 / 16 = 0.5625 or 56.25%) */
+    overflow: hidden;
+    height: 1381px;
+    width: 100%;
+    vertical-align:top;
+    top: 0px;
+    left: 0px;
+    padding-top:20px;
+    
+}

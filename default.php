@@ -14,23 +14,25 @@ if (isset($_GET['contentURL'])) {
 
 
 //Build html Page
+//======================================================================================================Header
     $html = "
     <html>
     <head>
         <title></title>
-        <link href='KatiesDoughnuts.css' rel='stylesheet' type='text/css'/>
+        <link href='NRW.css' rel='stylesheet' type='text/css'/>
     </head>
     <body>
     <div id='main'>
     	<table class='top'>
     		<tr>
-    			<td><img src='Doughnut.png' alt='Love Doughnuts' style='width:100px;'></td>
-    			<td><div id='site'>Katie&apos;s Doughnuts</div></td>
+    			<td><img src='images/Logo.png' alt='No Resin Why' style='width:100px;'></td>
+    			<td><div id='site'>No Resin Why Operations</div></td>
     			<td><div class='menu'>
     				<ul>
-    					<li><a href='default.php'>Toppings</a></li>
-    					<li><a href='default.php'>Specialty Doughnuts</a></li>
-    					<li><a href='default.php'>About Us</a></li>
+    					<li><a href='default.php'>Expenses</a></li>
+    					<li><a href='default.php'>Inventory</a></li>
+    					<li><a href='default.php'>Sales</a></li>
+    					<li><a href='default.php'>Molds</a></li>
     				</ul>
     			<td>
         		<td><div id='catchphrase'>Get Yours Today! 555.123.5555&nbsp;&nbsp;</div></td>
@@ -39,12 +41,19 @@ if (isset($_GET['contentURL'])) {
         </table>
     </div>";
 
-	if ($contentURL != "") {
-        $html .= "<iframe class='iframeclass' id='content' name='content' seamless src='{$contentURL}.php' frameborder='0' marginheight='0' marginwidth='0' runat='server' z-index: 1000>
-				    Your browser does not support inline frames or is currently configured not to display inline frames.
-	    </iframe>";
-    }   
-
+//======================================================================================================Body
+	$html .= "<div id='controls'><br>
+			
+       			<div class='sidemenu'>
+	       			<ul>
+	    					<li><a href='default.php'>Add New Expense</a></li>
+	       					<li><a href='default.php'>Add New Item</a></li>
+	    					<li><a href='default.php'>Mark Items as Sold</a></li>
+	    					<li><a href='default.php'>Add Mold</a></li>
+	       					<li><a href='default.php'>Add Vendor</a></li>
+	        		</ul>
+				</div>
+			</div>";
         
     $html .= "</body>
 </html>";
