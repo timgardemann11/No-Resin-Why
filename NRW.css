@@ -3,6 +3,59 @@
     background:#F1A983;
 }
 
+.action {
+	position:absolute;
+	left:0;
+	right:0;
+	width:100%;
+	height:100%;
+	background-color:black;
+	opacity: 0.7;
+}
+
+.exit {
+    position:relative;
+    left:calc(100% - 70px);
+    top:0;
+    width:60px;
+    display: inline-block;
+    color: white;
+    font-weight:bold;
+    text-align: center;
+    padding: 13px 12px;
+    text-decoration:none;
+    padding:0px 10px 10px 10px; 
+    background-color:#C00000;                                           
+}
+
+.formtitle {
+    position:relative;
+    left:-10px;
+    top:-10px;
+    width:200px;
+    color: black;
+    font-weight:bold;
+    text-align: center;
+    padding: 13px 12px;
+    text-decoration:none;
+    padding:0px 10px 10px 10px; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:x-large;                                    
+}
+
+
+.form {
+	width:50%;
+	height:50%;
+	background-color:#F1A983;
+	position:absolute;
+	left:calc(50% / 2);
+	top:calc(50% /2);
+	padding:0px 10px 10px 10px; 
+
+
+}
+
 #site {
      font-size: xx-large;
      width:50%;
@@ -47,9 +100,10 @@
     width: 28%;
     height:100%;
     font-size: x-large;
-    background: green;
+    background: #dfb49d;
     display:inline-block;
     font-family: Arial, Helvetica, sans-serif;
+    padding-left:20px;
 
 }
 
@@ -73,16 +127,18 @@ background-color:white;
 .datascroll {
 	height:89%;
 	overflow:auto;
+	display:inline-block;
 }
 
 
 .metricsdata {
-	height:40%;
+	height:45%;
 
 }
 
 .calendar {
-	height:40%;
+	height:100%;
+		
 }
 
 
@@ -124,6 +180,7 @@ background-color:white;
 	height:100%;
 	float:left;
 	padding:20px 10px 10px 20px;
+	display:inline-block;
 	
 }
 
@@ -152,25 +209,26 @@ background-color:white;
 	text-align:left;
 }
 
-
-
 .menu {
     display:inline-block; 
-
+    border-radius: 20px 20px 0px 0px; 
 }
 
+.menuactive {
+	display:inline-block; 
+	border-radius: 20px 20px 0px 0px;
+}
 
 .menu div {
     text-decoration: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #71b151;
-
     display:inline-block;
     float: left;
     font-size:medium;
-    border-right: 1px solid #bbb;
+    border-right: 1px solid #F1A983;
+    
 }
 
 .menu div a {
@@ -179,11 +237,23 @@ background-color:white;
     text-align: center;
     padding: 13px 12px;
     text-decoration:none;
-    vertical-align:bottom;                                            
+    vertical-align:bottom;
+                                                
 }
+
+.menuactive div a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 13px 12px;
+    text-decoration:none;
+    vertical-align:bottom; 
+    border-radius: 20px 20px 20px 20px;                                           
+}
+
                                                 
 .menu div a:hover {
-    background-color: #fadf48;
+    color:white;
 }
 
 
@@ -196,14 +266,11 @@ background-color:white;
     float:left;
 }
 
-                                                
-
 .sidemenu li {
     float: left;
     width:100%;
     font-size:medium;
     border-bottom: 8px solid #F1A983;
-
                                                     
 }
                                                 
@@ -222,9 +289,6 @@ background-color:white;
 }
 
                                                 
-.active {
-    background-color:#525D2F;
-}
 
 .round a{
     background: #ff4052;
@@ -251,7 +315,6 @@ background-color:white;
 	color:black;
 }
 .sidemenu {
-   
     padding-bottom: 4px;
     padding-right: 7px;
     padding-left: 7px;
@@ -313,6 +376,87 @@ border: solid grey 1px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.calendar {
+    display: flex;
+    flex-flow: column;
+}
+.calendar .header .month-year {
+    font-size: 20px;
+    font-weight: bold;
+    color: #636e73;
+    padding: 10px 0;
+}
+.calendar .days {
+    display: flex;
+    flex-flow: wrap;
+}
+.calendar .days .day_name {
+    width: calc(40% / 7);
+    border-right: 1px solid #2c7aca;
+    padding: 20px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    color: #818589;
+    color: #fff;
+    background-color: #448cd6;
+}
+.calendar .days .day_name:nth-child(7) {
+    border: none;
+}
+.calendar .days .day_num {
+    display: flex;
+    flex-flow: column;
+    width: calc(40% / 7);
+    height:70px;
+    border-right: 1px solid #e6e9ea;
+    border-bottom: 1px solid #e6e9ea;
+    padding: 15px;
+    font-weight: bold;
+    color: #7c878d;
+    cursor: pointer;
+    min-height: 100px;
+}
+.calendar .days .day_num span {
+    display: inline-flex;
+    width: 30px;
+    font-size: 14px;
+}
+.calendar .days .day_num .event {
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    background-color: #f7c30d;
+    color: #fff;
+    word-wrap: break-word;
+}
+.calendar .days .day_num .event.green {
+    background-color: #51ce57;
+}
+.calendar .days .day_num .event.blue {
+    background-color: #518fce;
+}
+.calendar .days .day_num .event.red {
+    background-color: #ce5151;
+}
+.calendar .days .day_num:nth-child(7n+1) {
+    border-left: 1px solid #e6e9ea;
+}
+.calendar .days .day_num:hover {
+    background-color: #fdfdfd;
+}
+.calendar .days .day_num.ignore {
+    background-color: #fdfdfd;
+    color: #ced2d4;
+    cursor: inherit;
+}
+.calendar .days .day_num.selected {
+    background-color: #f1f2f3;
+    cursor: inherit;
+}
+
 
 .iframeclass {
     border-style: none;
@@ -327,5 +471,129 @@ border: solid grey 1px;
     top: 0px;
     left: 0px;
     padding-top:20px;
+    
+    @import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
+
+* {
+  -webkit-font-smoothing: antialiased;
+  color: #acbdce;
+}
+
+:root {
+  --border-radius: 10px;
+}
+
+body, html {
+  background: #e2e9f4;
+  display: grid;
+  height: 100%;
+  grid-template: 1fr/100%;
+  place-items: center;
+}
+
+.Card {
+  padding: 1px;
+  border-radius: var(--border-radius);
+  background: linear-gradient(-67deg, rgba(#c8d8e7, .7), rgba(255,255,255,.8));
+  overflow: hidden;
+  box-shadow: 
+    -2px -2px 6px rgba(#fff, .6),
+    2px 2px 12px #c8d8e7;
+  width: 380px;
+}
+
+.CardInner {
+  padding: 16px 16px;
+  background-color: #e2e9f4;
+  border-radius: var(--border-radius);
+}
+
+.scontainer {
+  display: flex;
+}
+
+.Icon {
+  min-width: 46px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  margin-right: 12px;
+  box-shadow: 
+    -2px -2px 6px rgba(#fff, .6),
+    2px 2px 12px #c8d8e7;
+    
+  svg {
+    transform: translate(-1px, -1px);    
+  }
+}
+
+label {
+  font-family: "Hind", sans-serif;
+  display: block;
+  color: #3c4b66;
+  margin-bottom: 12px;
+  background: linear-gradient(45deg, rgba(#6b7b8f, 1), #3c4b66);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.InputContainer {
+  width: 100%;
+}
+
+input {
+  background-color: #e3edf7;
+  padding: 16px 32px;
+  border: none;
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  color: #a9b8c9;
+  -webkit-appearance: none;
+  transition: all 240ms ease-out;
+  width: 100%;
+  
+  &::placeholder {
+    color: #6d7f8f;
+  }
+  
+  &:focus {
+    outline: none;
+    color: #6d7f8f;
+    background-color: lighten(#e3edf7, 3%);
+  }
+};
+  
+.InputContainer {
+  --top-shadow: inset 1px 1px 3px #c5d4e3, inset 2px 2px 6px #c5d4e3;
+  --bottom-shadow: inset -2px -2px 4px rgba(255,255,255, .7);
+  
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  
+  &:before,
+  &:after {
+    left: 0;
+    top: 0;
+    display: block;
+    content: "";
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+  
+  &:before {
+    box-shadow: var(--bottom-shadow);
+  }
+  
+  &:after {
+    box-shadow: var(--top-shadow);
+  }
+}
     
 }

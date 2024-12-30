@@ -1,12 +1,15 @@
 <?php
 
-function Vendors()
+function Vendors($search)
 {
     $return = "<table class='datatable'><tr class='vendorhd'><th>Vendor ID</th><th>Vendor Name</th><th>Account Number</th><th>Location</th></tr>";
     $servername = "nrwphpsite-server.mysql.database.azure.com"; 
   	$username = "tekhneddch"; 
   	$password = "8\$qt3vaajySvWV4U"; 
   	$databasename = "no-resin-why"; 
+  	
+  	$count = 0;
+
     try
     {
 	    // CREATE CONNECTION
@@ -19,7 +22,15 @@ function Vendors()
 		     die("Connection failed: " . $conn->connect_error); 
 		}     
         
-        $sql = "SELECT * FROM `no-resin-why`.vendor";
+        if($search == ""){
+        	$sql = "SELECT * FROM `no-resin-why`.vendor";
+        } else {
+        	$sql = "SELECT * FROM `no-resin-why`.vendor
+					WHERE (lower(VendorName) like lower('%$search%') )
+					or (lower(AccountNum) like lower('%$search%'))
+					or (lower(Location) like lower('%$search%'))";
+        }
+
         
         $result = $conn->query($sql); 
         
@@ -33,6 +44,8 @@ function Vendors()
 				$VAcct = $row["AccountNum"];
 				$VLoc = $row["Location"];
 			    $return .= "<tr><td>$VID</td><td>$VName</td><td>$VAcct</td><td>$VLoc</td></tr>";
+			    
+			    $count++;
 			}
 		} else {
 			$return .= "<tr><td>No results</td></tr>";
@@ -46,11 +59,11 @@ function Vendors()
         echo("Error!");
     }
 
-    return $return;
+    return "$return^$count";
 }
 
 
-function Expenses()
+function Expenses($search)
 {
     $return = "<table class='datatable'><tr class='expensehd'><th>Expense ID</th><th>Date</th><th>Vendor</th><th>Description</th><th>Amount</th></tr>";
     $servername = "nrwphpsite-server.mysql.database.azure.com"; 
@@ -71,7 +84,15 @@ function Expenses()
 		     die("Connection failed: " . $conn->connect_error); 
 		}     
         
-        $sql = "SELECT * FROM `no-resin-why`.expenses";
+        if($search == ""){
+        	$sql = "SELECT * FROM `no-resin-why`.expenses";
+        } else {
+        	$sql = "SELECT * FROM `no-resin-why`.expenses
+					WHERE (lower(Vendor) like lower('%$search%') )
+					or (lower(Description) like lower('%$search%'))
+					or (Date like '%$search%')
+					or (Amount like '%$search%')";
+        }
         
         $result = $conn->query($sql); 
         
@@ -107,13 +128,15 @@ function Expenses()
 
 
 
-function Molds()
+function Molds($search)
 {
-    $return = "<table class='datatable'><tr class='moldhd'><th>Expense ID</th><th>Date</th><th>Vendor</th><th>Description</th><th>Amount</th></tr>";
+    $return = "<table class='datatable'><tr class='moldhd'><th>Mold ID</th><th>Shape</th><th>Description</th><th>Size</th></tr>";
     $servername = "nrwphpsite-server.mysql.database.azure.com"; 
   	$username = "tekhneddch"; 
   	$password = "8\$qt3vaajySvWV4U"; 
   	$databasename = "no-resin-why"; 
+  	
+  	$count = 0;
   	
     try
     {
@@ -128,7 +151,15 @@ function Molds()
 		}     
         
         $sql = "SELECT * FROM `no-resin-why`.molds";
-        
+        if($search == ""){
+        	$sql = "SELECT * FROM `no-resin-why`.molds";
+        } else {
+        	$sql = "SELECT * FROM `no-resin-why`.molds
+					WHERE (lower(Shape) like lower('%$search%') )
+					or (lower(Description) like lower('%$search%'))
+					or (lower(Size) like lower('%$search%'))";
+        }
+
         $result = $conn->query($sql); 
         
         if ($result->num_rows > 0)
@@ -140,7 +171,8 @@ function Molds()
 				$Shape = $row["Shape"];
 				$Description = $row["Description"];
 				$Size = $row["Size"];
-
+				
+				$count++;
 			    $return .= "<tr><td>$MID</td><td>$Shape</td><td>$Description</td><td>$Size</td></tr>";
 			    
 			}
@@ -156,8 +188,13 @@ function Molds()
         echo("Error!");
     }
 
-    return "$return";
+    return "$return^$count";
 }
 
+
+function AddEvent(){
+
+
+}
 
 ?>
