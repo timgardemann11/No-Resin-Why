@@ -11,6 +11,7 @@ $calendar = new Calendar('2024-12-12');
 $calendar->add_event('Holiday', '2024-12-15');
 session_start();
 
+$result = "";
 
 //Get Left Tab Variable
 if (isset($_GET['toptab'])) {
@@ -37,6 +38,64 @@ if (isset($_GET['action'])) {
     $action = "";
 }
 
+if (isset($_POST['subexpadd'])) {
+	$edate = $_POST['edate'];
+	$evendor = $_POST['evendor'];
+	$edescription = $_POST['edescription'];
+	$eamount = $_POST['eamount'];
+	if($evendor == ''){
+		$evendor = $_POST['evtext'];
+	}
+	$result = AddExpense($edate,$evendor,$edescription,$eamount);
+} else {
+	$edate = "";
+	$evendor = "";
+	$edescription = "";
+	$eamount = "";
+}
+
+if (isset($_POST['subexpup'])) {
+	$eid = $_POST['eid'];
+	$edate = $_POST['edate'];
+	$evendor = $_POST['evendor'];
+	$edescription = $_POST['edescription'];
+	$eamount = $_POST['eamount'];
+	if($evendor == ''){
+		$evendor = $_POST['evtext'];
+	}
+	$result = UpdateExpense($edate,$evendor,$edescription,$eamount,$eid);
+} else {
+	$edate = "";
+	$evendor = "";
+	$edescription = "";
+	$eamount = "";
+}
+
+if (isset($_POST['subexpdel'])) {
+	$eid = $_POST['eid'];
+	$edate = $_POST['edate'];
+	$evendor = $_POST['evendor'];
+	$edescription = $_POST['edescription'];
+	$eamount = $_POST['eamount'];
+	if($evendor == ''){
+		$evendor = $_POST['evtext'];
+	}
+	$result = DeleteExpense($edate,$evendor,$edescription,$eamount,$eid);
+} else {
+	$edate = "";
+	$evendor = "";
+	$edescription = "";
+	$eamount = "";
+}
+
+
+
+
+if (isset($_GET['operation'])) {
+	$operation = $_GET['operation'];
+} else {
+	$operation = "";
+}
 
 
 //Build html Page
@@ -57,20 +116,37 @@ $html = "
 			$( '#datepicker2' ).datepicker();
 			} );
 		</script>
-
+		
+		<script>
+		function DropDownChanged(oDDL) {
+		    var oTextbox = oDDL.form.elements['evtext'];
+		    if (oTextbox) {
+		        oTextbox.style.display = (oDDL.value == '') ? '' : 'none';
+		        if (oDDL.value == '')
+		            oTextbox.focus();
+		    }
+		}
+		</script>
+		
     </head>
     <body>
 
 	    <div id='main'>
 	    	
 	    		<div id='logo'>&nbsp;&nbsp;<img src='images/SiteLogo.png' alt='No Resin Why' style='width:120px;'></div>
-	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;No Resin Why Operations</div>
+	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;No Resin Why Operations&nbsp;&nbsp;&nbsp;<span style='font-size:medium;'>$result</span></div>
     			<div class='menu'>";
     						if($toptab == 'EXP') {
 	    						$html .= "<div class='menuactive' style='background-color:#C00000;'><a style='color:white' href='default.php?toptab=EXP'>Expenses</a></div>";
 	    					} else {
 	    						$html .= "<div class='menu' style='background-color:#C00000;'><a href='default.php?toptab=EXP'>Expenses</a></div>";
 	    					}
+	    					if($toptab == 'EXA') {
+	    						$html .= "<div class='menuactive' style='background-color:#B67070;'><a style='color:white' href='default.php?toptab=EXA'>Exp Accounts</a></div>";
+	    					} else {
+	    						$html .= "<div class='menu' style='background-color:#B67070;'><a href='default.php?toptab=EXA'>Exp Accounts</a></div>";
+	    					}
+
 	    					if($toptab == 'INV') {
 	    						$html .= "<div class='menuactive' style='background-color:#4D93D9;'><a style='color:white' href='default.php?toptab=INV'>Inventory</a></div>";
 	    					} else {
@@ -91,6 +167,12 @@ $html = "
 	    					} else {
 	    						$html .= "<div class='menu' style='background-color:#9F6CF4;'><a href='default.php?toptab=VDR'>Vendors</a></div>";
 	    					}
+	    					if($toptab == 'SIZ') {
+	    						$html .= "<div class='menuactive' style='background-color:#C0C000;'><a style='color:white' href='default.php?toptab=SIZ'>Sizes</a></div>";
+	    					} else {
+	    						$html .= "<div class='menu' style='background-color:#C0C000;'><a href='default.php?toptab=SIZ'>Sizes</a></div>";
+	    					}
+
 						$html .= "
  	    		</div>
 	        	
@@ -105,13 +187,13 @@ $html = "
 				<div class='sidemenu'>
 		   			<ul>
 		   					<li><a href='default.php?action=EXP&toptab=$toptab'>Add New Expense</a></li>
-		   					<li><a href='default.php?acion=ITM&toptab=$toptab'>Add New Items</a></li>
+		   					<li><a href='default.php?action=ITM&toptab=$toptab'>Add New Items</a></li>
 							<li><a href='default.php?action=SLD&toptab=$toptab'>Mark Items as Sold</a></li>
 							<li><a href='default.php?action=MLD&toptab=$toptab'>Add New Mold</a></li>
 							<li><a href='default.php?action=MLD&toptab=$toptab'>Add Mold Size</a></li>
-							<li><a href='default.php?actopm=VDR&toptab=$toptab'>Add New Vendor</a></li>
-							<li><a href='default.php?actopm=VDR&toptab=$toptab'>Schedule Show</a></li>
-							<li><a href='default.php?actopm=VDR&toptab=$toptab'>Add Calendar Event</a></li>
+							<li><a href='default.php?action=VDR&toptab=$toptab'>Add New Vendor</a></li>
+							<li><a href='default.php?action=VDR&toptab=$toptab'>Schedule Show</a></li>
+							<li><a href='default.php?action=VDR&toptab=$toptab'>Add Calendar Event</a></li>
 
 							
 		    		</ul>
@@ -121,7 +203,7 @@ $html = "
 			
 			$html .= "
 			<div id='metrics'>
-				<div class='metricsdata'>Result of Operations<br>
+				<div class='metricsdata'>Result of Operations<br><br>
 				<div style='font-size:medium;color:white;background-color:#4EA72E;width:95%;'>Income</div>
 				<span style='font-size:medium;'>Sales . . . . . . . . . . . $500.00</span><br>
 				<span style='font-size:medium;'>Other Income. . . . . $500.00</span><br>
@@ -140,7 +222,13 @@ $html = "
 				<span style='font-size:medium;font-weight:bold;'>Total Profit/Loss. . . . . . . . . . $500.00</span><br><br>
 				</div>
 				<div class='calendar'>Upcomming Events:
-				
+				$edate 
+				$evendor 
+				$edescription 
+				$eamount 
+				<br>
+				$result
+
 					
 				</div>	
 				
@@ -152,18 +240,17 @@ $html = "
 			
 			
 			<div id='data'>";
-			//---------------------------------------------------------------------Data based on Top Tabs
+			//---------------------------------------------------------------------Top Tabs Data Sections
 			switch ($toptab) {
 			
 				case 'EXP':
 					$html .= "
-					<div class='Expense'>
-						<div class='datascroll'>";
-							$return = Expenses($search);
+					<div class='Expense'>";
+							$return = Expenses($search,'table',$toptab,$operation);
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
-						</div>
+						
 						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
 							if($search == ""){$html .= "Showing all Expenses<br>";} else {$html .= "Showing Expenses for search: <span style='font-weight:bold;'>$search</span><br>";}
 							$html .= "<br>
@@ -177,8 +264,10 @@ $html = "
 								</div>
 							</form><br>
 							<div>
-								Total of Displayed Expenses:  <span style='font-weight:bold;'>$parts[1]</span>
+								Total of Displayed Expenses:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
 							</div>
+							
 						 </div>
 						
 						
@@ -186,16 +275,77 @@ $html = "
 
 					break;
 				case 'INV':
-					
+					$html .= "
+					<div class='Inventory'>";
+							$return = Inventory($search,'table',$toptab,$operation);
+							$parts = explode("^",$return);
+							$html .= $parts[0];
+							$html .= "
+						
+						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
+							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							$html .= "<br>
+						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
+								<div class='scontainer'>
+								    <div class='InputContainer'>
+								    	<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#657789' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>
+								      <input name='search' id='search' placeholder='Serch Expenses...'/>
+								      <input type='submit' value='Search' name='search1'>
+								    </div>
+								</div>
+							</form><br>
+							<div>
+								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
+								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
+							</div>
+							
+						 </div>
+						
+						
+					</div>";
+
 					break;
+
 				case 'SAL':
-					
+					$html .= "
+					<div class='Sales'>";
+							$return = Inventory($search,'table',$toptab,$operation);
+							$parts = explode("^",$return);
+							$html .= $parts[0];
+							$html .= "
+						
+						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
+							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							$html .= "<br>
+						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
+								<div class='scontainer'>
+								    <div class='InputContainer'>
+								    	<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#657789' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>
+								      <input name='search' id='search' placeholder='Serch Expenses...'/>
+								      <input type='submit' value='Search' name='search1'>
+								    </div>
+								</div>
+							</form><br>
+							<div>
+								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
+								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
+							</div>
+							
+						 </div>
+						
+						
+					</div>";
+
 					break;
+					
+					
 				case 'MLD':
 					$html .= "
 					<div class='Mold'>
 						<div class='datascroll'>";
-							$return = Molds($search);
+							$return = Molds($search,'table',$toptab,$operation,"");
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
@@ -224,7 +374,7 @@ $html = "
 					$html .= "
 					<div class='Vendor'>
 						<div class='datascroll'>";
-							$return = vendors($search);
+							$return = vendors($search,'table',"");
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
@@ -249,6 +399,74 @@ $html = "
 					</div>";
 
 					break;
+					
+				case 'SIZ':
+					$html .= "
+					<div class='Sizes'>";
+							$return = Inventory($search,'table',$toptab,$operation);
+							$parts = explode("^",$return);
+							$html .= $parts[0];
+							$html .= "
+						
+						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
+							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							$html .= "<br>
+						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
+								<div class='scontainer'>
+								    <div class='InputContainer'>
+								    	<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#657789' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>
+								      <input name='search' id='search' placeholder='Serch Expenses...'/>
+								      <input type='submit' value='Search' name='search1'>
+								    </div>
+								</div>
+							</form><br>
+							<div>
+								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
+								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
+							</div>
+							
+						 </div>
+						
+						
+					</div>";
+
+					break;
+					
+				case 'EXA':
+					$html .= "
+					<div class='Accounts'>";
+							$return = Inventory($search,'table',$toptab,$operation);
+							$parts = explode("^",$return);
+							$html .= $parts[0];
+							$html .= "
+						
+						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
+							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							$html .= "<br>
+						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
+								<div class='scontainer'>
+								    <div class='InputContainer'>
+								    	<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#657789' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>
+								      <input name='search' id='search' placeholder='Serch Expenses...'/>
+								      <input type='submit' value='Search' name='search1'>
+								    </div>
+								</div>
+							</form><br>
+							<div>
+								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
+								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
+							</div>
+							
+						 </div>
+						
+						
+					</div>";
+
+					break;
+
+
 			}
 	
 			$html .= "
@@ -256,21 +474,150 @@ $html = "
 		</div>";
 		
 		
-		#======================================================================================================Hidden Forms
+		#======================================================================================================Hidden Form
 		
 		if($action <> ""){
+			If (strlen($action) > 3) {
+				$data = explode("z",$action);
+				$action = $data[0];
+				$ID = $data[1];
+			}
+			
+			#------------------------------------------------get the correct variables for the form
+			switch ($action){
+				case 'EXP':
+					$title = "Add Expense";
+					$TDate = Date('m/d/Y');
+					$headers = "<tr><td>Expense Date</td><td>Vendor</td><td>Description</td><td>Amount</td></tr>";
+					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
+						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
+			                            <option value='0'>Select a Vendor</option>";
+			                            $inputs .= vendors($search,'drop',"");
+			                            $inputs .= "
+			                            <option value=''>Other..</option>
+									</select>
+									<input type='text' id='evtext' name='evtext' style='display: none;' /></td>
+								<td><input type='text' id='edescription' name='edescription' size='30'/></td>
+								<td><input type='number' id='eamount' name='eamount' step='.01'></td>";
+					$subid = 'subexpadd';
+					$subtxt = "Add This Expense";
+					$top = 'EXP';
+					break;
+				
+				case 'EditEXP':
+					$title = "Edit Expense $ID";
+					$data = GetExpense($ID);
+					$parts = explode("^",$data);
+					$headers = "<tr><td>Expense Date</td><td>Vendor</td><td>Description</td><td>Amount</td></tr>";
+					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
+						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);' value='$parts[1]'>
+			                            <option value='0'>Select a Vendor</option>";
+			                            $inputs .= vendors($search,'drop',$parts[1]);
+			                            $inputs .= "
+			                            <option value=''>Other..</option>
+									</select>
+									<input type='text' id='evtext' name='evtext' style='display: none;'  value='$parts[1]' /></td>
+								<td><input type='text' id='edescription' name='edescription' size='30' value='$parts[2]'/></td>
+								<td><input type='number' id='eamount' name='eamount' step='.01' value='$parts[3]'></td>
+								<input type='hidden' id='eid' name='eid' value='$ID'>";
+					$subid = 'subexpup';
+					$subtxt = "Update This Expense";
+					$top = 'EXP';
+					break;
+					
+				case 'DeleteEXP':
+					$title = "Delete Expense $ID";
+					$data = GetExpense($ID);
+					$parts = explode("^",$data);
+					$headers = "<tr><td>Expense Date</td><td>Vendor</td><td>Description</td><td>Amount</td></tr>";
+					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
+						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);' value='$parts[1]'>
+			                            <option value='0'>Select a Vendor</option>";
+			                            $inputs .= vendors($search,'drop',$parts[1]);
+			                            $inputs .= "
+			                            <option value=''>Other..</option>
+									</select>
+									<input type='text' id='evtext' name='evtext' style='display: none;'  value='$parts[1]' /></td>
+								<td><input type='text' id='edescription' name='edescription' size='30' value='$parts[2]'/></td>
+								<td><input type='number' id='eamount' name='eamount' step='.01' value='$parts[3]'></td>
+								<input type='hidden' id='eid' name='eid' value='$ID'>";
+					$subid = 'subexpdel';
+					$subtxt = "Delete This Expense";
+					$top = 'EXP';
+					break;
+					
+				case 'EditITM':
+					$title = "Edit Item $ID";
+					$data = GetItem($ID);
+					$parts = explode("^",$data);
+					$selectedID = $parts[5];
+					
+					$headers = "<tr><td>Production Date</td><td>Mold</td><td>Description</td><td>Amount to Add to Price</td></tr>";
+					$inputs = "</tr>
+								<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
+						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
+			                            <option value='0'>Select a Vendor</option>";
+			                            $inputs .= Molds($search,'drop',$toptab,$operation,$parts[5]);
+			                            $inputs .= "
+									</select>
+								</td>
+								<td><input type='text' id='description' name='description' size='30' value='$parts[2]'/></td>
+								<td><input type='number' id='priceadd' name='priceadd' step='.01' value='$parts[3]'></td>
+							</tr>
+							<tr><td colspan='4'>&nbsp;</td>";
+					$subid = 'subitmup';
+					$subtxt = "Update This Item";
+					$top = 'EXP';
+					break;
+				
+				case 'ITM':
+					$title = "Add Item";
+					$TDate = Date('m/d/Y');
+					$headers = "<tr><td>Production Date</td><td>Mold</td><td>Description</td><td>Amount to Add to Price</td></tr>";
+					$inputs = "<tr>
+									<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
+							 		<td><select id='mshape' name='mshape' onchange='DropDownChanged(this);'>
+				                            <option value='0'>Select a Mold</option>";
+				                            $inputs .= Molds($search,'drop',$toptab,$operation,"");
+				                            
+				                            $inputs .= "
+										</select>
+									</td>
+									<td><input type='text' id='description' name='description' size='30'/></td>
+									<td><input type='number' id='priceadd' name='priceadd' step='.01'></td>
+								</tr>
+								<tr><td colspan='4'>&nbsp;</td>";
+					$subid = 'subitm';
+					$subtxt = "Add This Item";
+					$top = 'ITM';
+					break;
+
+
+
+			}	
+			
+			#-----------------------------------------------The Actual Form
 			$html .= "<div class='action'></div>
 			<div class='form'>
 				
 				<div class='exit'><a href='default.php?toptab=$toptab'>Exit</a></div>
-				<div class='formtitle'>Add Expenses</div>
+				<div class='formtitle'>$title</div>
 				<div>
-					<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
-						<input type='text' id='datepicker'>
-					</form>	
+					<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>
+						<table>
+							$headers
+							<tr>
+								$inputs
+							</tr>
+						</table><br>
+						<input type='submit' id='$subid' name='$subid' value='$subtxt'>
+					</form>
 			</div>";
 		}
 		
+		
+		#======================================================================================================Completing the page
+
 		$html .= "
 	</body>
 </html>";
