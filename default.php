@@ -88,6 +88,128 @@ if (isset($_POST['subexpdel'])) {
 	$eamount = "";
 }
 
+if (isset($_POST['subsizadd'])) {
+	$size = $_POST['size'];
+	$mod = $_POST['modifier'];
+	$cost = $_POST['cost'];
+	$markup = $_POST['markup'];
+	$price = $_POST['price'];
+	$result = AddSize($size,$mod,$cost,$markup,$price);
+} else {
+	$size = "";
+	$modifier = "";
+	$cost = "";
+	$markup = "";
+	$price = "";
+}
+
+if (isset($_POST['subsizup'])) {
+	$sid = $_POST['sid'];
+	$size = $_POST['size'];
+	$modifier = $_POST['modifier'];
+	$cost = $_POST['cost'];
+	$markup = $_POST['markup'];
+	$price = $_POST['price'];
+	$result = UpdateSize($size,$modifier,$cost,$markup,$price,$sid);
+} else {
+	$size = "";
+	$modifier = "";
+	$cost = "";
+	$markup = "";
+	$price = "";
+}
+
+if (isset($_POST['subsizdel'])) {
+	$sid = $_POST['sid'];
+	$size = $_POST['size'];
+	$modifier = $_POST['Mod'];
+	$cost = $_POST['cost'];
+	$markup = $_POST['markup'];
+	$price = $_POST['price'];
+	$result = DeleteSize($size,$modifier,$cost,$markup,$price,$sid);
+} else {
+	$size = "";
+	$modifier = "";
+	$cost = "";
+	$markup = "";
+	$price = "";
+}
+
+
+if (isset($_POST['submldadd'])) {
+	$shape = $_POST['shape'];
+	$description = $_POST['description'];
+	$size = $_POST['size'];
+		$result = AddMold($shape,$description,$size);
+} else {
+	$shape = "";
+	$description = "";
+	$size = "";
+}
+
+if (isset($_POST['submldup'])) {
+	$mid = $_POST['mid'];
+	$shape = $_POST['shape'];
+	$description = $_POST['description'];
+	$size = $_POST['size'];
+		$result = UpdateMold($shape,$description,$size,$mid);
+} else {
+	$mid = "";
+	$shape = "";
+	$description = "";
+	$size = "";
+}
+
+if (isset($_POST['submlddel'])) {
+	$mid = $_POST['mid'];
+	$shape = $_POST['shape'];
+	$description = $_POST['description'];
+	$size = $_POST['size'];
+		$result = DeleteMold($shape,$description,$size,$mid);
+} else {
+	$mid = "";
+	$shape = "";
+	$description = "";
+	$size = "";
+}
+
+
+
+if (isset($_POST['subvdradd'])) {
+	$vendor = $_POST['vendor'];
+	$Account = $_POST['account'];
+	$Location = $_POST['loc'];
+		$result = AddVendor($vendor,$Account,$Location);
+} else {
+	$vendor = "";
+	$Account = "";
+	$Location = "";
+}
+
+if (isset($_POST['subvdrup'])) {
+	$vid = $_POST['vid'];
+	$vendor = $_POST['vendor'];
+	$Account = $_POST['account'];
+	$Location = $_POST['loc'];
+		$result = UpdateVendor($vendor,$Account,$Location,$vid);
+} else {
+	$vendor = "";
+	$Account = "";
+	$Location = "";
+}
+
+if (isset($_POST['subvdrdel'])) {
+	$vid = $_POST['vid'];
+	$vendor = $_POST['vendor'];
+	$Account = $_POST['account'];
+	$Location = $_POST['loc'];
+		$result = DeleteVendor($vendor,$Account,$Location,$vid);
+} else {
+	$vendor = "";
+	$Account = "";
+	$Location = "";
+}
+
 
 
 
@@ -127,6 +249,41 @@ $html = "
 		    }
 		}
 		</script>
+		<script>
+			function ChangeValues(val) {
+				let q = Number((val / 10).toFixed(2));
+				let c = Number((q * 2.50).toFixed(2));
+				let m = Number((c * 1.75).toFixed(2));
+				let r = Number((m + c + 2).toFixed());
+				let p = Number((r + .50).toFixed(2));
+				document.getElementById('cost').value = c;
+				document.getElementById('markup').value = m;
+				document.getElementById('price').value = p;
+				document.getElementById('modifier').value = q;
+				
+			}
+			
+			function PopulateItemFields(val){
+				var parts = val.split(' ');
+				var shape = '';
+				document.getElementById('moldid').value = parts[0];
+				let Total = parts.length;
+				document.getElementById('moldsize').value = parts[Total-3];
+				for (let i = 1; i < Total-3; i++){
+					shape = shape + parts[i] + ' ';
+				}
+				document.getElementById('moldshape').value = shape;
+				document.getElementById('price').value = parts[Total-1];
+				document.getElementById('cost').value = parts[Total-2];
+			}
+			
+			function PriceAdd(val){
+				 let current = document.getElementById('price').value
+				 let price = +current + +val
+				 document.getElementById('price').value = price;
+			}
+		</script>
+
 		
     </head>
     <body>
@@ -190,7 +347,7 @@ $html = "
 		   					<li><a href='default.php?action=ITM&toptab=$toptab'>Add New Items</a></li>
 							<li><a href='default.php?action=SLD&toptab=$toptab'>Mark Items as Sold</a></li>
 							<li><a href='default.php?action=MLD&toptab=$toptab'>Add New Mold</a></li>
-							<li><a href='default.php?action=MLD&toptab=$toptab'>Add Mold Size</a></li>
+							<li><a href='default.php?action=SIZ&toptab=$toptab'>Add Mold Size</a></li>
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Add New Vendor</a></li>
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Schedule Show</a></li>
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Add Calendar Event</a></li>
@@ -310,7 +467,7 @@ $html = "
 				case 'SAL':
 					$html .= "
 					<div class='Sales'>";
-							$return = Inventory($search,'table',$toptab,$operation);
+							$return = Sales($search,'table',$toptab,$operation);
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
@@ -329,7 +486,7 @@ $html = "
 							</form><br>
 							<div>
 								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
-								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								Total Sales of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
 								<span style='font-size:small;'>$parts[2]</span>
 							</div>
 							
@@ -364,6 +521,9 @@ $html = "
 							</form><br>
 							<div>
 								Count of Displayed Molds:  <span style='font-weight:bold;'>$parts[1]</span>
+								<br>
+								<span style='font-size:small;'>$parts[2]</span>
+
 							</div>
 						 </div>
 
@@ -374,7 +534,7 @@ $html = "
 					$html .= "
 					<div class='Vendor'>
 						<div class='datascroll'>";
-							$return = vendors($search,'table',"");
+							$return = vendors($search,'table',$toptab,$operation);
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
@@ -392,7 +552,8 @@ $html = "
 								</div>
 							</form><br>
 							<div>
-								Count of Displayed Vendors:  <span style='font-weight:bold;'>$parts[1]</span>
+								Count of Displayed Vendors:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								<span style='font-size:small;'>$parts[2]</span>
 							</div>
 						 </div>
 
@@ -403,26 +564,26 @@ $html = "
 				case 'SIZ':
 					$html .= "
 					<div class='Sizes'>";
-							$return = Inventory($search,'table',$toptab,$operation);
+							$return = Sizes($search,'table',$toptab,$operation);
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
 						
 						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
-							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							if($search == ""){$html .= "Showing all Sizes<br>";} else {$html .= "Showing Sizes for search: <span style='font-weight:bold;'>$search</span><br>";}
 							$html .= "<br>
 						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
 								<div class='scontainer'>
 								    <div class='InputContainer'>
 								    	<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#657789' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>
-								      <input name='search' id='search' placeholder='Serch Expenses...'/>
+								      <input name='search' id='search' placeholder='Search Sizes...'/>
 								      <input type='submit' value='Search' name='search1'>
 								    </div>
 								</div>
 							</form><br>
 							<div>
-								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
-								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br>
+								<br>
 								<span style='font-size:small;'>$parts[2]</span>
 							</div>
 							
@@ -430,7 +591,6 @@ $html = "
 						
 						
 					</div>";
-
 					break;
 					
 				case 'EXA':
@@ -492,7 +652,7 @@ $html = "
 					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
 						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
 			                            <option value='0'>Select a Vendor</option>";
-			                            $inputs .= vendors($search,'drop',"");
+			                            $inputs .= vendors($search,'drop',$toptab,"");
 			                            $inputs .= "
 			                            <option value=''>Other..</option>
 									</select>
@@ -512,7 +672,7 @@ $html = "
 					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
 						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);' value='$parts[1]'>
 			                            <option value='0'>Select a Vendor</option>";
-			                            $inputs .= vendors($search,'drop',$parts[1]);
+			                            $inputs .= vendors($search,'drop',$toptab,$parts[1]);
 			                            $inputs .= "
 			                            <option value=''>Other..</option>
 									</select>
@@ -573,25 +733,216 @@ $html = "
 				case 'ITM':
 					$title = "Add Item";
 					$TDate = Date('m/d/Y');
-					$headers = "<tr><td>Production Date</td><td>Mold</td><td>Description</td><td>Amount to Add to Price</td></tr>";
+					$headers = "<tr><td width='120'>Production Date</td><td width='300'>Mold</td><td width='300'>Description</td></tr>
+								";
 					$inputs = "<tr>
 									<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
-							 		<td><select id='mshape' name='mshape' onchange='DropDownChanged(this);'>
+							 		<td width='120'><select id='mshape' name='mshape' onchange='PopulateItemFields(this.value);'>
 				                            <option value='0'>Select a Mold</option>";
 				                            $inputs .= Molds($search,'drop',$toptab,$operation,"");
-				                            
 				                            $inputs .= "
 										</select>
 									</td>
 									<td><input type='text' id='description' name='description' size='30'/></td>
-									<td><input type='number' id='priceadd' name='priceadd' step='.01'></td>
 								</tr>
-								<tr><td colspan='4'>&nbsp;</td>";
-					$subid = 'subitm';
+								<tr><td colspan='4'>&nbsp;</td></tr>
+								<tr><td colspan='4'>&nbsp;</td></tr>
+
+								<tr><td width='100'>Add to Price</td><td width='100'>Retail Price</td></tr>
+								<tr>
+									<td><input type='number' id='priceadd' name='priceadd' step='.01' onchange='PriceAdd(this.value);'></td>
+									<td><input type='number' id='price' name='price'></td>
+									
+								</tr></table>
+								<table>
+								<tr><td colspan='4'>&nbsp;</td></tr>";
+								
+								$footer .= "
+								</table>
+								<hr />
+								<table>
+								<tr><td>MoldID</td><td>MoldSize</td><td>MoldShape</td><td>Cost</td><td>Tag Printed</td></tr>
+								<tr>
+									<td><input type='number' id='moldid' name='moldid'></td>
+									<td><input type='text' id='moldsize' name='moldsize'></td>
+									<td><input type='text' id='moldshape' name='moldshape'></td>
+									<td><input type='number' id='cost' name='cost'></td>
+									<td><input type='text' id='tag' name='tag' value='No'></td>
+								</tr>";
+					$subid = 'subitmadd';
 					$subtxt = "Add This Item";
 					$top = 'ITM';
 					break;
+					
+				case 'EditSIZ':
+					$title = "Edit Size $ID";
+					$data = GetSize($ID);
+					$parts = explode("^",$data);# $return = "$SID^$Size^$Mod^$Cost^$Markup^$Price";
+					$ModValue = $parts[2] * 10;
+					$headers = "<tr><td>Use this Slider to Populate Form Fields</td></tr>
+								<tr><td><input type='range' id='Mod' name='Mod' min='0' max='80' value=25 onchange='ChangeValues(this.value)' value ='$ModValue'></td></tr>
+								<tr><td>Size Name</td><td>Modifier</td><td>Cost</td><td>Markup</td><td>Price<td></tr>";
+					$inputs = "<tr><td><input type='text' id='size' name='size' value='$parts[1]' /></td>
+						 		<td><input type='number' id='modifier' name='modifier' step='.01' value='$parts[2]' /></td>
+								<td><input type='number' id='cost' name='cost' step='.01' value='$parts[3]'/></td>
+								<td><input type='number' id='markup' name='markup' step='.01' value='$parts[4]'></td>
+								<td><input type='number' id='price' name='price' step='.01' value='$parts[5]'></td></tr>
+								<input type='hidden' id='sid' name='sid' value='$ID'>";
+					$subid = 'subsizup';
+					$subtxt = "Update This Size";
+					$top = 'SIZ';
+					break;
+					
+				case 'DeleteSIZ':
+					$title = "Delete Size $ID";
+					$data = GetSize($ID);
+					$parts = explode("^",$data);# $return = "$SID^$Size^$Mod^$Cost^$Markup^$Price";
+					$headers = "<tr><td>Size Name</td><td>Modifier</td><td>Cost</td><td>Markup</td><td>Price<td></tr>";
+					$inputs = "<td><input type='text' id='size' name='size' style='display: none;'  value='$parts[1]' /></td>
+						 		<td><input type='number' id='Mod' name='Mod' step='.01' value='$parts[2]' /></td>
+								<td><input type='number' id='cost' name='cost' step='.01' value='$parts[3]'/></td>
+								<td><input type='number' id='markup' name='markup' step='.01' value='$parts[4]'></td>
+								<td><input type='number' id='price' name='price' step='.01' value='$parts[5]'></td>
 
+								<input type='hidden' id='sid' name='sid' value='$ID'>";
+					$subid = 'subsizdel';
+					$subtxt = "Delete This Size";
+					$top = 'SIZ';
+					break;
+			
+			case 'SIZ':
+					$title = "Add Size";
+					$headers = "<tr><td>Use this Slider to Populate Form Fields</td></tr>
+								<tr><td><input type='range' id='Mod' name='Mod' min='0' max='80' value=25 onchange='ChangeValues(this.value)'></td></tr>
+								<tr><td>Size Name</td><td>Modifier</td><td>Cost</td><td>Markup</td><td>Price<td></tr>";
+					$inputs = "<td><input type='text' id='size' name='size'/></td>
+						 		<td><input type='number' id='modifier' name='modifier' step='.01'/></td>
+								<td><input type='number' id='cost' name='cost' step='.01'/></td>
+								<td><input type='number' id='markup' name='markup' step='.01'/></td>
+								<td><input type='number' id='price' name='price' step='.01'></td>";
+					$subid = 'subsizadd';
+					$subtxt = "Add This Size";
+					$top = 'SIZ';
+					break;
+
+			case 'MLD':
+					$title = "Add Mold";
+					$headers = "<tr><td>Shape</td><td>Description</td><td>Size</td></tr>";
+					$inputs = "<tr><td><input type='text' id='shape' name='shape'/></td>
+						 		<td><input type='text' id='description' name='description'/></td>
+								<td><select id='size' name='size'>
+				                            <option value='0'>Select a size</option>";
+				                            $inputs .= Sizes($search,'drop',$toptab,$operation,"");
+				                            $inputs .= "
+										</select>
+									</td></tr>";
+					$subid = 'submldadd';
+					$subtxt = "Add This Mold";
+					$top = 'MLD';
+					break;
+
+			case 'EditMLD':
+					$title = "Edit Mold $ID";
+					$data = GetMold($ID);
+					$parts = explode("^",$data);
+					$headers = "<tr><td>Shape</td><td>Description</td><td>Size</td></tr>";
+					$inputs = "<tr><td><input type='text' id='shape' name='shape' value='$parts[0]'/></td>
+						 		<td><input type='text' id='description' name='description' value='$parts[1]'/></td>
+								<td><select id='size' name='size' onchange='DropDownChanged(this);'>
+				                            <option value='0'>Select a size</option>";
+				                            $inputs .= Sizes($search,'drop',$toptab,$parts[2]);
+				                            $inputs .= "
+										</select>
+									</td></tr>
+									<input type='hidden' id='mid' name='mid' value='$ID'/>";
+					$subid = 'submldup';
+					$subtxt = "Update This Mold";
+					$top = 'MLD';
+					break;
+			
+			case 'DeleteMLD':
+					$title = "Delete Mold $ID";
+					$data = GetMold($ID);
+					$parts = explode("^",$data);
+					$headers = "<tr><td>Shape</td><td>Description</td><td>Size</td></tr>";
+					$inputs = "<tr><td><input type='text' id='shape' name='shape' value='$parts[0]'/></td>
+						 		<td><input type='text' id='description' name='description' value='$parts[1]'/></td>
+								<td><select id='size' name='size' onchange='DropDownChanged(this);' value='$parts[2]'>
+				                            <option value='0'>Select a size</option>";
+				                            $inputs .= Sizes($search,'drop',$toptab,$parts[2]);
+				                            $inputs .= "
+										</select>
+									</td></tr>
+									<input type='hidden' id='mid' name='mid' value='$ID'/>";
+					$subid = 'submlddel';
+					$subtxt = "Delete This Mold";
+					$top = 'MLD';
+					break;
+			
+			case 'VDR':
+					$title = "Add Vendor";
+					$headers = "<tr><td>Vendor Name</td><td>Account Number</td><td>Location</td></tr>";
+					$inputs = "<tr><td><input type='text' id='vendor' name='vendor'/></td>
+						 		<td><input type='text' id='account' name='account'/></td>
+								<td><select id='loc' name='loc'>
+				                            <option value='0'>Select a location</option>
+				                            <option value='Cedar Rapids'>Cedar Rapids</option>
+				                            <option value='Iowa City'>Iowa City</option>
+				                            <option value='Online'>Online</option>";
+				                            $inputs .= "
+										</select>
+									</td></tr>";
+					$subid = 'subvdradd';
+					$subtxt = "Add This Vendor";
+					$top = 'VDR';
+					break;
+			
+			
+			case 'EditVDR':
+					$title = "Edit Vendor";
+					$data = GetVendor($ID);
+					$parts = explode("^",$data); #$return = "$VendorName^$Account^$Location";
+					$headers = "<tr><td>Vendor Name</td><td>Account Number</td><td>Location</td></tr>";
+					$inputs = "<tr><td><input type='text' id='vendor' name='vendor' value='$parts[0]'/></td>
+						 		<td><input type='text' id='account' name='account' value='$parts[1]'/></td>
+								<td><select id='loc' name='loc'>
+				                            <option value='0'>Select a location</option>
+				                            <option value='Cedar Rapids'";if($parts[2] == "Cedar Rapids") {$inputs .= " selected";}$inputs .= ">Cedar Rapids</option>
+				                            <option value='Iowa City'";if($parts[2] == "Iowa City") {$inputs .= " selected";}$inputs .= ">Iowa City</option>
+				                            <option value='Online'";if($parts[2] == "Online") {$inputs .= " selected";}$inputs .= ">Online</option>";
+				                            $inputs .= "
+										</select>
+									</td></tr>
+									<input type='hidden' id='vid' name='vid' value='$ID'/>";
+					$subid = 'subvdrup';
+					$subtxt = "Update This Vendor";
+					$top = 'VDR';
+					break;
+			
+			case 'DeleteVDR':
+					$title = "Delete Vendor";
+					$data = GetVendor($ID);
+					$parts = explode("^",$data); #$return = "$VendorName^$Account^$Location";
+					$headers = "<tr><td>Vendor Name</td><td>Account Number</td><td>Location</td></tr>";
+					$inputs = "<tr><td><input type='text' id='vendor' name='vendor' value='$parts[0]'/></td>
+						 		<td><input type='text' id='account' name='account' value='$parts[1]'/></td>
+								<td><select id='loc' name='loc'>
+				                            <option value='0'>Select a location</option>
+				                            <option value='Cedar Rapids'";if($parts[2] == "Cedar Rapids") {$inputs .= " selected";}$inputs .= ">Cedar Rapids</option>
+				                            <option value='Iowa City'";if($parts[2] == "Iowa City") {$inputs .= " selected";}$inputs .= ">Iowa City</option>
+				                            <option value='Online'";if($parts[2] == "Online") {$inputs .= " selected";}$inputs .= ">Online</option>";
+				                            $inputs .= "
+										</select>
+									</td></tr>
+									<input type='hidden' id='vid' name='vid' value='$ID'/>";
+					$subid = 'subvdrdel';
+					$subtxt = "Delete This Vendor";
+					$top = 'VDR';
+					break;
+
+			
+			
+			
 
 
 			}	
@@ -610,7 +961,11 @@ $html = "
 								$inputs
 							</tr>
 						</table><br>
-						<input type='submit' id='$subid' name='$subid' value='$subtxt'>
+						<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
+						if (isset($footer)){
+							$html .= $footer;
+						}
+						$html .= "
 					</form>
 			</div>";
 		}
