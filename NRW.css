@@ -19,30 +19,40 @@
     top:0;
     width:60px;
     display: inline-block;
-    color: white;
+    color: #FF0F0F;
     font-weight:bold;
     text-align: center;
-    padding: 13px 12px;
+    
     text-decoration:none;
-    padding:0px 10px 10px 10px; 
-    background-color:#C00000;                                           
+    padding:10px 10px 10px 10px; 
+    background-color:#C00000; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:medium; 
+                                          
+}
+
+.exit:hover{
+	color:white;
 }
 
 .formtitle {
     position:relative;
     left:-10px;
-    top:-10px;
-    width:200px;
-    color: black;
+    
+    width:400px;
+    color: white;
     font-weight:bold;
     text-align: center;
-    padding: 13px 12px;
     text-decoration:none;
-    padding:0px 10px 10px 10px; 
+    padding:10px 10px 10px  10px; 
     font-family: Arial, Helvetica, sans-serif;
-    font-size:x-large;                                    
+    font-size:x-large; 
+    background-color: #182E56;                                  
 }
 
+.center {
+	text-align:center;
+}
 
 .form {
 	width:50%;
@@ -54,6 +64,10 @@
 	padding:0px 10px 10px 10px; 
 
 
+}
+
+.center form {
+	display:inline-block;
 }
 
 #site {

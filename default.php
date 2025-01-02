@@ -642,7 +642,7 @@ $html = "
 				$action = $data[0];
 				$ID = $data[1];
 			}
-			
+			$footer = "";
 			#------------------------------------------------get the correct variables for the form
 			switch ($action){
 				case 'EXP':
@@ -733,8 +733,7 @@ $html = "
 				case 'ITM':
 					$title = "Add Item";
 					$TDate = Date('m/d/Y');
-					$headers = "<tr><td width='120'>Production Date</td><td width='300'>Mold</td><td width='300'>Description</td></tr>
-								";
+					$headers = "<tr><td width='120'>Production Date</td><td width='300'>Mold</td><td width='300'>Description</td></tr>";
 					$inputs = "<tr>
 									<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
 							 		<td width='120'><select id='mshape' name='mshape' onchange='PopulateItemFields(this.value);'>
@@ -747,25 +746,23 @@ $html = "
 								</tr>
 								<tr><td colspan='4'>&nbsp;</td></tr>
 								<tr><td colspan='4'>&nbsp;</td></tr>
-
 								<tr><td width='100'>Add to Price</td><td width='100'>Retail Price</td></tr>
 								<tr>
 									<td><input type='number' id='priceadd' name='priceadd' step='.01' onchange='PriceAdd(this.value);'></td>
 									<td><input type='number' id='price' name='price'></td>
-									
 								</tr></table>
-								<table>
-								<tr><td colspan='4'>&nbsp;</td></tr>";
+								";
 								
-								$footer .= "
-								</table>
-								<hr />
+					$footer .= "<hr /><br>
 								<table>
-								<tr><td>MoldID</td><td>MoldSize</td><td>MoldShape</td><td>Cost</td><td>Tag Printed</td></tr>
+								<tr><td>MoldID</td><td>MoldSize</td><td>MoldShape</td></tr>
 								<tr>
 									<td><input type='number' id='moldid' name='moldid'></td>
 									<td><input type='text' id='moldsize' name='moldsize'></td>
 									<td><input type='text' id='moldshape' name='moldshape'></td>
+								</tr>
+								<tr><td>Cost</td><td>Tag Printed</td></tr>
+								<tr>
 									<td><input type='number' id='cost' name='cost'></td>
 									<td><input type='text' id='tag' name='tag' value='No'></td>
 								</tr>";
@@ -951,20 +948,18 @@ $html = "
 			$html .= "<div class='action'></div>
 			<div class='form'>
 				
-				<div class='exit'><a href='default.php?toptab=$toptab'>Exit</a></div>
-				<div class='formtitle'>$title</div>
-				<div>
+				<a href='default.php?toptab=$toptab'><div class='exit'>Cancel</div></a>
+				<div class='formtitle'>$title</div><br><br>
+				<div class='center'>
 					<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>
 						<table>
 							$headers
 							<tr>
 								$inputs
 							</tr>
-						</table><br>
+						</table><br><br>
 						<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
-						if (isset($footer)){
-							$html .= $footer;
-						}
+						$html .= $footer;
 						$html .= "
 					</form>
 			</div>";
