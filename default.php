@@ -210,6 +210,32 @@ if (isset($_POST['subvdrdel'])) {
 	$Location = "";
 }
 
+if (isset($_POST['subitmadd'])) {
+	$edate = $_POST['edate'];
+	$mshape = $_POST['mshape'];
+	$description = $_POST['description'];
+	$priceadd = $_POST['priceadd'];
+	$price = $_POST['price'];
+	$moldid = $_POST['moldid'];
+	$moldsize = $_POST['moldsize'];
+	$moldshape = $_POST['moldshape'];
+	$cost = $_POST['cost'];
+	$tag = $_POST['tag'];
+		$result = AddItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag);
+} else {
+	$edate = "";
+	$mshape = "";
+	$description = "";
+	$priceadd = "";
+	$price = "";
+	$moldid = "";
+	$moldsize = "";
+	$moldshape = "";
+	$cost = "";
+	$tag = "";
+}
+
+
 
 
 
@@ -749,7 +775,7 @@ $html = "
 								<tr><td width='100'>Add to Price</td><td width='100'>Retail Price</td></tr>
 								<tr>
 									<td><input type='number' id='priceadd' name='priceadd' step='.01' onchange='PriceAdd(this.value);'></td>
-									<td><input type='number' id='price' name='price'></td>
+									<td><input type='number' id='price' name='price' step='.01'></td>
 								</tr></table>
 								";
 								
@@ -763,7 +789,7 @@ $html = "
 								</tr>
 								<tr><td>Cost</td><td>Tag Printed</td></tr>
 								<tr>
-									<td><input type='number' id='cost' name='cost'></td>
+									<td><input type='number' id='cost' name='cost' step='.01'></td>
 									<td><input type='text' id='tag' name='tag' value='No'></td>
 								</tr>";
 					$subid = 'subitmadd';

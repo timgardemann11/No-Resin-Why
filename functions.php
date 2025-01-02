@@ -632,7 +632,7 @@ function DeleteMold($shape,$description,$size,$mid)
         $sql = "DELETE FROM molds WHERE MoldID = $mid";
 		
 		if (mysqli_query($conn, $sql)) {
-		     $return = "Mold record updated successfully";
+		     $return = "Mold record deleted successfully";
 		} else {
 		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
 		}
@@ -750,14 +750,7 @@ function Inventory($search,$type,$toptab,$operation)
 						$return .= "<option value='{$IID}'>$IID $Shape $Description</option>";
 					}
 				}
-				
-				
-				
-				
-				
-				
-				
-				
+								
 				$findID = (int)substr($operation,3,strlen($operation) -3);
 				if($findID == $IID) { #-----------------------Get the selected expense data
 					if (strlen($Description) > 26){
@@ -797,6 +790,94 @@ function Inventory($search,$type,$toptab,$operation)
 
     return "$return^$Total^$opstable^$Count";
 }
+
+
+
+
+function AddItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag)
+{
+	$return = "";
+	 try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "INSERT INTO items (PoductionDate, MoldID, MoldSize, MoldShape, Description, Cost, RetailPrice, PriceAddition, TAGPrinted) 
+        		VALUES ('$edate', '$moldid', '$moldsize', '$moldshape', '$description','$cost','$price','$priceadd','$tag')";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "New Item created successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
+
+
+
+
+function UpdateItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag,$iid)
+{
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "UPDATE molds SET PoductionDate='$edate', MoldID='$moldid', MoldSize='$moldsize', MoldShape='$moldshape', Description='$description', Cost='$cost', RetailPrice='$price', PriceAddition='$priceadd', TAGPrinted='$tag' WHERE ItemID = $iid";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Item record updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
+
+
+
+function DeleteItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag,$iid)
+{
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "DELETE FROM items WHERE ItemID = $iid";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Item record deleted successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
 
 
 
