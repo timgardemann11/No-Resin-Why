@@ -689,7 +689,7 @@ function GetMold($ID)
 
 function Inventory($search,$type,$toptab,$operation)
 {
-    $return = "<table class='datatable'><tr class='inventoryhd'><th width='100'>Item ID</th><th width='150'>Mold Shape</th><th width='250'>Description</th><th width='80'>Cost</th><th width='80'>Retail Amount</th></tr></table>
+    $return = "<table class='datatable'><tr class='inventoryhd'><th width='100'>Item ID</th><th width='150'>Mold Shape</th><th width='250'>Description</th><th width='80'>Cost</th><th width='100'>Retail Price</th></tr></table>
     <div class='datascroll'>
 	<table class='datatable'>";
   	$Total = 0;
@@ -797,6 +797,7 @@ function Inventory($search,$type,$toptab,$operation)
 function AddItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag)
 {
 	$return = "";
+	if($priceadd == ""){$priceadd = '0';}
 	 try
     {
 	    $conn = connect();
@@ -804,8 +805,8 @@ function AddItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,
 		     die("Connection failed: " . $conn->connect_error); 
 		}     
         
-        $sql = "INSERT INTO items (PoductionDate, MoldID, MoldSize, MoldShape, Description, Cost, RetailPrice, PriceAddition, TAGPrinted) 
-        		VALUES ('$edate', '$moldid', '$moldsize', '$moldshape', '$description','$cost','$price','$priceadd','$tag')";
+        $sql = "INSERT INTO `no-resin-why`.`items`(`ProductionDate`,`MoldID`,`MoldSize`,`MoldShape`,`Description`,`Cost`,`RetailPrice`,`PriceAddition`,`TAGPrinted`)
+        		VALUES ('$edate', '$moldid', '$moldsize', '$moldshape', '$description', '$cost', '$price', '$priceadd', '$tag');";
 		
 		if (mysqli_query($conn, $sql)) {
 		     $return = "New Item created successfully";
@@ -827,6 +828,8 @@ function AddItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,
 
 function UpdateItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag,$iid)
 {
+	$return = "";
+	if($priceadd == ""){$priceadd = '0';}
 	try
     {
 	    $conn = connect();
@@ -834,17 +837,19 @@ function UpdateItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsi
 		     die("Connection failed: " . $conn->connect_error); 
 		}     
         
-        $sql = "UPDATE molds SET PoductionDate='$edate', MoldID='$moldid', MoldSize='$moldsize', MoldShape='$moldshape', Description='$description', Cost='$cost', RetailPrice='$price', PriceAddition='$priceadd', TAGPrinted='$tag' WHERE ItemID = $iid";
+        $sql = "UPDATE `no-resin-why`.`items` 
+        SET `ProductionDate`='$edate', `MoldID`='$moldid', `MoldSize`='$moldsize', `MoldShape`='$moldshape', `Description`='$description', `Cost`='$cost', `RetailPrice`='$price', `PriceAddition`='$priceadd', `TAGPrinted`='$tag' 
+        WHERE `ItemID` = $iid";
 		
 		if (mysqli_query($conn, $sql)) {
 		     $return = "Item record updated successfully";
 		} else {
-		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		     $return = "Error: " . $sql ;
 		}
 	}   
     catch(Exception $e)
     {
-        echo("Error!");
+        echo("Error! $sql");
     }
     return "$return";
 }
@@ -862,17 +867,17 @@ function DeleteItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsi
 		     die("Connection failed: " . $conn->connect_error); 
 		}     
         
-        $sql = "DELETE FROM items WHERE ItemID = $iid";
+        $sql = "DELETE FROM `no-resin-why`.`items` WHERE `ItemID` = $iid";
 		
 		if (mysqli_query($conn, $sql)) {
-		     $return = "Item record deleted successfully";
+		     $return = "Item deleted successfully";
 		} else {
 		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
 		}
 	}   
     catch(Exception $e)
     {
-        echo("Error!");
+        echo("Error! $sql");
     }
     return "$return";
 }
@@ -1306,5 +1311,66 @@ $return = "";
 
 
 #======================================================================================================================================================Expense Accounts
+
+
+function Profit() 
+{
+$return = "";
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "SELECT SUM(`items`.`SalePrice`) as Sales
+				FROM `no-resin-why`.`items`
+				WHERE `SalePrice` IS NOT NULL;";
+		
+		$result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$Sales = $row["Sales"];
+				$Other = "0.00";
+				$TSales = $Sales;			
+			}
+		}
+		
+		$sql = "SELECT SUM(`expenses`.`Amount`) as TExpense
+				FROM `no-resin-why`.`expenses`;";
+		
+		$result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$TExpense = $row["TExpense"];
+				$Color = "0.00";
+				$Molds = "0.00";
+				$Embedded= "0.00";
+				$Resin = "0.00";
+				$ShowFees = "0.00";
+				$Overhead = "0.00";
+				$Displays = "0.00";			
+			}
+			
+		}
+
+		$return .= "$Sales^$Other^$TSales^$TExpense^$Color^$Molds^$Embedded^$Resin^$ShowFees^$Overhead^$Displays";	
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    
+    return $return;
+}
+
 
 ?>

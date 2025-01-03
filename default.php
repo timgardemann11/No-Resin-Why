@@ -21,6 +21,15 @@ if (isset($_GET['toptab'])) {
     $toptab = "INV";
 }
 
+
+if (isset($_GET['ametric'])) {
+    $Ametric = $_GET['ametric'];
+
+} else {
+    $Ametric = "bal";
+}
+
+
 //Get search Post
 if (isset($_POST['search'])) {
     $search = $_POST['search'];
@@ -235,6 +244,57 @@ if (isset($_POST['subitmadd'])) {
 	$tag = "";
 }
 
+if (isset($_POST['subitmup'])) {
+	$iid = $_POST['iid'];
+	$edate = $_POST['edate'];
+	$mshape = $_POST['mshape'];
+	$description = $_POST['description'];
+	$priceadd = $_POST['priceadd'];
+	$price = $_POST['price'];
+	$moldid = $_POST['moldid'];
+	$moldsize = $_POST['moldsize'];
+	$moldshape = $_POST['moldshape'];
+	$cost = $_POST['cost'];
+	$tag = $_POST['tag'];
+		$result = UpdateItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag,$iid);
+} else {
+	$edate = "";
+	$mshape = "";
+	$description = "";
+	$priceadd = "";
+	$price = "";
+	$moldid = "";
+	$moldsize = "";
+	$moldshape = "";
+	$cost = "";
+	$tag = "";
+}
+
+if (isset($_POST['subitmdel'])) {
+	$iid = $_POST['iid'];
+	$edate = $_POST['edate'];
+	$mshape = $_POST['mshape'];
+	$description = $_POST['description'];
+	$priceadd = $_POST['priceadd'];
+	$price = $_POST['price'];
+	$moldid = $_POST['moldid'];
+	$moldsize = $_POST['moldsize'];
+	$moldshape = $_POST['moldshape'];
+	$cost = $_POST['cost'];
+	$tag = $_POST['tag'];
+		$result = DeleteItem($edate,$mshape,$description,$priceadd,$price,$moldid,$moldsize,$moldshape,$cost,$tag,$iid);
+} else {
+	$edate = "";
+	$mshape = "";
+	$description = "";
+	$priceadd = "";
+	$price = "";
+	$moldid = "";
+	$moldsize = "";
+	$moldshape = "";
+	$cost = "";
+	$tag = "";
+}
 
 
 
@@ -384,40 +444,81 @@ $html = "
 			</div>";
 			//---------------------------------------------------------------------Company Metrics and Calendar
 			
+			
+			$ProfitData = Profit();  #$return .= "$Sales0^$Other1^$TSales2^$TExpense3^$Color4^$Molds5^$Embedded6^$Resin7^$ShowFees8^$Overhead9^$Displays10";
+			$Profit = explode('^',$ProfitData);	
+			$TPL = $Profit[0] - $Profit[3];
+			$OE = "2800.00";
 			$html .= "
 			<div id='metrics'>
-				<div class='metricsdata'>Result of Operations<br><br>
-				<div style='font-size:medium;color:white;background-color:#4EA72E;width:95%;'>Income</div>
-				<span style='font-size:medium;'>Sales . . . . . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Other Income. . . . . $500.00</span><br>
-				<span style='font-size:medium;font-weight:bold;'>Total Income. . . . . . . . . . $500.00</span><br><br>
+				<div class='metricstitle'>&nbsp;&nbsp;&nbsp;&nbsp;Result of Operations";   
+					if ($Ametric == 'bal'){
+						$html .= "<a href='default.php?toptab=$toptab&ametric=pro'><div class='smbutton'>Profit/loss Statement</div></a>
+						<a href='default.php?toptab=$toptab&ametric=bal'><div class='smbuttonactive'>Balance Sheet</div></a>
+						</div><br>
+						<div class='metricsdata'><br>
 				
-				<div style='font-size:medium;color:white;background-color:#C00000;width:95%;'>Expenses</div>
-				<span style='font-size:medium;'>Molds . . . . . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Color. . . . . . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Embedded . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Resin . . . . . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Show Fees. . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Overhead. . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;'>Displays. . . . . . . . . $500.00</span><br>
-				<span style='font-size:medium;font-weight:bold;'>Total Expenses. . . . . . . . . . $500.00</span><br><br>
-				<div style='font-size:medium;color:white;background-color:#4D93D9;width:95%;'>Profit / Loss</div>
-				<span style='font-size:medium;font-weight:bold;'>Total Profit/Loss. . . . . . . . . . $500.00</span><br><br>
-				</div>
-				<div class='calendar'>Upcomming Events:
-				$edate 
-				$evendor 
-				$edescription 
-				$eamount 
-				<br>
-				$result
-
+						<div style='font-size:medium;color:white;background-color:#4EA72E;width:95%;'>Assets</div>
+						<span style='font-size:medium;'>Cash . . . . . . . . . . . $0.00</span><br>
+						<span style='font-size:medium;'>Inventory. . . . . $2.800.00</span><br>
+						<span style='font-size:medium;'>Accounts Receivable. . . . . $0.00</span><br>
+						<span style='font-size:medium;font-weight:bold;'>Total Assets. . . . . . . . . . $2800.00</span><br><br>
+			
+						<div style='font-size:medium;color:white;background-color:#C00000;width:95%;'>Liabilities</div>
+						<span style='font-size:medium;'>Accounts Payable . . . . . . . . . . . $0.00</span><br>
+						<span style='font-size:medium;'>Loans. . . . . . . . . . . . $0.00</span><br>
+						<span style='font-size:medium;'>Taxes . . . . . . . $0.00</span><br>
+						<span style='font-size:medium;font-weight:bold;'>Total Liabilities. . . . . . . . . . $0.00</span><br><br>
+						<div style='font-size:medium;color:white;background-color:#4D93D9;width:95%;'>Owner Equity</div>";
+						if($OE >=0){
+								$html .= "<span style='font-size:medium;font-weight:bold;'>Total Owner Equity. . . . . . . . . . $OE</span><br><br>";
+							} else {
+								$html .= "<span style='font-size:medium;font-weight:bold;'>Total Profit/Loss. . . . . . . . . . <span style='color:red;'>$OE</span></span><br><br>";
+						}
+						$html .= "
+						</div>";
+					} else {
+						$html .= "<a href='default.php?toptab=$toptab&ametric=pro'><div class='smbuttonactive'>Profit/loss Statement</div></a>
+						<a href='default.php?toptab=$toptab&ametric=bal'><div class='smbutton'>Balance Sheet</div></a>
+						</div><br>
+						<div class='metricsdata'><br>
+				
+						<div style='font-size:medium;color:white;background-color:#4EA72E;width:95%;'>Income</div>
+						<span style='font-size:medium;'>Sales . . . . . . . . . . . $Profit[0]</span><br>
+						<span style='font-size:medium;'>Other Income. . . . . $Profit[1]</span><br>
+						<span style='font-size:medium;font-weight:bold;'>Total Income. . . . . . . . . . $Profit[2]</span><br><br>
+			
+						<div style='font-size:medium;color:white;background-color:#C00000;width:95%;'>Expenses</div>
+						<span style='font-size:medium;'>Molds . . . . . . . . . . . $Profit[5]</span><br>
+						<span style='font-size:medium;'>Color. . . . . . . . . . . . $Profit[4]</span><br>
+						<span style='font-size:medium;'>Embedded . . . . . . . $Profit[6]</span><br>
+						<span style='font-size:medium;'>Resin   . . . . . . . . . . . $Profit[7]</span><br>
+						<span style='font-size:medium;'>Show Fees. . . . . . . $Profit[8]</span><br>
+						<span style='font-size:medium;'>Overhead   . . . . . . . $Profit[9]</span><br>
+						<span style='font-size:medium;'>Displays  . . . . . . . . $Profit[10]</span><br>
+						<span style='font-size:medium;font-weight:bold;'>Total Expenses. . . . . . . . . . $Profit[3]</span><br><br>
+						<div style='font-size:medium;color:white;background-color:#4D93D9;width:95%;'>Profit / Loss</div>";
+						if($TPL >=0){
+								$html .= "<span style='font-size:medium;font-weight:bold;'>Total Profit/Loss. . . . . . . . . . $TPL</span><br><br>";
+							} else {
+								$html .= "<span style='font-size:medium;font-weight:bold;'>Total Profit/Loss. . . . . . . . . . <span style='color:red;'>$TPL</span></span><br><br>";
+						}
+						$html .= "
+					</div>";
+					}
+					$html .= "
+				
+				
 					
-				</div>	
-				
-	
-				
-			</div>
+					<div class='calendar'>&nbsp;&nbsp;&nbsp;&nbsp;Upcomming Events:
+						$edate 
+						$evendor 
+						$edescription 
+						$eamount 
+						<br>
+						$result
+					</div>	
+				</div>
 			
 			
 			
@@ -734,27 +835,95 @@ $html = "
 					
 				case 'EditITM':
 					$title = "Edit Item $ID";
-					$data = GetItem($ID);
+					$data = GetItem($ID); #$return = "$ProdDate0^$Shape1^$Description2^$RAmount3^$Cost4^$MoldID5^$MoldSize6^$PriceAdd7^$TAG8";
 					$parts = explode("^",$data);
-					$selectedID = $parts[5];
+					$selectedSMold ="$parts[5] $parts[2] $parts[6]";
 					
-					$headers = "<tr><td>Production Date</td><td>Mold</td><td>Description</td><td>Amount to Add to Price</td></tr>";
-					$inputs = "</tr>
-								<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
-						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
-			                            <option value='0'>Select a Vendor</option>";
-			                            $inputs .= Molds($search,'drop',$toptab,$operation,$parts[5]);
-			                            $inputs .= "
-									</select>
-								</td>
-								<td><input type='text' id='description' name='description' size='30' value='$parts[2]'/></td>
-								<td><input type='number' id='priceadd' name='priceadd' step='.01' value='$parts[3]'></td>
-							</tr>
-							<tr><td colspan='4'>&nbsp;</td>";
+					$headers = "<tr><td width='120'>Production Date</td><td width='300'>Mold</td><td width='300'>Description</td></tr>";
+					$inputs = "<tr>
+									<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
+							 		<td width='120'><select id='mshape' name='mshape' onchange='PopulateItemFields(this.value);'>
+				                            <option value='0'>Select a Mold</option>";
+				                            $inputs .= Molds($search,'drop',$toptab,$operation,$selectedSMold);
+				                            $inputs .= "
+										</select>
+									</td>
+									<td><input type='text' id='description' name='description' size='30' value='$parts[2]'/></td>
+								</tr>
+								<tr><td colspan='4'>&nbsp;</td></tr>
+								<tr><td colspan='4'>&nbsp;</td></tr>
+								<tr><td width='100'>Add to Price</td><td width='100'>Retail Price</td></tr>
+								<tr>
+									<td><input type='number' id='priceadd' name='priceadd' step='.01' value='$parts[70]' onchange='PriceAdd(this.value);'></td>
+									<td><input type='number' id='price' name='price' step='.01' value='$parts[3]'></td>
+								</tr></table>
+								";
+								
+					$footer .= "<hr /><br>
+								<table>
+								<tr><td>MoldID</td><td>MoldSize</td><td>MoldShape</td></tr>
+								<tr>
+									<td><input type='number' id='moldid' name='moldid' value='$parts[5]'></td>
+									<td><input type='text' id='moldsize' name='moldsize' value='$parts[6]'></td>
+									<td><input type='text' id='moldshape' name='moldshape' value='$parts[1]'></td>
+								</tr>
+								<tr><td>Cost</td><td>Tag Printed</td></tr>
+								<tr>
+									<td><input type='number' id='cost' name='cost' step='.01' value='$parts[4]'></td>
+									<td><input type='text' id='tag' name='tag' value='No' value='$parts[8]'></td>
+								</tr>
+								<input type='hidden' id='iid' name='iid' value='$ID'>";
 					$subid = 'subitmup';
 					$subtxt = "Update This Item";
-					$top = 'EXP';
+					$top = 'INV';
 					break;
+					
+					
+				case 'DeleteITM':
+					$title = "Delete Item $ID";
+					$data = GetItem($ID); #$return = "$ProdDate0^$Shape1^$Description2^$RAmount3^$Cost4^$MoldID5^$MoldSize6^$PriceAdd7^$TAG8";
+					$parts = explode("^",$data);
+					$selectedSMold ="$parts[5] $parts[2] $parts[6]";
+					
+					$headers = "<tr><td width='120'>Production Date</td><td width='300'>Mold</td><td width='300'>Description</td></tr>";
+					$inputs = "<tr>
+									<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
+							 		<td width='120'><select id='mshape' name='mshape' onchange='PopulateItemFields(this.value);'>
+				                            <option value='0'>Select a Mold</option>";
+				                            $inputs .= Molds($search,'drop',$toptab,$operation,$selectedSMold);
+				                            $inputs .= "
+										</select>
+									</td>
+									<td><input type='text' id='description' name='description' size='30' value='$parts[2]'/></td>
+								</tr>
+								<tr><td colspan='4'>&nbsp;</td></tr>
+								<tr><td colspan='4'>&nbsp;</td></tr>
+								<tr><td width='100'>Add to Price</td><td width='100'>Retail Price</td></tr>
+								<tr>
+									<td><input type='number' id='priceadd' name='priceadd' step='.01' value='$parts[70]' onchange='PriceAdd(this.value);'></td>
+									<td><input type='number' id='price' name='price' step='.01' value='$parts[3]'></td>
+								</tr></table>
+								";
+								
+					$footer .= "<hr /><br>
+								<table>
+								<tr><td>MoldID</td><td>MoldSize</td><td>MoldShape</td></tr>
+								<tr>
+									<td><input type='number' id='moldid' name='moldid' value='$parts[5]'></td>
+									<td><input type='text' id='moldsize' name='moldsize' value='$parts[6]'></td>
+									<td><input type='text' id='moldshape' name='moldshape' value='$parts[1]'></td>
+								</tr>
+								<tr><td>Cost</td><td>Tag Printed</td></tr>
+								<tr>
+									<td><input type='number' id='cost' name='cost' step='.01' value='$parts[4]'></td>
+									<td><input type='text' id='tag' name='tag' value='No' value='$parts[8]'></td>
+								</tr>
+								<input type='hidden' id='iid' name='iid' value='$ID'>";
+					$subid = 'subitmdel';
+					$subtxt = "Delete This Item";
+					$top = 'INV';
+					break;
+
 				
 				case 'ITM':
 					$title = "Add Item";
@@ -794,7 +963,7 @@ $html = "
 								</tr>";
 					$subid = 'subitmadd';
 					$subtxt = "Add This Item";
-					$top = 'ITM';
+					$top = 'INV';
 					break;
 					
 				case 'EditSIZ':
