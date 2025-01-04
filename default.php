@@ -296,6 +296,36 @@ if (isset($_POST['subitmdel'])) {
 	$tag = "";
 }
 
+if (isset($_POST['subexaadd'])) {
+	$Name = $_POST['name'];
+	$Description = $_POST['description'];
+		$result = AddExpAcct($Name,$Description);
+} else {
+	$Name = "";
+	$Description = "";
+}
+
+if (isset($_POST['subexaup'])) {
+	$aid = $_POST['aid'];
+	$Name = $_POST['name'];
+	$Description = $_POST['description'];
+		$result = UpdateExpAcct($Name,$Description,$aid);
+} else {
+	$Name = "";
+	$Description = "";
+}
+
+if (isset($_POST['subexadel'])) {
+	$aid = $_POST['aid'];
+	$Name = $_POST['name'];
+	$Description = $_POST['description'];
+		$result = DeleteExpAcct($Name,$Description,$aid);
+} else {
+	$Name = "";
+	$Description = "";
+}
+
+
 
 
 
@@ -435,6 +465,8 @@ $html = "
 							<li><a href='default.php?action=MLD&toptab=$toptab'>Add New Mold</a></li>
 							<li><a href='default.php?action=SIZ&toptab=$toptab'>Add Mold Size</a></li>
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Add New Vendor</a></li>
+							<li><a href='default.php?action=EXA&toptab=$toptab'>Add New Exp Account</a></li>
+
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Schedule Show</a></li>
 							<li><a href='default.php?action=VDR&toptab=$toptab'>Add Calendar Event</a></li>
 
@@ -723,13 +755,13 @@ $html = "
 				case 'EXA':
 					$html .= "
 					<div class='Accounts'>";
-							$return = Inventory($search,'table',$toptab,$operation);
+							$return = Accounts($search,'table',$toptab,$operation);
 							$parts = explode("^",$return);
 							$html .= $parts[0];
 							$html .= "
 						
 						<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>";
-							if($search == ""){$html .= "Showing all Items<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
+							if($search == ""){$html .= "Showing all Expense Accounts<br>";} else {$html .= "Showing Items for search: <span style='font-weight:bold;'>$search</span><br>";}
 							$html .= "<br>
 						 	<form action='Default.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
 								<div class='scontainer'>
@@ -741,8 +773,8 @@ $html = "
 								</div>
 							</form><br>
 							<div>
-								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
-								Retail Value of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
+								Count of Displayed Expense Accounts:  <span style='font-weight:bold;'>$parts[1]</span><br>
+								
 								<span style='font-size:small;'>$parts[2]</span>
 							</div>
 							
@@ -1133,8 +1165,48 @@ $html = "
 					break;
 
 			
+			case 'EXA':
+					$title = "Add Expense Account";
+					$headers = "<tr><td>Name</td><td>Description</td></tr>";
+					$inputs = "<tr><td><input type='text' id='name' name='name'/></td>
+						 		<td><input type='text' id='description' name='description'/></td>
+								</tr>";
+					$subid = 'subexaadd';
+					$subtxt = "Add This Exp Account";
+					$top = 'EXA';
+					break;
+
+			case 'EditEXA':
+					$title = "Edit Expense Account";
+					$data = GetExpAcct($ID); 
+					$parts = explode("^",$data); #$return = "$AID^$Name^$Description";
+
+					$headers = "<tr><td>Name</td><td>Description</td></tr>";
+					$inputs = "<tr><td><input type='text' id='name' name='name' value='$parts[1]'/></td>
+						 		<td><input type='text' id='description' name='description' value='$parts[2]'/></td>
+								</tr>
+								<input type='hidden' id='aid' name='aid' value='$ID'/>";
+					$subid = 'subexaup';
+					$subtxt = "Edit This Exp Account";
+					$top = 'EXA';
+					break;
 			
 			
+			case 'DeleteEXA':
+					$title = "Delete Expense Account";
+					$data = GetExpAcct($ID); 
+					$parts = explode("^",$data); #$return = "$AID^$Name^$Description";
+
+					$headers = "<tr><td>Name</td><td>Description</td></tr>";
+					$inputs = "<tr><td><input type='text' id='name' name='name' value='$parts[1]'/></td>
+						 		<td><input type='text' id='description' name='description' value='$parts[2]'/></td>
+								</tr>
+								<input type='hidden' id='aid' name='aid' value='$ID'/>";
+					$subid = 'subexadel';
+					$subtxt = "Delete This Exp Account";
+					$top = 'EXA';
+					break;
+
 
 
 			}	

@@ -1311,8 +1311,217 @@ $return = "";
 
 
 #======================================================================================================================================================Expense Accounts
+function Accounts($search,$type,$toptab,$selected)
+{
+    if($type == 'table'){
+    	$return = "<table class='datatable'><tr class='sizeshd'><th width='90'>Account ID</th><th width='150'>Name</th><th width='250'>Description</th></tr></table>
+    				<div class='datascroll'>
+					<table class='datatable'>";  
+    } else {
+    	$return = "";
+    }
+    	
+  	$count = 0;
+  	$opstable = "";
+
+    try
+    {
+	   $conn = connect();
+	   	    	
+		// GET CONNECTION ERRORS 
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        if($search == ""){
+        	$sql = "SELECT * FROM `no-resin-why`.expaccounts";
+        } else {
+        	$sql = "SELECT * FROM `no-resin-why`.expaccounts
+					WHERE (lower(ExpAccountID) like lower('%$search%') )
+					or (lower(Name) like lower('%$search%'))
+					or (lower(Description) like lower('%$search%'))";
+        }
+
+        $result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$AID = $row["ExpAccountID"];
+				$Name = $row["Name"];
+				$Description = $row["Description"];
+				
+				if($type == 'table'){
+				    $return .= "<tr style='font-size:small;'><td width='90'><a href='default.php?toptab=$toptab&operation=EXA$AID' class='submenu'>EXP Acct ID $AID</a></td>
+				    <td width='150'>$Name</td><td width='250'>$Description</td></tr>";
+				} else {
+					if($selected == $Name){
+						$return .= "<option value='{$Name}' selected>{$Name}</option>";
+					} else {
+						$return .= "<option value='{$Name}'>{$Name}</option>";
+					}
+				}
+				
+				$findID = (int)substr($selected,3,strlen($selected) -3);
+				if($findID == $AID) { #-----------------------Get the selected expense data
+								$opstable = "<div><table class='datatable'>
+									<tr class='sizeshd'><td colspan='2' sytle='font-weight:bold;' width='300'>Size ID $AID</td></tr>
+									<tr><td>Name</td><td>$Name</td></tr>
+									<tr><td>Description</td><td>$Description</td></tr>
+									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+									<tr>
+										<td><a href='default.php?toptab=$toptab&action=EditEXAz$AID' class='button'>Edit</a></td>
+										<td><a href='default.php?toptab=$toptab&action=DeleteEXAz$AID' class='button'>Delete</a></td>
+									</tr>
+								</table></div>";
+				}
+			    
+			    $count++;
+			}
+		} else {
+			$return .= "<tr><td>No results</td></tr>";
+		}
+		if($type == 'table'){
+			$return .= "</table></div>";
+		}
+        // Close connections
+		mysqli_close($conn); 
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+	
+	if($type == 'table'){
+    	return "$return^$count^$opstable";
+    } else {
+    	return "$return";
+    }
+}
 
 
+
+
+function AddExpAcct($Name,$Description)
+{
+	 try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "INSERT INTO expaccounts (Name, Description) VALUES ('$Name', '$Description')";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "New Exp Account created successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
+
+function UpdateExpAcct($Name,$Description,$aid)
+{
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "UPDATE expaccounts SET Name='$Name', Description='$Description' WHERE ExpAccountID = $aid";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Exp Account updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
+
+
+function DeleteExpAcct($Name,$Description,$aid)
+{
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "DELETE FROM expaccounts WHERE ExpAccountID = $aid";		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Exp Account deleted successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return "$return";
+}
+
+
+
+
+
+
+
+function GetExpAcct($Selected) 
+{
+$return = "";
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "SELECT * FROM `no-resin-why`.expaccounts
+        WHERE ExpAccountID = '$Selected'";
+		
+		$result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$AID = $row["ExpAccountID"];
+				$Name = $row["Name"];
+				$Description= $row["Description"];
+				$return = "$AID^$Name^$Description";
+			}
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+}
+
+
+#=========================================================================================================================Retrun Financial Data
 function Profit() 
 {
 $return = "";
