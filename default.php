@@ -147,7 +147,7 @@ if (isset($_POST['subsizdel'])) {
 
 if (isset($_POST['submldadd'])) {
 	$shape = $_POST['shape'];
-	$description = $_POST['description'];
+	$description = ucwords($_POST['description']);
 	$size = $_POST['size'];
 		$result = AddMold($shape,$description,$size);
 } else {
@@ -159,7 +159,7 @@ if (isset($_POST['submldadd'])) {
 if (isset($_POST['submldup'])) {
 	$mid = $_POST['mid'];
 	$shape = $_POST['shape'];
-	$description = $_POST['description'];
+	$description = ucwords($_POST['description']);
 	$size = $_POST['size'];
 		$result = UpdateMold($shape,$description,$size,$mid);
 } else {
@@ -222,7 +222,7 @@ if (isset($_POST['subvdrdel'])) {
 if (isset($_POST['subitmadd'])) {
 	$edate = $_POST['edate'];
 	$mshape = $_POST['mshape'];
-	$description = $_POST['description'];
+	$description = ucwords($_POST['description']);
 	$priceadd = $_POST['priceadd'];
 	$price = $_POST['price'];
 	$moldid = $_POST['moldid'];
@@ -248,7 +248,7 @@ if (isset($_POST['subitmup'])) {
 	$iid = $_POST['iid'];
 	$edate = $_POST['edate'];
 	$mshape = $_POST['mshape'];
-	$description = $_POST['description'];
+	$description = ucwords($_POST['description']);
 	$priceadd = $_POST['priceadd'];
 	$price = $_POST['price'];
 	$moldid = $_POST['moldid'];
