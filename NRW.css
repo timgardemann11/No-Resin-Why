@@ -62,9 +62,25 @@
 	left:calc(50% / 2);
 	top:calc(50% /2);
 	padding:0px 10px 10px 10px; 
-
-
 }
+
+.disabled{
+	background-color:#F1A983;
+	text-align:right;
+	border:none;
+	
+}
+
+.forml {
+	width:50%;
+	height:70%;
+	background-color:#F1A983;
+	position:absolute;
+	left:calc(50% / 2);
+	top:calc(30% /2);
+	padding:0px 10px 10px 10px; 
+}
+
 
 .center form {
 	display:inline-block;

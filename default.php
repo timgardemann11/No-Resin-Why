@@ -326,6 +326,10 @@ if (isset($_POST['subexadel'])) {
 }
 
 
+if (isset($_POST['subtag'])) {
+	$result = MarkPrinted();
+} 
+
 
 
 
@@ -397,6 +401,20 @@ $html = "
 				 let current = document.getElementById('price').value
 				 let price = +current + +val
 				 document.getElementById('price').value = price;
+			}
+			
+			function PopulateExpenseAccounts(val){
+				var acct = [];
+				let Total = document.getElementById('eamount').value;
+				let Overhead = Total;
+				for (let i = 2; i < 20; i++){
+					var element =  document.getElementById('amount' + i);
+					if (typeof(element) != 'undefined' && element != null)
+					{
+						Overhead = Overhead - document.getElementById('amount' + i).value;
+					}
+				}
+				document.getElementById('amount1').value = Overhead;
 			}
 		</script>
 
@@ -616,6 +634,13 @@ $html = "
 								<span style='font-size:small;'>$parts[2]</span>
 							</div>
 							
+							<div>
+								<br>
+								<form action='Default.php?toptab=$toptab&action=tag' method='post' enctype='multipart/form-data'>
+								<input type='submit' class='button' id='submittag' value='Print Tags'/>
+								</form>
+							</div>
+							
 						 </div>
 						
 						
@@ -804,6 +829,16 @@ $html = "
 			$footer = "";
 			#------------------------------------------------get the correct variables for the form
 			switch ($action){
+				case 'tag':
+					$title = "Print Retail Tags";
+					$headers = "<tr><td>Print Tags button will open tags page in a new tab.  If the page prints successfully, return here and click Mark Tags Printed button.</td></tr>";
+					$inputs = "<tr><td><button class='button' onclick='window.open(&apos;print.php&apos;,&apos;_blank&apos;)'>Print Tags</button></td></tr>";
+					$subid = 'subtag';
+					$subtxt = "Mark Tags as Printed";
+					$top = 'INV';
+
+					break;
+					
 				case 'EXP':
 					$title = "Add Expense";
 					$TDate = Date('m/d/Y');
@@ -817,7 +852,15 @@ $html = "
 									</select>
 									<input type='text' id='evtext' name='evtext' style='display: none;' /></td>
 								<td><input type='text' id='edescription' name='edescription' size='30'/></td>
-								<td><input type='number' id='eamount' name='eamount' step='.01'></td>";
+								<td><input type='number' id='eamount' name='eamount' step='.01' onchange='PopulateExpenseAccounts(this.value);'></td>";
+										
+					$footer .= "<hr /><br>
+								<table style='font-size:small;padding: 1px;border-spacing: 2px;'>
+								<tr><td>&nbsp;</td><td>Expense Account Name</td><td>Amount</td></tr>
+								<tr>";
+								$footer .= GetAllAccounts();
+								$footer .= "</table>";
+							
 					$subid = 'subexpadd';
 					$subtxt = "Add This Expense";
 					$top = 'EXP';
@@ -1212,23 +1255,31 @@ $html = "
 			}	
 			
 			#-----------------------------------------------The Actual Form
-			$html .= "<div class='action'></div>
-			<div class='form'>
-				
+			$html .= "<div class='action'></div>";
+			if($action == 'EXP') {
+				$html .= "<div class='forml'>";
+			} else {
+				$html .= "<div class='form'>";
+			}
+				$html .= "
 				<a href='default.php?toptab=$toptab'><div class='exit'>Cancel</div></a>
 				<div class='formtitle'>$title</div><br><br>
-				<div class='center'>
-					<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>
+				<div class='center'>";
+					if($action <> "tag") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+						$html .= "
 						<table>
 							$headers
 							<tr>
 								$inputs
 							</tr>
-						</table><br><br>
+						</table><br><br>";
+						if($action == "tag") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+						$html .= "
 						<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
 						$html .= $footer;
-						$html .= "
-					</form>
+						
+					$html .= "</form>";
+					$html .= "
 			</div>";
 		}
 		

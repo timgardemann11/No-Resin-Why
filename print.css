@@ -1,0 +1,44 @@
+﻿	body{
+		width:11in;
+		height:8.5in;
+		padding:.5in;
+		background-color:white;
+	}
+	
+	.price {
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:x-large;
+		font-weight:bold;
+	}
+	
+	.itemid {
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:small;
+		font-weight:bold;
+	}
+	
+	.mold {
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:small;
+		font-weight:bold;
+		width:1in;
+		color:#3F5D8F;		
+	}
+	.desc {
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:small;
+		color:#3F5D8F;
+		font-style:italic;
+		height: 4vh;
+		width:1in;
+		padding-left:.08in;
+	}
+
+
+	.tag {
+		display:inline-block;
+		width:1.16in;
+		height:2.4in;
+		text-align:center;
+		display:table-cell;
+	}

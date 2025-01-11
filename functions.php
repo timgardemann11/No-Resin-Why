@@ -1520,6 +1520,46 @@ $return = "";
     return $return;
 }
 
+function GetAllAccounts()
+{
+$return = "";
+$i = 1;
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "SELECT * FROM `no-resin-why`.expaccounts";
+		
+		$result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$AID = $row["ExpAccountID"];
+				$Name = $row["Name"];
+				$Description= $row["Description"];
+				$return .= "<tr>
+					<td><input type='hidden' id='expaccountid$i' name='expaccountid$i' value='$AID'></td>
+					<td style='disabled'><input type='text' id='expacctname$i' name='expacctname$i' value='$Name'></td>
+					<td><input type='text' id='amount$i' name='amount$i' onchange='PopulateExpenseAccounts(this.value);'></td>
+				</tr>";
+				$i++;
+			}
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+}
+
+
 
 #=========================================================================================================================Retrun Financial Data
 function Profit() 
@@ -1579,6 +1619,74 @@ $return = "";
     }
     
     return $return;
+}
+
+
+function MarkPrinted() {
+
+$return = "Item Tags Marked as Printed";
+
+for($i = 1; $i <= 27; $i++) {
+	$price[$i] = "price $i";
+	$item[$i] = "item $i";
+	$mold[$i] = "mold $i";
+	$desc[$i] = "description $i";
+
+}
+	$i = 1;
+try
+{
+	
+	$conn = connect();
+	
+	if ($conn->connect_error) { 
+	     die("Connection failed: " . $conn->connect_error); 
+	}     
+    
+   
+    $sql = "SELECT * FROM `no-resin-why`.items WHERE TAGPrinted <> 'Yes';";
+   
+    $result = $conn->query($sql); 
+    
+    
+    if ($result->num_rows > 0)
+	{		
+		
+		// Loop through each row in the result set
+		while($row = $result->fetch_assoc())
+		{
+			$itemid = $row["ItemID"];
+					
+			if ($i <= 27){
+				$conn2 = connect();
+	
+				if ($conn2->connect_error) { 
+				     die("Connection failed: " . $conn->connect_error); 
+				}     
+			   
+			    $sql2 = "UPDATE `no-resin-why`.`items` SET `TAGPrinted` = 'Yes' WHERE `ItemID` = '$itemid';";
+			    
+			    if (mysqli_query($conn2, $sql2)) {
+				     $return = "Item tags marked as printed successfully";
+				} else {
+				     $return = "Error: " . $sql2 . "<br>" . mysqli_error($conn2);
+				}
+
+	
+				
+			}
+			$i++;			
+		}
+
+	}
+	
+}   
+catch(Exception $e)
+{
+    echo("Error!");
+
+}
+return $return;
 }
 
 
