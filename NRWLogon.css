@@ -1,0 +1,61 @@
+﻿body {
+    overflow:auto;
+    background:#F1A983;
+}
+
+#frm {
+    border: solid grey 1px;
+    width: 20%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: white;
+    padding: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+ 
+#btn {
+    color: #fff;
+    background: #182E56;
+    padding: 5px;
+    margin-left: 69%;
+
+}
+
+#fail {
+border: solid grey 1px;
+    
+    border-radius: 5px;
+    margin: 5px auto;
+    background: pink;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+    
+#lock {
+    border: solid grey 1px;
+    width: 20%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: red;
+    padding-left: 50px;
+    padding-right: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}  
+
+.logbar {
+    background: #182E56;
+    text-align: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    padding: 5px;
+    outline-style: double;
+    outline-color: green;
+    outline-width: 3px;
+    color: #fff;
+}  
+
+
+
+
+

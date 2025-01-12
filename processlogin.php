@@ -17,15 +17,31 @@
 	$password = Stripcslashes($password);
 
     $result = logindata($username,$password);
+    
+    if (isset($_GET['site'])) {
+    	$site = $_GET['site'];
+	}
+
 
     if (isset($result)) {
-       $_SESSION["owned"]=$result;
-       header("location:breakFrame.php");
-       //header("location:Default.php");
+       //$_SESSION["owned"]=$result;
+       $_SESSION["user"]=$result;
+       //header("location:breakFrame.php");
+       switch ($site) {
+       	case 'ops':
+       		header("location:Default.php");
+       		break;
+       	case 'sho':
+       		header("location:Default.php");
+       		break;
+		case 'mbl':
+       		header("location:Default.php");
+       		break;
+		}
        //echo "$result";
     } else {
         
-        header("location:login.php?trys={$attempts}");
+        header("location:login.php?site=$site&trys={$attempts}&data=$result");
         //echo "$user $attempts";   ?storesowned={$result}
     }
 ?>

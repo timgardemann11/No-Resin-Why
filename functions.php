@@ -352,12 +352,17 @@ function AddExpense($edate,$evendor,$edescription,$eamount)
 		} else {
 		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
 		}
+		
+		
+		$result = mysqli_insert_id($conn);;
+		
+		
 	}   
     catch(Exception $e)
     {
         echo("Error!");
     }
-    return "$return";
+    return "$return^$result";
 }
 
 
@@ -381,6 +386,8 @@ function UpdateExpense($edate,$evendor,$edescription,$eamount,$EID)
 		} else {
 		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
 		}
+		
+		
 	}   
     catch(Exception $e)
     {
@@ -411,6 +418,15 @@ function DeleteExpense($edate,$evendor,$edescription,$eamount,$EID)
 		} else {
 		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
 		}
+		
+		$sql ="DELETE FROM `no-resin-why`.`expensedetail` WHERE ExpenseID = $EID";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Expense record deleted successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+
 	}   
     catch(Exception $e)
     {
@@ -1520,7 +1536,7 @@ $return = "";
     return $return;
 }
 
-function GetAllAccounts()
+function GetAllAccounts($EID)
 {
 $return = "";
 $i = 1;
@@ -1540,17 +1556,44 @@ $i = 1;
 			// Loop through each row in the result set
 			while($row = $result->fetch_assoc())
 			{
-				$AID = $row["ExpAccountID"];
-				$Name = $row["Name"];
-				$Description= $row["Description"];
-				$return .= "<tr>
-					<td><input type='hidden' id='expaccountid$i' name='expaccountid$i' value='$AID'></td>
-					<td style='disabled'><input type='text' id='expacctname$i' name='expacctname$i' value='$Name'></td>
-					<td><input type='text' id='amount$i' name='amount$i' onchange='PopulateExpenseAccounts(this.value);'></td>
-				</tr>";
+				$AID[$i] = $row["ExpAccountID"];
+				$Name[$i] = $row["Name"];
+				$Description[$i] = $row["Description"];
 				$i++;
+				$count = $i -1;
 			}
+			
+			for ($i=1; $i<= $count; $i++){
+				if ($EID == "") {	
+					
+					$return .= "<tr>
+						<td><input type='hidden' id='expaccountid$i' name='expaccountid$i' value='$AID[$i]'></td>
+						<td style='disabled'><input type='text' id='expacctname$i' name='expacctname$i' value='$Name[$i]'></td>
+						<td><input type='text' id='amount$i' name='amount$i' onchange='PopulateExpenseAccounts(this.value);'></td>
+					</tr>";
+				} else {
+					$sql ="SELECT Amount FROM `no-resin-why`.expensedetail WHERE ExpAccountID = '$AID[$i]' and ExpenseID = '$EID';";
+					$result = $conn->query($sql); 
+        
+			        if ($result->num_rows > 0)
+					{		
+						// Loop through each row in the result set
+						while($row = $result->fetch_assoc())
+						{
+							$value = $row["Amount"];
+						}
+					}
+					$return .= "<tr>
+						<td><input type='hidden' id='expaccountid$i' name='expaccountid$i' value='$AID[$i]'></td>
+						<td style='disabled'><input type='text' id='expacctname$i' name='expacctname$i' value='$Name[$i]'></td>
+						<td><input type='text' id='amount$i' name='amount$i' onchange='PopulateExpenseAccounts(this.value);' value='$value'></td>
+					</tr>";
+					$value = "";
+				}
+			}
+				
 		}
+		
 	}   
     catch(Exception $e)
     {
@@ -1561,6 +1604,88 @@ $i = 1;
 
 
 
+
+function GetExpAcctCount() {
+$return = "";
+$i = 1;
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "SELECT count(Name) as Count FROM `no-resin-why`.expaccounts;";
+		
+		$result = $conn->query($sql); 
+		
+		if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$count = $row["Count"];
+			}
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $count;
+}
+
+
+function AddExpenseAcctValue($expenseid,$expaccountid,$expacctname,$amount) {
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "INSERT INTO `no-resin-why`.`expensedetail` (`ExpenseID`,`ExpAccountID`,`ExpAcctName`,`Amount`)VALUES('$expenseid','$expaccountid','$expacctname','$amount');";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Exp Account updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+
+
+}
+
+
+function UpdateExpenseAcctValue($expenseid,$expaccountid,$expacctname,$amount) {
+
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "UPDATE `no-resin-why`.`expensedetail` SET `Amount` = '$amount' WHERE ExpenseID = $expenseid and ExpAccountID = $expaccountid;";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Exp Account updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+
+}
 #=========================================================================================================================Retrun Financial Data
 function Profit() 
 {
@@ -1687,6 +1812,49 @@ catch(Exception $e)
 
 }
 return $return;
+}
+
+
+
+function logindata($username,$password)
+{
+    $return = "";
+    $idCount = 0;
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "SELECT `FullName` FROM `no-resin-why`.users Where `Username` = '$username' and `Password` = '$password'";
+        
+        $result =  $conn->query($sql);
+        
+        if ($result->num_rows > 0)
+			{		
+			
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+	        {
+	            $return .= $row['FullName'];
+	            $idCount++;
+	        }
+	    }   
+    }
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+
+    if ($idCount == 0) {
+        $return = "Username or Password Incorrect, Login Failed!";
+    } else {
+        //$return =substr($return,0,-1);
+        
+        return $return;
+    }
 }
 
 

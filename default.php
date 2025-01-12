@@ -13,6 +13,9 @@ session_start();
 
 $result = "";
 
+$user = $_SESSION["user"];
+$result = $user;
+
 //Get Left Tab Variable
 if (isset($_GET['toptab'])) {
     $toptab = $_GET['toptab'];
@@ -55,7 +58,22 @@ if (isset($_POST['subexpadd'])) {
 	if($evendor == ''){
 		$evendor = $_POST['evtext'];
 	}
-	$result = AddExpense($edate,$evendor,$edescription,$eamount);
+	$data = AddExpense($edate,$evendor,$edescription,$eamount);
+	$parts = explode("^",$data);
+	
+	$result = $parts[0]; 
+	$expenseid = $parts[1]; # get the ID of inserted expense
+	
+	$count = GetExpAcctCount();
+	
+	for($i=1; $i <= $count; $i++) {
+		$expaccountid[$i] = $_POST['expaccountid' . $i];
+		$expacctname[$i] = $_POST['expacctname' . $i];
+		$amount[$i] =  $_POST['amount' . $i];
+	
+		AddExpenseAcctValue($expenseid,$expaccountid[$i],$expacctname[$i],$amount[$i]);
+	}
+	
 } else {
 	$edate = "";
 	$evendor = "";
@@ -73,6 +91,18 @@ if (isset($_POST['subexpup'])) {
 		$evendor = $_POST['evtext'];
 	}
 	$result = UpdateExpense($edate,$evendor,$edescription,$eamount,$eid);
+	$expenseid = $eid; # get the ID of inserted expense
+	
+	$count = GetExpAcctCount();
+	
+	for($i=1; $i <= $count; $i++) {
+		$expaccountid[$i] = $_POST['expaccountid' . $i];
+		$expacctname[$i] = $_POST['expacctname' . $i];
+		$amount[$i] =  $_POST['amount' . $i];
+	
+		UpdateExpenseAcctValue($expenseid,$expaccountid[$i],$expacctname[$i],$amount[$i]);
+	}
+
 } else {
 	$edate = "";
 	$evendor = "";
@@ -846,7 +876,7 @@ $html = "
 					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$TDate'></td>
 						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
 			                            <option value='0'>Select a Vendor</option>";
-			                            $inputs .= vendors($search,'drop',$toptab,"");
+			                            $inputs .= vendors($search,'drop',$toptab," "); #$search,$type,$toptab,$selected
 			                            $inputs .= "
 			                            <option value=''>Other..</option>
 									</select>
@@ -858,7 +888,7 @@ $html = "
 								<table style='font-size:small;padding: 1px;border-spacing: 2px;'>
 								<tr><td>&nbsp;</td><td>Expense Account Name</td><td>Amount</td></tr>
 								<tr>";
-								$footer .= GetAllAccounts();
+								$footer .= GetAllAccounts("");
 								$footer .= "</table>";
 							
 					$subid = 'subexpadd';
@@ -882,6 +912,13 @@ $html = "
 								<td><input type='text' id='edescription' name='edescription' size='30' value='$parts[2]'/></td>
 								<td><input type='number' id='eamount' name='eamount' step='.01' value='$parts[3]'></td>
 								<input type='hidden' id='eid' name='eid' value='$ID'>";
+					$footer .= "<hr /><br>
+								<table style='font-size:small;padding: 1px;border-spacing: 2px;'>
+								<tr><td>&nbsp;</td><td>Expense Account Name</td><td>Amount</td></tr>
+								<tr>";
+								$footer .= GetAllAccounts($ID);
+								$footer .= "</table>";
+
 					$subid = 'subexpup';
 					$subtxt = "Update This Expense";
 					$top = 'EXP';
@@ -895,7 +932,7 @@ $html = "
 					$inputs = "<td><input type='text' id='datepicker' name='edate' value='$parts[0]'></td>
 						 		<td><select id='evendor' name='evendor' onchange='DropDownChanged(this);' value='$parts[1]'>
 			                            <option value='0'>Select a Vendor</option>";
-			                            $inputs .= vendors($search,'drop',$parts[1]);
+			                            $inputs .= vendors($search,'drop',$toptab,$parts[1]);
 			                            $inputs .= "
 			                            <option value=''>Other..</option>
 									</select>

@@ -4,14 +4,19 @@ include 'functions.php';
 
 $trys = $_GET["trys"];
 
+if (isset($_GET['site'])) {
+    $site = $_GET['site'];
+
+}
+
 //Build Logon Page
 $html = "
 
 <head>
 
-<title>Logoin Page</title>
+<title>Logon Page</title>
 
-<link href='KatiesDoughnuts.css' rel='stylesheet' type='text/css'/>
+<link href='NRWLogon.css' rel='stylesheet' type='text/css'/>
 
 </head>
 
@@ -60,7 +65,7 @@ if ($trys > 5) {
 } else if ($trys == 0) {
     $html .= "
         <div id='frm'>
-            <form action='processlogin.php' method='post'>
+            <form action='processlogin.php?site=$site' method='post'>
             <P class='logbar'>
                 Customer Login
             </p>
