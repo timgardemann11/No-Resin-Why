@@ -13,7 +13,12 @@ session_start();
 
 $result = "";
 
-$user = $_SESSION["user"];
+if (isset($_SESSION["user"])) {
+	$user = $_SESSION["user"];
+} else {
+	$user = "";
+}
+
 $result = $user;
 
 //Get Left Tab Variable
