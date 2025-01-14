@@ -16,7 +16,8 @@ $html = "
 <html>
     <head>
         <title></title>
-        <link href='NRW.css' rel='stylesheet' type='text/css'/>		
+        <link href='NRW.css' rel='stylesheet' type='text/css'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>		
 				
     </head>
     <body>";
@@ -30,9 +31,9 @@ $html = "
 					
 			<div class='bigmenu'>
 	   			<ul>
-	   					<a href='login.php?site=ops'><li>Login to Operations Site</li></a>
-	   					<a href='login.php?site=sho'><li>Login to Craft Show Site</li></a>
-						<a href='login.php?site=mbl'><li>Login on Moble Site</li></a>	
+	   					<a href='login.php?site=ops'><li><br><br>Operations<br>Site</li></a>
+	   					<a href='login.php?site=sho'><li><br><br>Craft Show<br>Site</li></a>
+						<a href='login.php?site=mbl'><li><br><br>Moble<br>Site</li></a>	
 	    		</ul>
 			</div>
 		</div>

@@ -524,7 +524,8 @@ background-color:white;
 .bigmenu li {
     float: left;
     width:100%;
-    font-size:medium;
+    font-size:x-large;
+    vertical-align:middle;
     height:15vh;
     border-bottom: 8px solid #F1A983;
     text-decoration:none;
