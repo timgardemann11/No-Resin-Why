@@ -16,7 +16,7 @@ $html = "
 <html>
     <head>
         <title></title>
-        <link href='NRW.css' rel='stylesheet' type='text/css'/>
+        <link href='NRWStart.css' rel='stylesheet' type='text/css'/>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>		
 				
     </head>
@@ -25,16 +25,14 @@ $html = "
 //======================================================================================================Body
 			//---------------------------------------------------------------------Controls on the left
 		$html .= "
-		<div id='startcontainer'>
-			<div id='startlogo'>&nbsp;<img src='images/SiteLogo.png' alt='No Resin Why' style='width:180px;height:120px;'></div><br><br>
-			<div id='startsite'><span style='font-size:medium;'>Where Resin Meets Inspiration</span></div>
+		<div id='container'>
+			<div id='logo'><img src='images/StartLogo.png' alt='No Resin Why' style='max-width:100%;height:auto;'></div><br>
+			
 					
-			<div class='bigmenu'>
-	   			<ul>
-	   					<a href='login.php?site=ops'><li><br><br>Operations<br>Site</li></a>
-	   					<a href='login.php?site=sho'><li><br><br>Craft Show<br>Site</li></a>
-						<a href='login.php?site=mbl'><li><br><br>Moble<br>Site</li></a>	
-	    		</ul>
+			<div class='menu'>
+					<a href='login.php?site=ops'><div class='button'>Operations<br>Site</div></a><br>
+					<a href='login.php?site=sho'><div class='button'>Craft Show<br>Site</div></a><br>
+					<a href='login.php?site=mbl'><div class='button'>Mobile<br>Site</div></a><br>
 			</div>
 		</div>
 
