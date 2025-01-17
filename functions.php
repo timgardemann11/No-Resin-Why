@@ -1068,6 +1068,7 @@ function Sales($search,$type,$toptab,$operation)
 #======================================================================================================================================================Sizes
 
 function Sizes($search,$type,$toptab,$selected)
+
 {
     if($type == 'table'){
     	$return = "<table class='datatable'><tr class='sizeshd'><th width='90'>Size ID</th><th width='100'>Size</th><th width='90'>Modifier</th><th width='90'>Cost</th><th width='90'>75% Markup</th><th width='90'>Price</th></tr></table>
