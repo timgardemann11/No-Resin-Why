@@ -497,6 +497,7 @@ $html = "
 	    <div id='main'>
 	    	
 	    		<div id='logo'>&nbsp;&nbsp;<img src='images/SiteLogo.png' alt='No Resin Why' style='width:120px;'></div>
+	    		<div class='login'><table><tr><td rowspan='2'><img src='images/user.png' alt='No Resin Why' style='width:25px;'></td><td>$user&nbsp;</td></tr><tr><td>Owner</td></tr></table></div>
 	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;No Resin Why Operations&nbsp;&nbsp;&nbsp;<span style='font-size:medium;'>$result</span></div>
     			<div class='menu'>";
     						if($toptab == 'EXP') {
@@ -947,8 +948,7 @@ $html = "
 		
 #=======================================================================================================================Completing the page
 
-		$html .= "<div class='login'><table><tr><td rowspan='2'><img src='images/user.png' alt='No Resin Why' style='width:25px;'></td><td>$user&nbsp;</td></tr>
-											<tr><td>Owner</td></tr></table></div>
+		$html .= "
 	</body>
 </html>";
 
