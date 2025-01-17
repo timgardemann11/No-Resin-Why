@@ -451,13 +451,13 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$inputs = "<tr><td><input type='text' id='name' name='name'/></td>
 									<td><input type='text' id='datepicker' name='sdate'></td>
 						 			<td><input type='text' id='start' name='start'/></td>
-						 			<td><input type='text' id='start' name='start'/></td>
+						 			<td><input type='text' id='finish' name='finish'/></td>
 								</tr>";
 								
 					$footer .= "<hr /><br>
 								<table>
 								<tr><td>Location</td>
-									<td><input type='text' id='moldsize' name='moldsize'></td>
+									<td><input type='text' id='location' name='location'></td>
 									<td>&nbsp;</td>
 									<td>Contact Name</td>
 									<td><input type='text' id='contactname' name='contactname'></td>
@@ -483,14 +483,9 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								</tr>";
-
 					
 					
-					
-					
-					
-					
-					$subid = 'subesho';
+					$subid = 'subsho';
 					$subtxt = "Add This Show";
 					$top = 'INV';
 					break;

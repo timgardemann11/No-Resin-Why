@@ -303,12 +303,9 @@ function Expenses($search,$type,$toptab,$operation)
 									<tr><td>Description</td><td>$EDescShort</td></tr>
 									<tr><td>Amount</td><td>$EAmount</td></tr>
 									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-									<tr class='expensehd'><td colspan='2'>Expense Accounts</td></tr>
-									<tr><td>Molds</td><td>value</td></tr>
-									<tr><td>Color</td><td>value</td></tr>
-									<tr><td>Overhead</td><td>value</td></tr>
-									<tr><td>Resin</td><td>value</td></tr>
-									<tr><td>Embedded</td><td>value</td></tr>
+									<tr class='expensehd'><td colspan='2'>Expense Accounts</td></tr>";
+									    $opstable .= GetAccountDetail($EID);
+									    $opstable .= "
 									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 									<tr>
 										<td><a href='default.php?toptab=$toptab&action=EditEXPz$EID' class='button'>Edit</a></td>
@@ -1331,7 +1328,7 @@ $return = "";
 function Accounts($search,$type,$toptab,$selected)
 {
     if($type == 'table'){
-    	$return = "<table class='datatable'><tr class='sizeshd'><th width='90'>Account ID</th><th width='150'>Name</th><th width='250'>Description</th></tr></table>
+    	$return = "<table class='datatable'><tr class='sizeshd'><th width='90'>Account ID</th><th width='150'>Name</th><th width='250'>Description</th><th width='140'>Amount</th></tr></table>
     				<div class='datascroll'>
 					<table class='datatable'>";  
     } else {
@@ -1351,12 +1348,18 @@ function Accounts($search,$type,$toptab,$selected)
 		}     
         
         if($search == ""){
-        	$sql = "SELECT * FROM `no-resin-why`.expaccounts";
+        	$sql = "SELECT expensedetail.ExpAccountID, Name, Description, sum(Amount) As Amount 
+        			FROM `no-resin-why`.expaccounts cross join `no-resin-why`.expensedetail on expaccounts.ExpAccountID = expensedetail.ExpAccountID
+					group by expensedetail.ExpAccountID
+					Order by Amount desc";
         } else {
-        	$sql = "SELECT * FROM `no-resin-why`.expaccounts
+        	$sql = "SELECT expensedetail.ExpAccountID, Name, Description, sum(Amount) As Amount 
+        			FROM `no-resin-why`.expaccounts cross join `no-resin-why`.expensedetail on expaccounts.ExpAccountID = expensedetail.ExpAccountID
 					WHERE (lower(ExpAccountID) like lower('%$search%') )
 					or (lower(Name) like lower('%$search%'))
-					or (lower(Description) like lower('%$search%'))";
+					or (lower(Description) like lower('%$search%'))
+					group by expensedetail.ExpAccountID
+					Order by Amount desc";
         }
 
         $result = $conn->query($sql); 
@@ -1369,10 +1372,11 @@ function Accounts($search,$type,$toptab,$selected)
 				$AID = $row["ExpAccountID"];
 				$Name = $row["Name"];
 				$Description = $row["Description"];
+				$Amount = $row["Amount"];
 				
 				if($type == 'table'){
 				    $return .= "<tr style='font-size:small;'><td width='90'><a href='default.php?toptab=$toptab&operation=EXA$AID' class='submenu'>EXP Acct ID $AID</a></td>
-				    <td width='150'>$Name</td><td width='250'>$Description</td></tr>";
+				    <td width='150'>$Name</td><td width='250'>$Description</td><td width='140'>$Amount</td></tr>";
 				} else {
 					if($selected == $Name){
 						$return .= "<option value='{$Name}' selected>{$Name}</option>";
@@ -1499,6 +1503,41 @@ function DeleteExpAcct($Name,$Description,$aid)
 
 
 
+									
+
+function GetAccountDetail($Selected) 
+{
+$return = "";
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "SELECT * FROM `no-resin-why`.expensedetail
+        WHERE ExpenseID = '$Selected'";
+		
+		$result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+
+				$Name = $row["ExpAcctName"];
+				$Amount= $row["Amount"];
+				$return .= "<tr><td>$Name</td><td>$Amount</td></tr>";				
+			}
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+}
 
 
 
@@ -1527,6 +1566,8 @@ $return = "";
 				$Name = $row["Name"];
 				$Description= $row["Description"];
 				$return = "$AID^$Name^$Description";
+				
+				
 			}
 		}
 	}   
@@ -1540,6 +1581,7 @@ $return = "";
 function GetAllAccounts($EID)
 {
 $return = "";
+$value = "";
 $i = 1;
 	try
     {
@@ -1687,6 +1729,44 @@ function UpdateExpenseAcctValue($expenseid,$expaccountid,$expacctname,$amount) {
     return $return;
 
 }
+
+
+#======================================================================================================================================================Shows
+
+
+function AddShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conname,$conemail,$conphone,$location){
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "INSERT INTO `no-resin-why`.`shows`(`Name`,`Location`,`LocationAddress`,`LocationCity`,`LocationState`,`ContactName`,`ContactEmail`,`ContactPhone`,`Date`,`Start`,`Finish`)
+        VALUES('$name','$location','$locaddress','$loccity','$locstate','$conname','$conemail','$conphone','$date','$start','$finish');";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Craft show added successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+
+
+
+}
+
+
+
+
+
+
+
 #=========================================================================================================================Retrun Financial Data
 function Profit() 
 {

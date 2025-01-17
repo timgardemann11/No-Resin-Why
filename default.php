@@ -308,6 +308,33 @@ if (isset($_POST['subitmup'])) {
 	$tag = "";
 }
 
+if (isset($_POST['subsho'])) {
+	$name = $_POST['name'];
+	$date = $_POST['sdate'];
+	$start = $_POST['start'];
+	$finish = $_POST['finish'];
+	$locaddress = $_POST['locationaddress'];
+	$loccity = $_POST['locationcity'];
+	$locstate = $_POST['locationstate'];
+	$conname = $_POST['contactname'];
+	$conemail = $_POST['contactemail'];
+	$conphone = $_POST['contactphone'];
+	$location = $_POST['location'];
+		$result = AddShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conname,$conemail,$conphone,$location);
+} else {
+	$name = "";
+	$date = "";
+	$start = "";
+	$finish = "";
+	$locaddress = "";
+	$loccity = "";
+	$locstate = "";
+	$conname = "";
+	$conemail = "";
+	$conphone = "";
+	$location = "";
+}
+
 if (isset($_POST['subitmdel'])) {
 	$iid = $_POST['iid'];
 	$edate = $_POST['edate'];
@@ -891,7 +918,7 @@ $html = "
 			
 			#-----------------------------------------------The Actual Dialog Layout
 			$html .= "<div class='action'></div>";
-			if($action == 'EXP') {
+			if($action == 'EXP' or $action == 'EditEXP') {
 				$html .= "<div class='forml'>";
 			} else {
 				$html .= "<div class='form'>";
@@ -920,7 +947,8 @@ $html = "
 		
 #=======================================================================================================================Completing the page
 
-		$html .= "
+		$html .= "<div class='login'><table><tr><td rowspan='2'><img src='images/user.png' alt='No Resin Why' style='width:25px;'></td><td>$user&nbsp;</td></tr>
+											<tr><td>Owner</td></tr></table></div>
 	</body>
 </html>";
 
