@@ -30,9 +30,9 @@ $html = "
 			
 					
 			<div class='menu'>
-					<a href='login.php?site=ops'><div class='button'>Operations<br>Site</div></a><br>
-					<a href='login.php?site=sho'><div class='button'>Craft Show<br>Site</div></a><br>
-					<a href='login.php?site=mbl'><div class='button'>Mobile<br>Site</div></a><br>
+					<a href='login.php?site=ops'><div class='button'>Operations Site</div></a><br>
+					<a href='login.php?site=sho'><div class='button'>Craft Show Site</div></a><br>
+					<a href='login.php?site=mbl'><div class='button'>Mobile Site</div></a><br>
 			</div>
 		</div>
 

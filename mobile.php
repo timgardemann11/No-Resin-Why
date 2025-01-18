@@ -54,7 +54,7 @@ $html = "
 						<td style='vertical-align:top;'>$title</td>
 					</tr>
 				</table>
-			</div><br>";
+			<br>";
 			
 			Switch ($action) {
 			
@@ -87,30 +87,25 @@ $html = "
 					break;
 				
 				case 'sho':
-					$html .= "<div class='menu'>";
-							$form = Dialog('SHO','','','','');
+					$html .= "<div class='menu'><a href='mobile.php'><div class='exit'>Cancel</div></a>";
+							$form = Dialog('SHOMBL','','','','');
 
 							$formparts = explode("^",$form); #return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";
 							
-							$html .= "<div class='action'></div>
-							<div class='form'>
-								<a href='mobile.php'><div class='exit'>Cancel</div></a>
-								<div class='formtitle'>$formparts[0]</div><br><br>
+							$html .= "
+							<div>
+								
+								<div class='formtitle'>$formparts[0]</div><br>
 								<div class='center'>
 								
 									<form action='mobile.php?submit=show' method='post' enctype='multipart/form-data'>
-										<table>$formparts[1]
-											
-											<tr>
-												$formparts[2]
-											</tr>
-										</table><br><br>
-											<input type='submit' id='$subid' name='$subid' value='$formparts[5]'>";
-										$html .= $formparts[3];
-										$html .= "
-									
-									</form>
-									
+										$formparts[1]
+										<br>
+										$formparts[2]
+										<br><br>
+										<input type='submit' id='$subid' name='$subid' value='$formparts[5]'>
+										$formparts[3]					
+									</form>	
 							</div>
 				
 							
@@ -121,6 +116,7 @@ $html = "
 			}
 			
 			$html .= "
+		</div>
 		</div>
 
 	</body>
