@@ -489,9 +489,37 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$subtxt = "Add This Show";
 					$top = 'INV';
 					break;
-
-
+					
+			case 'SHOMBL':
+					$title = "Schedule Craft Show";
+					
+					$headers = "";
+					$inputs = "<table>
+								<tr><td>Name<br><input type='text' id='name' name='name'/></td></tr>
+								<tr><td>Date<br><input type='text' id='datepicker' name='sdate'></td></tr>
+						 		<tr><td>Start Time<br><input type='text' id='start' name='start'/></td></tr>
+						 		<tr><td>End Time<br><input type='text' id='finish' name='finish'/></td></tr>
+						 		<tr><td>Location<br><input type='text' id='location' name='location'></td></tr>
+								<tr><td>Location Address<br><input type='text' id='locationaddress' name='locationaddress'></td></tr>
+								<td>Contact Name<br><input type='text' id='contactname' name='contactname'></td></tr>
+								<td>Contact Email<br><input type='text' id='contactemail' name='contactemail'></td></tr>
+								<tr><td>Location City<br><input type='text' id='locationcity' name='locationcity'></td></tr>
+								<tr><td>Contact Phone<br><input type='text' id='contactphone' name='contactphone'></td></tr>
+								<tr><td>Location State<br><input type='text' id='locationstate' name='locationstate'></td></tr>
+							  </table>";
+								
+					$footer .= "<hr /><br>
+								
+								";
+					
+					
+					$subid = 'subsho';
+					$subtxt = "Add This Show";
+					$top = 'mnu';
+					break;
+			
 			}	
+			
 	return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";
 }
 ?>
