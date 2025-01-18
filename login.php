@@ -20,7 +20,7 @@ $html = "
 
 </head>
 
-<body style='margin-top:20;margin-left:120;margin-right:120;'>";
+<body>";
 
 //Set starting login trys to 0
 if(isset($trys) === false) {

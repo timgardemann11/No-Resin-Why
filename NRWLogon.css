@@ -1,16 +1,40 @@
 ﻿body {
     overflow:auto;
     background:#F1A983;
+    
 }
 
-#frm {
-    border: solid grey 1px;
+@media all and (max-width: 1920px) {
+ #frm {
+ border: solid grey 1px;
     width: 20%;
     border-radius: 5px;
     margin: 100px auto;
     background: white;
     padding: 50px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ }
+ body {
+	margin-top:20px;
+    margin-left:120px;
+    margin-right:120px;
+ }
+}
+@media all and (max-width: 800px) {
+ #frm {
+ 	border: solid grey 1px;
+    width: 80%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: white;
+    padding: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    }
+  body {
+	margin-top:20px;
+    margin-left:20px;
+    margin-right:20px;
+ }
 
 }
  
@@ -50,7 +74,7 @@ border: solid grey 1px;
     font-weight: bold;
     padding: 5px;
     outline-style: double;
-    outline-color: green;
+    outline-color: #182E56;
     outline-width: 3px;
     color: #fff;
 }  
