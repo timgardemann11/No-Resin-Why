@@ -87,7 +87,7 @@ $html = "
 					break;
 				
 				case 'sho':
-					$html .= "<div class='menu'><a href='mobile.php'><div class='exit'>Cancel</div></a>";
+					$html .= "<div class='menu'>";
 							$form = Dialog('SHOMBL','','','','');
 
 							$formparts = explode("^",$form); #return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";
@@ -95,15 +95,15 @@ $html = "
 							$html .= "
 							<div>
 								
-								<div class='formtitle'>$formparts[0]</div><br>
+								<div class='formtitle'>$formparts[0]</div>
 								<div class='center'>
 								
 									<form action='mobile.php?submit=show' method='post' enctype='multipart/form-data'>
 										$formparts[1]
-										<br>
+										
 										$formparts[2]
-										<br><br>
-										<input type='submit' id='$subid' name='$subid' value='$formparts[5]'>
+										<br>
+										<a href='mobile.php'><div class='exit'>Cancel</div></a><input class='subbutton' type='submit' id='$subid' name='$subid' value='$formparts[5]'>
 										$formparts[3]					
 									</form>	
 							</div>
