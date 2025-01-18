@@ -43,7 +43,7 @@
 @media all and (max-width: 480px) {
  #frm {
  	border: solid grey 1px;
-    width: 80%;
+    width: 70%;
     border-radius: 5px;
     margin: 100px auto;
     background: white;
