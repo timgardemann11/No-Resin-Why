@@ -18,6 +18,7 @@
 	margin-top:20px;
     margin-left:120px;
     margin-right:120px;
+
  }
 }
 @media all and (max-width: 800px) {
@@ -34,9 +35,30 @@
 	margin-top:20px;
     margin-left:20px;
     margin-right:20px;
+
  }
 
 }
+
+@media all and (max-width: 480px) {
+ #frm {
+ 	border: solid grey 1px;
+    width: 80%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background: white;
+    padding: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    }
+  body {
+	margin-top:20px;
+    margin-left:20px;
+    margin-right:20px;
+
+ }
+
+}
+
  
 #btn {
     color: #fff;
