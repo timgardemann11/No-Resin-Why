@@ -18,24 +18,26 @@
 
     $result = logindata($username,$password);
     
+    $resultparts = explode("^",$result);
+    
     if (isset($_GET['site'])) {
     	$site = $_GET['site'];
 	}
 
-
     if (isset($result)) {
-       //$_SESSION["owned"]=$result;
-       $_SESSION["user"]=$result;
-       //header("location:breakFrame.php");
+ 
+       $_SESSION["user"]=$resultparts[0];
+       $_SESSION['title']=$resultparts[1];
+
        switch ($site) {
        	case 'ops':
-       		header("location:Default.php");
+       		header("location:default.php");
        		break;
        	case 'sho':
        		header("location:Default.php");
        		break;
 		case 'mbl':
-       		header("location:Default.php");
+       		header("location:mobile.php");
        		break;
 		}
        //echo "$result";
