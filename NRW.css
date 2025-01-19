@@ -3,6 +3,13 @@
     background:#F1A983;
 }
 
+.opsresult{
+	position:relative;
+	top:300px;
+	height:100%;
+	vertical-align:bottom;
+	color:maroon;
+}
 
 .siteswitcher{
 	display: inline-block;
@@ -47,9 +54,9 @@
 
 .siteswitcherlocation{
 	position:absolute;
-	width:400px;
+	width:370px;
 	top:20px;
-	left:calc(40% - 100px);
+	left:calc(40% - 400px);
 	font-family: Arial, Helvetica, sans-serif;
     font-size:8px; 
     text-align:right;
@@ -158,7 +165,7 @@
 
 #site {
      font-size: xx-large;
-     width:51%;
+     width:36%;
      margin: 0;
      padding: 0;
      
@@ -707,6 +714,7 @@ border: solid grey 1px;
 .calendar {
     display: flex;
     flex-flow: column;
+    text-decoration:none;
 }
 .calendar .header .month-year {
     font-size: 20px;
@@ -719,7 +727,7 @@ border: solid grey 1px;
     flex-flow: wrap;
 }
 .calendar .days .day_name {
-    width: calc(40% / 7);
+    width: 34px;
     border-right: 1px solid #2c7aca;
     padding: 20px;
     text-transform: uppercase;
@@ -735,15 +743,15 @@ border: solid grey 1px;
 .calendar .days .day_num {
     display: flex;
     flex-flow: column;
-    width: calc(40% / 7);
-    height:70px;
+    width: 64px;
+    height:50px;
     border-right: 1px solid #e6e9ea;
     border-bottom: 1px solid #e6e9ea;
-    padding: 15px;
+    padding: 5px;
     font-weight: bold;
     color: #7c878d;
     cursor: pointer;
-    min-height: 100px;
+    min-height: 50px;
 }
 .calendar .days .day_num span {
     display: inline-flex;
@@ -751,14 +759,16 @@ border: solid grey 1px;
     font-size: 14px;
 }
 .calendar .days .day_num .event {
-    margin-top: 10px;
+    margin-top: 5px;
     font-weight: 500;
-    font-size: 14px;
-    padding: 3px 6px;
+    font-size: 10px;
+    padding: 2px 2px;
     border-radius: 4px;
-    background-color: #f7c30d;
+    background-color: #A14615;
     color: #fff;
     word-wrap: break-word;
+    text-decoration:none;
+    
 }
 .calendar .days .day_num .event.green {
     background-color: #51ce57;
@@ -776,15 +786,20 @@ border: solid grey 1px;
     background-color: #fdfdfd;
 }
 .calendar .days .day_num.ignore {
-    background-color: #fdfdfd;
-    color: #ced2d4;
+    background-color: #dfb49d;
+    color: #dfb49d;
     cursor: inherit;
+    
 }
 .calendar .days .day_num.selected {
     background-color: #f1f2f3;
     cursor: inherit;
 }
 
+.calendar a {
+	text-decoration:none;
+	color:white;
+}
 
 .iframeclass {
     border-style: none;

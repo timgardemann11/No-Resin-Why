@@ -8,8 +8,21 @@ include 'functions.php';
 include 'Calendar.php';
 include 'Dialogs.php';
 
-$calendar = new Calendar('2024-12-12');
-$calendar->add_event('Holiday', '2024-12-15');
+$calendar = new Calendar(Date('Y-m-d'));
+$eventdata = GetShows();
+$events = explode("^",$eventdata);
+$count =count($events);
+$result = "$eventdata";
+
+for ($i=0;$i<=$count-2;$i++){
+	$item = explode(",",$events[$i]);
+	$calendar->add_event($item[0],$item[1]);
+}
+
+
+$calendar->add_event('<a href=\'default.php?toptab=VDR&operation=VDR1\'><div style=\'text-decoration:none;\'>Holiday 8 am to 9 pm</div></a>', '2025-1-17');
+
+
 session_start();
 
 //############################################################################################################################################Get results of Posts and Gets
@@ -338,6 +351,35 @@ if (isset($_POST['subsho'])) {
 	$location = "";
 }
 
+if (isset($_POST['subshoup'])) {
+	$shid = $_POST['shid'];
+	$name = $_POST['name'];
+	$date = $_POST['sdate'];
+	$start = $_POST['start'];
+	$finish = $_POST['finish'];
+	$locaddress = $_POST['locationaddress'];
+	$loccity = $_POST['locationcity'];
+	$locstate = $_POST['locationstate'];
+	$conname = $_POST['contactname'];
+	$conemail = $_POST['contactemail'];
+	$conphone = $_POST['contactphone'];
+	$location = $_POST['location'];
+		$result = UpdateShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conname,$conemail,$conphone,$location,$shid);
+} else {
+	$name = "";
+	$date = "";
+	$start = "";
+	$finish = "";
+	$locaddress = "";
+	$loccity = "";
+	$locstate = "";
+	$conname = "";
+	$conemail = "";
+	$conphone = "";
+	$location = "";
+}
+
+
 if (isset($_POST['subitmdel'])) {
 	$iid = $_POST['iid'];
 	$edate = $_POST['edate'];
@@ -523,7 +565,7 @@ $html = "
 						</table>
 	    		</div>
 	    		
-	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;Operations&nbsp;&nbsp;&nbsp;<span style='font-size:medium;'>$result</span></div>
+	    		<div id='site'>&nbsp;&nbsp;&nbsp;Operations&nbsp;&nbsp;&nbsp;$result</div>
     			<div class='menu'>";
     						if($toptab == 'EXP') {
 	    						$html .= "<div class='menuactive' style='background-color:#C00000;'><a style='color:white' href='default.php?toptab=EXP'>Expenses</a></div>";
@@ -659,13 +701,8 @@ $html = "
 				
 				
 					
-					<div class='calendar'>&nbsp;&nbsp;&nbsp;&nbsp;Upcomming Events:
-						$edate 
-						$evendor 
-						$edescription 
-						$eamount 
-						<br>
-						$result
+					<div class='calendar'>
+						$calendar
 					</div>	
 				</div>
 			
@@ -701,12 +738,7 @@ $html = "
 							<div>
 								Total of Displayed Expenses:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
 								<span style='font-size:small;'>$parts[2]</span>
-							</div>
-							
-						 </div>
-						
-						
-					</div>";
+							</div>";
 
 					break;
 				case 'INV':
@@ -740,12 +772,7 @@ $html = "
 								<form action='Default.php?toptab=$toptab&action=tag' method='post' enctype='multipart/form-data'>
 								<input type='submit' class='button' id='submittag' value='Print Tags'/>
 								</form>
-							</div>
-							
-						 </div>
-						
-						
-					</div>";
+							</div><br>";
 
 					break;
 
@@ -773,12 +800,7 @@ $html = "
 								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
 								Total Sales of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
 								<span style='font-size:small;'>$parts[2]</span>
-							</div>
-							
-						 </div>
-						
-						
-					</div>";
+							</div>";
 
 					break;
 					
@@ -808,11 +830,7 @@ $html = "
 								Count of Displayed Molds:  <span style='font-weight:bold;'>$parts[1]</span>
 								<br>
 								<span style='font-size:small;'>$parts[2]</span>
-
-							</div>
-						 </div>
-
-					</div>";
+							</div>";
 
 					break;
 				case 'VDR':
@@ -839,10 +857,7 @@ $html = "
 							<div>
 								Count of Displayed Vendors:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
 								<span style='font-size:small;'>$parts[2]</span>
-							</div>
-						 </div>
-
-					</div>";
+							</div>";
 
 					break;
 					
@@ -870,12 +885,7 @@ $html = "
 								Count of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br>
 								<br>
 								<span style='font-size:small;'>$parts[2]</span>
-							</div>
-							
-						 </div>
-						
-						
-					</div>";
+							</div>";
 					break;
 					
 				case 'EXA':
@@ -902,12 +912,7 @@ $html = "
 								Count of Displayed Expense Accounts:  <span style='font-weight:bold;'>$parts[1]</span><br>
 								
 								<span style='font-size:small;'>$parts[2]</span>
-							</div>
-							
-						 </div>
-						
-						
-					</div>";
+							</div>";
 
 					break;
 
@@ -915,6 +920,9 @@ $html = "
 			}
 	
 			$html .= "
+						<div class='opsresult'><span style='font-size:medium;'>$result test</span></div>
+					</div>	
+				</div>
 			</div>
 		</div>";
 		

@@ -463,21 +463,21 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 									<td><input type='text' id='contactname' name='contactname'></td>
 								</tr>
 								
-								<tr><td>location Address</td>
+								<tr><td>Location Address</td>
 									<td><input type='text' id='locationaddress' name='locationaddress'></td>
 									<td>&nbsp;</td>
 									<td>Contact Email</td>
 									<td><input type='text' id='contactemail' name='contactemail'></td>
 								</tr>
 								
-								<tr><td>location City</td>
+								<tr><td>Location City</td>
 									<td><input type='text' id='locationcity' name='locationcity'></td>
 									<td>&nbsp;</td>
 									<td>Contact Phone</td>
 									<td><input type='text' id='contactphone' name='contactphone'></td>
 								</tr>
 								
-								<tr><td>location State</td>
+								<tr><td>Location State</td>
 									<td><input type='text' id='locationstate' name='locationstate'></td>
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
@@ -489,6 +489,55 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$subtxt = "Add This Show";
 					$top = 'INV';
 					break;
+					
+			case 'EditSHO':
+					$title = "Edit Craft Show";
+					$data = GetShow($ID); 
+					$parts = explode("^",$data); # $return .= "$shid0^$SDate1^$Name2^$Start3^$Finsih4^$Location5^$LocationAddress6^$LocationCity7^$LocationState8^$ContactName9^$ContactEmail10^$ContactPhone11";
+
+					$headers = "<tr><td>Name</td><td>Date</td><td>Start</td><td>Finish</td></tr>";
+					$inputs = "<tr><td><input type='text' id='name' name='name' value='$parts[2]'/></td>
+									<td><input type='text' id='datepicker' name='sdate' value='$parts[1]'></td>
+						 			<td><input type='text' id='start' name='start' value='$parts[3]'/></td>
+						 			<td><input type='text' id='finish' name='finish' value='$parts[4]'/></td>
+								</tr>";
+								
+					$footer .= "<hr /><br>
+								<table>
+								<tr><td>Location</td>
+									<td><input type='text' id='location' name='location' value='$parts[5]'></td>
+									<td>&nbsp;</td>
+									<td>Contact Name</td>
+									<td><input type='text' id='contactname' name='contactname' value='$parts[9]'></td>
+								</tr>
+								
+								<tr><td>Location Address</td>
+									<td><input type='text' id='locationaddress' name='locationaddress' value='$parts[6]'></td>
+									<td>&nbsp;</td>
+									<td>Contact Email</td>
+									<td><input type='text' id='contactemail' name='contactemail' value='$parts[10]'></td>
+								</tr>
+								
+								<tr><td>Location City</td>
+									<td><input type='text' id='locationcity' name='locationcity' value='$parts[7]'></td>
+									<td>&nbsp;</td>
+									<td>Contact Phone</td>
+									<td><input type='text' id='contactphone' name='contactphone' value='$parts[11]'></td>
+								</tr>
+								
+								<tr><td>Location State</td>
+									<td><input type='text' id='locationstate' name='locationstate' value='$parts[8]'></td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr><input type='hidden' id='shid' name='shid' value='$ID'/>";
+					
+					
+					$subid = 'subshoup';
+					$subtxt = "Update This Show";
+					$top = $toptab;
+					break;
+
 					
 			case 'SHOMBL':
 					$title = "Schedule Craft Show";

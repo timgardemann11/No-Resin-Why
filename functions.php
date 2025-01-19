@@ -1763,6 +1763,154 @@ function AddShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conn
 
 
 
+function UpdateShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conname,$conemail,$conphone,$location,$shid){
+	try
+    {
+	    $conn = connect();
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        $sql = "UPDATE `no-resin-why`.`shows` SET `Name` = '$name',`Location` = '$location',
+				`LocationAddress` = '$locaddress',
+				`LocationCity` = '$loccity',
+				`LocationState` = '$locstate',
+				`ContactName` = '$conname',
+				`ContactEmail` = '$conemail',
+				`ContactPhone` = '$conphone',
+				`Date` = '$date',
+				`Start` = '$start',
+				`Finish` = '$finish'
+				WHERE `ShowID` = '$shid';";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Craft show updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+    return $return;
+
+
+
+}
+
+
+
+
+function GetShows() {
+	$return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "SELECT `ShowID`,`Date`,`Name`,`Start`,`Finish` FROM `no-resin-why`.shows;";
+        
+        $result = $conn->query($sql); 
+    
+    
+    if ($result->num_rows > 0)
+	{		
+		
+		// Loop through each row in the result set
+		while($row = $result->fetch_assoc())
+		{
+			$shid = $row["ShowID"];
+            $SDate = $row["Date"];
+            $Name = $row["Name"];
+            $Start = $row["Start"];
+            $Finish = $row["Finish"];
+            
+            $return .= "<a href='default.php?toptab=INV&action=EditSHOz$shid'><div style='text-decoration:none;'>$Name $Start to $Finish</div></a>,$SDate^";
+			
+		}
+
+    }   
+   	        #$return = substr($return,0,strlen($return)-1);
+	      
+    }
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+
+    if ($result->num_rows == 0) {
+        $return = "$sql";
+    } else {
+        //$return =substr($return,0,-1);
+        
+        return "$return";
+    }
+
+
+}
+
+function GetShow($ID) {
+	$return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "SELECT `ShowID`,`Date`,`Name`,`Start`,`Finish`,`Location`,`LocationAddress`,`LocationCity`,`LocationState`,`ContactName`,`ContactEmail`,`ContactPhone` FROM `no-resin-why`.shows
+        		WHERE `ShowID` = $ID;";
+        
+        $result = $conn->query($sql); 
+    
+    
+    if ($result->num_rows > 0)
+	{		
+		
+		// Loop through each row in the result set
+		while($row = $result->fetch_assoc())
+		{
+			$shid = $row["ShowID"];
+            $SDate = $row["Date"];
+            $Name = $row["Name"];
+            $Start = $row["Start"];
+            $Finish = $row["Finish"];
+            $Location = $row["Location"];
+            $LocationAddress = $row["LocationAddress"];
+            $LocationCity = $row["LocationCity"];
+            $LocationState = $row["LocationState"];
+            $ContactName = $row["ContactName"];
+            $ContactEmail = $row["ContactEmail"];
+            $ContactPhone = $row["ContactPhone"];
+            
+            $return .= "$shid^$SDate^$Name^$Start^$Finish^$Location^$LocationAddress^$LocationCity^$LocationState^$ContactName^$ContactEmail^$ContactPhone";
+			
+		}
+
+    }   
+   	        #$return = substr($return,0,strlen($return)-1);
+	      
+    }
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+
+    if ($result->num_rows == 0) {
+        $return = "$sql";
+    } else {
+        //$return =substr($return,0,-1);
+        
+        return "$return";
+    }
+
+
+}
 
 
 
@@ -1900,6 +2048,7 @@ return $return;
 function logindata($username,$password)
 {
     $return = "";
+    $title = "";
     $idCount = 0;
     try
     {
@@ -1909,7 +2058,7 @@ function logindata($username,$password)
 		     die("Connection failed: " . $conn->connect_error); 
 		} 
 
-        $sql = "SELECT `FullName` FROM `no-resin-why`.users Where `Username` = '$username' and `Password` = '$password'";
+        $sql = "SELECT `FullName`,`Title` FROM `no-resin-why`.users Where `Username` = '$username' and `Password` = '$password'";
         
         $result =  $conn->query($sql);
         
@@ -1920,6 +2069,7 @@ function logindata($username,$password)
 			while($row = $result->fetch_assoc())
 	        {
 	            $return .= $row['FullName'];
+	            $title .= $row['Title'];
 	            $idCount++;
 	        }
 	    }   
@@ -1934,9 +2084,12 @@ function logindata($username,$password)
     } else {
         //$return =substr($return,0,-1);
         
-        return $return;
+        return "$return^$title";
     }
 }
+
+
+
 
 
 ?>
