@@ -18,11 +18,14 @@ $result = "";
 
 if (isset($_SESSION["user"])) {
 	$user = $_SESSION["user"];
+	$title = $_SESSION["title"];
+
 } else {
 	$user = "";
+	$title = "";
 }
 
-$result = $user;
+
 
 //Get Left Tab Variable
 if (isset($_GET['toptab'])) {
@@ -498,18 +501,29 @@ $html = "
 	    	
 	    		<div id='logo'>&nbsp;&nbsp;<img src='images/SiteLogo.png' alt='No Resin Why' style='width:120px;'></div>
 	    		
-	    		<div class='login'><table>
+	    		<div class='login'><table style='float:right;font-size:12px;'>
 		    							<tr>
 		    								<td rowspan='2'><img src='images/user.png' alt='No Resin Why' style='width:35px;'></td>
 		    								<td>$user&nbsp;</td>
 		    							</tr>
 		    							<tr>
-		    								<td>Owner</td>
+		    								<td>$title</td>
 		    							</tr>
 		    						</table>
+		    	</div>
+		    	<div class='siteswitcherlocation'>
+		    			<table class='siteswitcherheader'>
+							<tr>
+								<td class='siteswitcherheader' colspan='3' style='vertical-align:bottom;text-align:center;height:10px;'>Site Switcher</td>
+							<tr class='siteswitcherheader'>
+								<td><a href='mobile.php'><div class='siteswitcher'>Mobile</div></a></td>
+								<td><a href='default.php'><div class='siteswitcheractive'>Operations</div></a></td>
+								<td><a href='show.php'><div class='siteswitcher'>Craft Show</div></a></td>
+							</tr>
+						</table>
 	    		</div>
 	    		
-	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;No Resin Why Operations&nbsp;&nbsp;&nbsp;<span style='font-size:medium;'>$result</span></div>
+	    		<div id='site'>&nbsp;&nbsp;&nbsp;&nbsp;Operations&nbsp;&nbsp;&nbsp;<span style='font-size:medium;'>$result</span></div>
     			<div class='menu'>";
     						if($toptab == 'EXP') {
 	    						$html .= "<div class='menuactive' style='background-color:#C00000;'><a style='color:white' href='default.php?toptab=EXP'>Expenses</a></div>";
@@ -549,7 +563,8 @@ $html = "
 	    					}
 
 						$html .= "
- 	    		</div>
+ 	   	    			
+				</div>
 	        	
 	      </div>";
 
