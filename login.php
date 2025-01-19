@@ -52,7 +52,7 @@ if ($trys > 5) {
                 <input type='hidden' id='attempts' value={$trys} name='attempts'/>
             </p>
             <P>
-                <input type='submit' id='btn' value='login'/>
+                <input type='submit' id='btn' value='Login'/>
                 
             </p>
             <br>

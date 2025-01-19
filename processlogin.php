@@ -22,8 +22,10 @@
     
     if (isset($_GET['site'])) {
     	$site = $_GET['site'];
+	} else {
+		$site = 'ops';
 	}
-
+	
     if (isset($result)) {
  
        $_SESSION["user"]=$resultparts[0];

@@ -44,17 +44,16 @@ $html = "
 		$html .= "
 		<div id='container'>
 			<div id='logo'>
-				<table>
+				<table width='450'>
 					<tr>
-						<td rowspan='2'><img src='images/StartLogo.png' alt='No Resin Why' style='max-width:50%;height:auto;'></td>
+						<td rowspan='2' style='width:270px;'><img src='images/SiteLogo.png' alt='No Resin Why' style='max-width:50%;height:auto;'></td>
 						<td rowspan='2'><img src='images/user.png'></td>
-						<td style='vertical-align:bottom;'>$user</td>
+						<td class='user' style='vertical-align:bottom;'>$user</td>
 					</tr>
 					<tr>
-						<td style='vertical-align:top;'>$title</td>
+						<td class='user' style='vertical-align:top;'>$title</td>
 					</tr>
-				</table>
-			<br>";
+				</table>";
 			
 			Switch ($action) {
 			
