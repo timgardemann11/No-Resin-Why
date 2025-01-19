@@ -44,7 +44,7 @@ $html = "
 		$html .= "
 		<div id='container'>
 			<div id='logo'>
-				<table width='450'>
+				<table width='400'>
 					<tr>
 						<td rowspan='2' style='width:270px;'><img src='images/SiteLogo.png' alt='No Resin Why' style='max-width:50%;height:auto;'></td>
 						<td rowspan='2'><img src='images/user.png'></td>
