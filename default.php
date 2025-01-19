@@ -920,7 +920,7 @@ $html = "
 			}
 	
 			$html .= "
-						<div class='opsresult'><span style='font-size:medium;'>$result test</span></div>
+						<div class='opsresult'><span style='font-size:medium;'>$result</span></div>
 					</div>	
 				</div>
 			</div>
