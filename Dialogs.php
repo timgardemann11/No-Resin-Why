@@ -44,6 +44,36 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$subtxt = "Add This Expense";
 					$top = 'EXP';
 					break;
+					
+				case 'EXPMBL':
+					$title = "Add Expense";
+					
+					$headers = "";
+					$inputs = "<table>
+								<tr><td>Expnse Date<br><input type='text' id='datepicker' name='edate' value='$TDate'></td></tr>
+						 		<tr><td>Vendor<br><select id='evendor' name='evendor' onchange='DropDownChanged(this);'>
+			                            <option value='0'>Select a Vendor</option>";
+			                            $inputs .= vendors($search,'drop',$toptab," "); #$search,$type,$toptab,$selected
+			                            $inputs .= "
+			                            <option value=''>Other..</option>
+									</select>
+									<input type='text' id='evtext' name='evtext' style='display: none;' /></td></tr>
+								<tr><td>Description<br><input type='text' id='edescription' name='edescription' size='30'/></td></tr>
+								<tr><td>Amount<br><input type='number' id='eamount' name='eamount' step='.01' onchange='PopulateExpenseAccounts(this.value);'></td></tr>
+								</table>";
+										
+					$footer .= "<hr /><br>
+								<table style='font-size:small;padding: 1px;border-spacing: 2px;'>
+								<tr><td>&nbsp;</td><td>Expense Account Name</td><td>Amount</td></tr>
+								<tr>";
+								$footer .= GetAllAccounts("");
+								$footer .= "</table>";
+							
+					$subid = 'subexpadd';
+					$subtxt = "Add This Expense";
+					$top = 'EXP';
+					break;
+
 				
 				case 'EditEXP':
 					$title = "Edit Expense $ID";

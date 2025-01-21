@@ -53,6 +53,38 @@ if (isset($_POST['subsho'])) {
 }
 
 
+if (isset($_POST['subexpadd'])) {
+	$edate = $_POST['edate'];
+	$evendor = $_POST['evendor'];
+	$edescription = $_POST['edescription'];
+	$eamount = $_POST['eamount'];
+	if($evendor == ''){
+		$evendor = $_POST['evtext'];
+	}
+	$data = AddExpense($edate,$evendor,$edescription,$eamount);
+	$parts = explode("^",$data);
+	
+	$result = $parts[0]; 
+	$expenseid = $parts[1]; # get the ID of inserted expense
+	
+	$count = GetExpAcctCount();
+	
+	for($i=1; $i <= $count; $i++) {
+		$expaccountid[$i] = $_POST['expaccountid' . $i];
+		$expacctname[$i] = $_POST['expacctname' . $i];
+		$amount[$i] =  $_POST['amount' . $i];
+	
+		AddExpenseAcctValue($expenseid,$expaccountid[$i],$expacctname[$i],$amount[$i]);
+	}
+	
+} else {
+	$edate = "";
+	$evendor = "";
+	$edescription = "";
+	$eamount = "";
+}
+
+
 //Build Logon Page
 $html = "
 
@@ -73,6 +105,35 @@ $html = "
 	$( '#datepicker2' ).datepicker();
 	} );
 </script>
+
+<script>
+	function DropDownChanged(oDDL) {
+	    var oTextbox = oDDL.form.elements['evtext'];
+	    if (oTextbox) {
+	        oTextbox.style.display = (oDDL.value == '') ? '' : 'none';
+	        if (oDDL.value == '')
+	            oTextbox.focus();
+	    }
+	}
+</script>
+
+<script>
+	function PopulateExpenseAccounts(val){
+		var acct = [];
+		let Total = document.getElementById('eamount').value;
+		let Overhead = Total;
+		for (let i = 2; i < 20; i++){
+			var element =  document.getElementById('amount' + i);
+			if (typeof(element) != 'undefined' && element != null)
+			{
+				Overhead = Overhead - document.getElementById('amount' + i).value;
+			}
+		}
+		document.getElementById('amount1').value = Overhead;
+	}
+</script>
+
+
 
 </head>
 
@@ -127,11 +188,26 @@ $html = "
 
 					
 				case 'exp':
-					$html .= "	
-					<div class='menu'>
-							<a href='mobile.php?action=itm'><div class='button'>exp<br>&nbsp;</div></a><br>
-							<a href='mobile.php?action=exp'><div class='button'>pExpense<br>&nbsp;</div></a><br>
-							<a href='mobile.php?action=sho'><div class='button'>exp<br>&nbsp;</div></a><br>
+					$html .= "<div class='menu'>";
+							$form = Dialog('EXPMBL','','','','');
+
+							$formparts = explode("^",$form); #return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";
+							
+							$html .= "
+							<div>
+								
+								<div class='formtitle'>$formparts[0]</div>
+								<div class='center'>
+								
+									<form action='mobile.php?submit=show' method='post' enctype='multipart/form-data'>
+										$formparts[1]
+										
+										$formparts[2]
+										<br>
+										<a href='mobile.php'><div class='exit'>Cancel</div></a><input class='subbutton' type='submit' id='$formparts[4]' name='$formparts[4]' value='$formparts[5]'>
+										$formparts[3]					
+									</form>	
+							</div>
 					</div>";
 					break;
 				
@@ -156,8 +232,6 @@ $html = "
 										$formparts[3]					
 									</form>	
 							</div>
-				
-							
 					</div>";
 					break;
 
