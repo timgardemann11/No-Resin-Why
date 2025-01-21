@@ -1813,13 +1813,10 @@ function GetShows() {
 		} 
 
         $sql = "SELECT `ShowID`,`Date`,`Name`,`Start`,`Finish` FROM `no-resin-why`.shows;";
-        
         $result = $conn->query($sql); 
-    
     
     if ($result->num_rows > 0)
 	{		
-		
 		// Loop through each row in the result set
 		while($row = $result->fetch_assoc())
 		{
@@ -1830,12 +1827,9 @@ function GetShows() {
             $Finish = $row["Finish"];
             
             $return .= "<a href='default.php?toptab=INV&action=EditSHOz$shid'><div style='text-decoration:none;'>$Name $Start to $Finish</div></a>,$SDate^";
-			
 		}
-
     }   
-   	        #$return = substr($return,0,strlen($return)-1);
-	      
+   	        #$return = substr($return,0,strlen($return)-1);   
     }
     catch(Exception $e)
     {
@@ -1849,9 +1843,55 @@ function GetShows() {
         
         return "$return";
     }
-
-
 }
+
+
+
+function GetShowsDrop() {
+	$return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "SELECT `ShowID`,`Date`,`Name`,`Start`,`Finish` FROM `no-resin-why`.shows;";
+        $result = $conn->query($sql); 
+    
+    if ($result->num_rows > 0)
+	{		
+		// Loop through each row in the result set
+		while($row = $result->fetch_assoc())
+		{
+			$shid = $row["ShowID"];
+            $SDate = $row["Date"];
+            $Name = $row["Name"];
+            $Start = $row["Start"];
+            $Finish = $row["Finish"];
+            
+            $return .= "<option value='$shid'>$SDate $Name</option>";
+		}
+    }   
+   	        #$return = substr($return,0,strlen($return)-1);   
+    }
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+
+    if ($result->num_rows == 0) {
+        $return = "$sql";
+    } else {
+        //$return =substr($return,0,-1);
+        
+        return "$return";
+    }
+}
+
+
+
 
 function GetShow($ID) {
 	$return = "";
