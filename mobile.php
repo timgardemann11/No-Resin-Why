@@ -58,7 +58,7 @@ $html = "
 
 <head>
 
-<title>Logon Page</title>
+<title>NRW Mobile</title>
 
 <link href='NRWMobile.css' rel='stylesheet' type='text/css'/>
 <meta name='viewport' content='width=device-width, initial-scale=0.95'>
@@ -110,18 +110,18 @@ $html = "
 				case 'mnu':	
 					$html .= "	
 					<div class='menu'>
-							<a href='mobile.php?action=itm'><div class='button'>Sell Item</div></a><br>
-							<a href='mobile.php?action=exp'><div class='button'>Add Expense</div></a><br>
-							<a href='mobile.php?action=sho'><div class='button'>Schedule Show</div></a><br>
+							<a href='mobile.php?action=itm'><div class='button'>Sell Item<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=exp'><div class='button'>Add Expense<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=sho'><div class='button'>Schedule Show<br>&nbsp;</div></a><br>
 					</div>";
 					break;
 					
 				case 'itm':
 					$html .= "	
 					<div class='menu'>
-							<a href='mobile.php?action=itm'><div class='button'>itm</div></a><br>
-							<a href='mobile.php?action=exp'><div class='button'>pExpense</div></a><br>
-							<a href='mobile.php?action=sho'><div class='button'>exp</div></a><br>
+							<a href='mobile.php?action=itm'><div class='button'>itm<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=exp'><div class='button'>pExpense<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=sho'><div class='button'>exp<br>&nbsp;</div></a><br>
 					</div>";
 					break;
 
@@ -129,9 +129,9 @@ $html = "
 				case 'exp':
 					$html .= "	
 					<div class='menu'>
-							<a href='mobile.php?action=itm'><div class='button'>exp</div></a><br>
-							<a href='mobile.php?action=exp'><div class='button'>pExpense</div></a><br>
-							<a href='mobile.php?action=sho'><div class='button'>exp</div></a><br>
+							<a href='mobile.php?action=itm'><div class='button'>exp<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=exp'><div class='button'>pExpense<br>&nbsp;</div></a><br>
+							<a href='mobile.php?action=sho'><div class='button'>exp<br>&nbsp;</div></a><br>
 					</div>";
 					break;
 				

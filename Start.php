@@ -15,7 +15,7 @@ $action = "";
 $html = "
 <html>
     <head>
-        <title></title>
+        <title>NRW Start</title>
         <link href='NRWStart.css' rel='stylesheet' type='text/css'/>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>		
 				
@@ -30,9 +30,9 @@ $html = "
 			
 					
 			<div class='menu'>
-					<a href='login.php?site=ops'><div class='button'>Operations Site</div></a><br>
-					<a href='login.php?site=sho'><div class='button'>Craft Show Site</div></a><br>
-					<a href='login.php?site=mbl'><div class='button'>Mobile Site</div></a><br>
+					<a href='login.php?site=ops'><div class='button'>Operations Site<br>&nbsp;</div></a><br>
+					<a href='login.php?site=sho'><div class='button'>Craft Show Site<br>&nbsp;</div></a><br>
+					<a href='login.php?site=mbl'><div class='button'>Mobile Site<br>&nbsp;</div></a><br>
 			</div>
 		</div>
 
