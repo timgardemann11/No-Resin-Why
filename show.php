@@ -73,6 +73,19 @@ if (isset($_SESSION["show"])){
 	$ContactEmail = $showparts[10];
 	$ContactPhone = $showparts[11];
 	
+} else {
+	$ShowDate = "";
+	$showname = "";
+	$Start = "";
+	$Finish = "";
+	$Location = "";
+	$LocationAddress = "";
+	$LocationCity = "";
+	$LocationState = "";
+	$ContactName = "";
+	$ContactEmail = "";
+	$ContactPhone = "";
+
 }
 
 
