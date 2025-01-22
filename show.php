@@ -58,24 +58,36 @@ if(isset($_POST["show"])) {
 
 if (isset($_SESSION["show"])){
 	$show = $_SESSION["show"];
-	$showData = GetShow($show);#$return .= "$shid^$SDate^$Name^$Start^$Finish^$Location^$LocationAddress^$LocationCity^$LocationState^$ContactName^$ContactEmail^$ContactPhone";
-	$showparts = explode("^",$showData);
-	
-	$ShowDate = $showparts[1];
-	$showname = $showparts[2];
-	$Start = $showparts[3];
-	$Finish = $showparts[4];
-	$Location = $showparts[5];
-	$LocationAddress = $showparts[6];
-	$LocationCity = $showparts[7];
-	$LocationState = $showparts[8];
-	$ContactName = $showparts[9];
-	$ContactEmail = $showparts[10];
-	$ContactPhone = $showparts[11];
-	
+	if($show <> ""){
+		$showData = GetShow($show);#$return .= "$shid^$SDate^$Name^$Start^$Finish^$Location^$LocationAddress^$LocationCity^$LocationState^$ContactName^$ContactEmail^$ContactPhone";
+		$showparts = explode("^",$showData);
+		
+		$ShowDate = $showparts[1];
+		$showname = $showparts[2];
+		$Start = $showparts[3];
+		$Finish = $showparts[4];
+		$Location = $showparts[5];
+		$LocationAddress = $showparts[6];
+		$LocationCity = $showparts[7];
+		$LocationState = $showparts[8];
+		$ContactName = $showparts[9];
+		$ContactEmail = $showparts[10];
+		$ContactPhone = $showparts[11];
+	} else {
+		$ShowDate = "";
+		
+		$Start = "";
+		$Finish = "";
+		$Location = "";
+		$LocationAddress = "";
+		$LocationCity = "";
+		$LocationState = "";
+		$ContactName = "";
+		$ContactEmail = "";
+		$ContactPhone = "";
+	}
 } else {
 	$ShowDate = "";
-	$showname = "";
 	$Start = "";
 	$Finish = "";
 	$Location = "";
@@ -86,6 +98,13 @@ if (isset($_SESSION["show"])){
 	$ContactEmail = "";
 	$ContactPhone = "";
 
+}
+
+#...........................Text Box Submitted - Save Contents
+if (isset($_GET['file']))
+{	
+	$file =$_GET['file'];
+    file_put_contents($file, $_POST['text']);
 }
 
 
@@ -103,7 +122,21 @@ $html = "
         
         <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
 		<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+		<script src='./nicEdit.js' type='text/javascript'></script>
+		
+		<script>
+			function showSave() {
+				document.getElementById('change').style.display = 'block';
+			}
+		</script>
 
+		<script type='text/javascript'>
+			bkLib.onDomLoaded(function() {
+				new nicEditor().panelInstance('text');
+				document.getElementById('text').parentElement.onkeypress = function () { showSave(); };	
+			});	
+		</script>
+		
         <script>
 			$( function() {
 			$( '#datepicker' ).datepicker();
@@ -229,8 +262,8 @@ $html = "
 	   		</div>
 	    	<div class='showdata'>
 	    		<div style='width:40%;float:left'>
-					<table>
-						<tr><td>Show Date:</td><td>$ShowDate</td></tr>			
+					<table style='font-size:large;'>
+						<tr><td>Show Date:</td><td style='font-weight:bold;'>$ShowDate</td></tr>			
 						<tr><td>Start Time:</td><td>$Start</td></tr>	
 						<tr><td>Finish Time:</td><td>$Finish</td></tr>	
 						<tr><td>Location:</td><td>$Location</td></tr>	
@@ -240,22 +273,53 @@ $html = "
 						<tr><td>Contact Name:</td><td>$ContactName</td></tr>	
 						<tr><td>Contact Email:</td><td>$ContactEmail</td></tr>	
 						<tr><td>Contact Phone:</td><td>$ContactPhone</td></tr>	
-					</table>
-				</div>
-				<div class='Sales'>";
-					$return = Sales($showname,'table',"","");
+					</table><br>
+					
+					<div class='shownotes'>Show Notes:</div><br>
+					
+					<div class='notes'>";
+						$file = 'Documents/' . $show . '.txt';
+				    	$text = file_get_contents($file);
+				    	
+				    	$html .= "
+				    		<div id='ovrleft'>				    		
+					    		<div class='containform'>
+						    				
+					    			<form action='show.php' method='post'>
+										<input class='canceltext2' type='submit' value='Cancel'>
+									</form>
+									
+									<form action='show.php?file=$file' method='post'>
+					    				<input class='savetext2' type='submit' value='Save Changes'>
+					    				<span id='change'>Dont forget to save your changes.</span>
+						    			<textarea style='background-color:white;' id='text' name='text' cols='79' rows='26' onblur='showSave()'>$text</textarea>
+									</form>
+									
+									&nbsp;&nbsp;
+								</div>
+							</div>
+						   	
+					</div>
+					
+				</div>";
+				
+					$return = Sales($showname,'show',"","");
 					$parts = explode("^",$return);
+					$money = '$' . number_format($parts[1], 2);
+				$html .= "
+				<div style='float:left;display:inline-block;padding-left:40px;font-size:large;color:white'>
+						<div>
+							Number of Items Sold:  <span style='font-weight:bold;font-size:x-large;'>$parts[3]</span><br>
+							Total Sales:  <span style='font-weight:bold;font-size:x-large;'>$money</span><br><br>
+							<span style='font-size:small;'>$parts[2]</span>
+						</div>
+				</div>
+				
+				<div class='Sales'>";
+					
 					$html .= $parts[0];
 					$html .= "
 					
-					<div style='float:right;display:inline-block;padding-right:20px;font-size:medium;color:white'>
-						<div>
-							Count of Displayed Items:  <span style='font-weight:bold;'>$parts[3]</span><br>
-							Total Sales of Displayed Items:  <span style='font-weight:bold;'>$parts[1]</span><br><br>
-							<span style='font-size:small;'>$parts[2]</span>
-						</div>
-				
-					</div>
 				</div>
 			</div>";
 	

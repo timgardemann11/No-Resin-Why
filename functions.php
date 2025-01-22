@@ -946,10 +946,17 @@ function GetItem($ID)
 #======================================================================================================================================================Sales
 
 function Sales($search,$type,$toptab,$operation)
-{
-    $return = "<table class='datatable'><tr class='saleshd'><th width='80'>Item ID</th><th width='80'>Sale Date</th><th width='150'>Mold Shape</th><th width='200'>Description</th><th width='80'>Sale Price</th><th width='140'>Sale Loc</th></tr></table>
-    <div class='datascroll'>
-	<table class='datatable'>";
+{	
+	if($type == 'show'){
+		$return = "<table class='datatable'><tr class='saleshd'><th width='100'>Item ID</th><th width='100'>Sale Date</th><th width='170'>Mold Shape</th><th width='240'>Description</th><th width='80'>Sale Price</th><th width='200'>Sale Loc</th></tr></table>
+	    <div class='datascroll'>
+		<table class='datatable'>";
+
+	} else {
+	    $return = "<table class='datatable'><tr class='saleshd'><th width='80'>Item ID</th><th width='80'>Sale Date</th><th width='150'>Mold Shape</th><th width='200'>Description</th><th width='80'>Sale Price</th><th width='140'>Sale Loc</th></tr></table>
+	    <div class='datascroll'>
+		<table class='datatable'>";
+	}
   	$Total = 0;
   	$Count = 0;
   	$opstable = "";
@@ -1000,19 +1007,29 @@ function Sales($search,$type,$toptab,$operation)
 				$SDate = $row["SaleDate"];
 				$SLoc = $row["SaleLocation"];
 				
-				
-					
-				if($type == 'table'){ #-----------------------Build the Items table
-				    $return .= "<tr style='font-size:small;'><td width='80'><a href='default.php?toptab=$toptab&operation=SAL$IID' class='submenu'>ITEM ID $IID</a></td>
-				    				<td width='80'>$SDate</td><td width='150'>$Shape</td><td width='200'>$Description</td><td width='80'>$SPrice</td><td width='140'>$SLoc</td></tr>";
-				    $Total = $Total + $RAmount;
-				    $Count++;
-				} else { #-----------------------Build Items Drop Down
-					if($selected == $IID){
-						$return .= "<option value='{$IID}' selected>$IID $Shape $Description</option>";
-					} else {
-						$return .= "<option value='{$IID}'>$IID $Shape $Description</option>";
-					}
+				switch ($type) {
+					case "table":
+					    $return .= "<tr style='font-size:small;'><td width='80'><a href='default.php?toptab=$toptab&operation=SAL$IID' class='submenu'>ITEM ID $IID</a></td>
+					    				<td width='80'>$SDate</td><td width='150'>$Shape</td><td width='200'>$Description</td><td width='80'>$SPrice</td><td width='140'>$SLoc</td></tr>";
+					    $Total = $Total + $RAmount;
+					    $Count++;
+				    break;
+				    
+				    case "show":
+					    $return .= "<tr style='font-size:medium;'><td width='100'><a href='default.php?toptab=$toptab&operation=SAL$IID' class='submenu'>ITEM ID $IID</a></td>
+					    				<td width='100'>$SDate</td><td width='170'>$Shape</td><td width='240'>$Description</td><td width='80'>$SPrice</td><td width='200'>$SLoc</td></tr>";
+					    $Total = $Total + $RAmount;
+					    $Count++;
+				    break;
+
+				    
+					default;
+						if($selected == $IID){
+							$return .= "<option value='{$IID}' selected>$IID $Shape $Description</option>";
+						} else {
+							$return .= "<option value='{$IID}'>$IID $Shape $Description</option>";
+						}
+					break;
 				}
 				
 				

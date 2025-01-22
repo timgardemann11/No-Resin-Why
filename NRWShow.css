@@ -307,9 +307,9 @@ select {
 .sidemenu li {
     float: left;
     width:100%;
-    padding-top:30px;
-    padding-bottom:30px;
-    font-size:medium;
+    padding-top:40px;
+    padding-bottom:40px;
+    font-size:x-large;
     text-align:center;
     border-bottom: 8px solid #F1A983;
                                                     
@@ -336,7 +336,7 @@ select {
 	width:82%;
 	height:100%;
 	float:left;
-	padding:20px 10px 10px 20px;
+	padding:20px 30px 10px 20px;
 	display:inline-block;
 	
 }
@@ -347,19 +347,108 @@ select {
 }
 
 .Sales {
-	background-color:white;
+
 	color:black;
-	width:50%;
-	height:80%;
+	width:57%;
+	height:85%;
 	float:right;
 	padding:20px 10px 10px 20px;
 	display:inline-block;
-	overflow:scroll;
-
+	overflow-y:auto;
+	font-size:large;
 	
 }
 .Sales table {
 	color:black;
 }
 
+.saleshd {
+	background-color:#C9EABE;
+	text-align:left;
+}
+
+
+.notes {
+	width:100%;
+	float:left;
+	color:black;
+
+}
+
+#ovrleft{
+	display:inline-block;
+	width:100%;
+	font-size:small;
+}
+    
+.containform{
+	display:inline-block;
+	width:100%;
+	height:100%;
+	padding:5px;
+}
+
+.nicEdit-main{
+     background-color: white;
+     padding:3px;
+     border:none;
+     font-size:medium;
+}
+.savetext2{
+
+	position:relative;
+	float:left;
+	height:50px;
+	padding:0px 15px 0px 15px;
+	top:-11px;
+	
+}
+
+.shownotes{
+
+	position:relative;
+	float:left;
+	height:25px;
+	top:2px;
+	font-size:large;
+}
+
+    
+.canceltext2{
+
+	position:relative;
+	height:50px;
+	float:right;
+	top:2px;
+	left:-16px;
+	padding:0px 15px 0px 15px;
+
+}
+
+#change{
+	position:relative;
+	border:thin Red solid;
+	display:none;
+	padding:5px;
+	background-color:#e4d6d6;
+	font-size:large;
+	float:left;
+	height:17px;
+	top:-5px;
+	left:20px;
+	
+}
+
+.datatable {
+
+background-color:white;
+font-size:medium;
+
+}
+
+.datascroll {
+	height:87%;
+	overflow:auto;
+	display:inline-block;
+}
 
