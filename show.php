@@ -218,17 +218,17 @@ $html = "
 			    		case "":
 			    			If($show == ""){
 				    			$html .= "
-				    			<a href='show.php?select=set'><div class='button' style='width:120;'>Set Show</div></a>
+				    			<a href='show.php?select=set'><div class='button' style='width:140;font-size:x-large;'>Set Show</div></a>
 				    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='show'>$showname</span>";
 				    		} else {
 				    			$html .= "
-				    			<a href='show.php?select=set'><div class='button' style='width:120';>Change Show</div></a>
+				    			<a href='show.php?select=set'><div class='button' style='width:140;font-size:x-large;';>Change Show</div></a>
 				    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='show'>$showname</span>";
 							}
 			    			break;
 			    		
 			    		case "set":
-			    			$html .= "<div class='buttondisabled' style='width:120';>Set Show</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='showselector'>
+			    			$html .= "<div class='buttondisabled' style='width:140;font-size:x-large;';>Set Show</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='showselector'>
 			    			<form action='show.php' method='post' enctype='multipart/form-data'>
 				    			<div class='custom-select'>
 				    			<select id='show' name='show' onchange='this.form.submit()'>
@@ -254,7 +254,6 @@ $html = "
 				<div class='sidemenu'>
 		   			<ul>
 		   					<li><a href='show.php?action=SEL'>Sell Items</a></li>
-		   					<li><a href='show.php?action=NOT'>Add Notes</a></li>
 							<li><a href='show.php?action=SHO'>Edit Show</a></li>
 		    		</ul>
 				</div>
