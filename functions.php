@@ -14,8 +14,101 @@ function Connect()
 
 
 #======================================================================================================================================================Vendors
-
 function Vendors($search,$type,$toptab,$selected)
+
+{
+    if($type == 'table'){
+    	$return = "<table class='datatable'><tr class='vendorhd'><th width='90'>Vendor ID</th><th width='140'>Vendor Name</th><th width='150'>Account Number</th><th width='120'>Location</th></tr></table>
+    				<div class='datascroll'>
+					<table class='datatable'>";  
+    } else {
+    	$return = "";
+    }
+    	
+  	$count = 0;
+  	$opstable = "";
+
+    try
+    {
+	   $conn = connect();
+	   	    	
+		// GET CONNECTION ERRORS 
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		}     
+        
+        if($search == ""){
+        	$sql = "SELECT * FROM `no-resin-why`.vendor";
+        } else {
+        	$sql = "SELECT * FROM `no-resin-why`.vendor
+					WHERE (lower(VendorName) like lower('%$search%') )
+					or (lower(AccountNum) like lower('%$search%'))
+					or (lower(Location) like lower('%$search%'))";
+        }
+
+        $result = $conn->query($sql); 
+        
+        if ($result->num_rows > 0)
+		{		
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+			{
+				$VID = $row["VendorID"];
+				$VName = $row["VendorName"];
+				$VAcct = $row["AccountNum"];
+				$VLoc = $row["Location"];
+				
+				if($type == 'table'){
+				    $return .= "<tr style='font-size:small;'><td width='90'><a href='default.php?toptab=$toptab&operation=VDR$VID' class='submenu'>Vendor ID $VID</a></td>
+				    <td width='140'>$VName</td><td width='150'>$VAcct</td><td width='120'>$VLoc</td></tr>";
+				} else {
+					if($selected == $VName){
+						$return .= "<option value='{$VName}' selected>{$VName}</option>";
+					} else {
+						$return .= "<option value='{$VName}'>{$VName}</option>";
+					}
+				}
+				
+				$findID = (int)substr($selected,3,strlen($selected) -3);
+				if($findID == $VID) { #-----------------------Get the selected expense data
+								$opstable = "<div><table class='datatable'>
+									<tr class='vendorhd'><td colspan='2' sytle='font-weight:bold;' width='300'>Vend ID $VID</td></tr>
+									<tr><td>Vendor Name</td><td>$VName</td></tr>
+									<tr><td>Account Number</td><td>$VAcct</td></tr>
+									<tr><td>Vendor Location</td><td>$VLoc</td></tr>
+									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+									<tr>
+										<td><a href='default.php?toptab=$toptab&action=EditVDRz$VID' class='button'>Edit</a></td>
+										<td><a href='default.php?toptab=$toptab&action=DeleteVDRz$VID' class='button'>Delete</a></td>
+									</tr>
+								</table></div>";
+				}
+			    
+			    $count++;
+			}
+		} else {
+			$return .= "<tr><td>No results</td></tr>";
+		}
+		if($type == 'table'){
+			$return .= "</table></div>";
+		}
+        // Close connections
+		mysqli_close($conn); 
+	}   
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+	
+	if($type == 'table'){
+    	return "$return^$count^$opstable";
+    } else {
+    	return "$return";
+    }
+}
+
+
+function Vendorsold($search,$type,$toptab,$selected)
 
 {
     if($type == 'table'){
@@ -781,12 +874,22 @@ function Inventory($search,$type,$toptab,$operation)
 									<tr><td>Retail Price</td><td>$RAmount</td></tr>
 									<tr><td>Price Add</td><td>$PriceAdd</td></tr>
 									<tr><td>Tags Printed</td><td>$TAG</td></tr>
-									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-									<tr>
-										<td><a href='default.php?toptab=$toptab&action=EditITMz$IID' class='button'>Edit</a></td>
-										<td><a href='default.php?toptab=$toptab&action=DeleteITMz$IID' class='button'>Delete</a></td>
-									</tr>
+									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+									
+									If((int)substr($operation,0,3)<> "SEL"){;
+										$opstable .= "
+										<tr>
+											<td><a href='default.php?toptab=$toptab&action=EditITMz$IID' class='button'>Edit</a></td>
+											<td><a href='default.php?toptab=$toptab&action=DeleteITMz$IID' class='button'>Delete</a></td>
+										</tr>";
+									}
+									$opstable .= "
 								</table></div>";
+								$rShape = $Shape;
+								$rEDescShort = $EDescShort;
+								$rRAmount = $RAmount;
+								$rCost = $Cost;
+								$rIID = $IID;
 				} 
 			}			
 		} else {
@@ -801,7 +904,11 @@ function Inventory($search,$type,$toptab,$operation)
         echo("Error!");
     }
 
-    return "$return^$Total^$opstable^$Count";
+    if(substr($operation,0,3) == 'SEL'){
+    	return "$return^$Total^$opstable^$Count^$rShape^$rEDescShort^$rRAmount^$rCost^$rIID";
+    } else {
+    	return "$return^$Total^$opstable^$Count";
+    }
 }
 
 
@@ -2143,6 +2250,93 @@ function logindata($username,$password)
         
         return "$return^$title";
     }
+}
+
+
+function AddCart($ItemID,$Shape,$Description,$SalePrice)
+{
+    $return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "INSERT INTO `no-resin-why`.`cart`(`ItemID`,`Shape`,`Description`,`SalePrice`)VALUES('$ItemID','$Shape','$Description','$SalePrice');";
+        
+        
+        if (mysqli_query($conn, $sql)) {
+		     $return = "Craft show added successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+ 
+    }
+    catch(Exception $e)
+    {
+        $return = "Username or Password Incorrect, Login Failed!";
+    }
+
+            
+    return "$return";
+    
+}
+
+
+function GetCart() {
+	$return = "<table class='carttable'><tr class='inventoryhd'><td>Item ID</td><td>Shape</td><td>Description</td><td>Sale Price</td><td></td></tr>";
+	$Count = 0;
+	$Total = 0;
+       try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "SELECT * FROM `no-resin-why`.cart";
+        
+        $result =  $conn->query($sql);
+        
+        if ($result->num_rows > 0)
+			{		
+			
+			// Loop through each row in the result set
+			while($row = $result->fetch_assoc())
+	        {
+	            $ItemID = $row['ItemID'];
+	            $Shape = $row['Shape'];
+	            $Description = $row['Description'];
+	            $SalePrice = $row['SalePrice'];
+	            
+	            $return .= "<tr class='cartrow'><td>$ItemID</td><td>$Shape</td><td>$Description</td><td>$SalePrice</td>
+	            				<td><a href='show.php?action=SEL&delcart=$ItemID'><div class='delsubmit'>Delete $ItemID</div></a></td>
+	            			</tr>";
+	            
+	            
+	            $Total = $Total + (float)$SalePrice;
+	            $Count++;
+	        }
+	        $return .= "</table>";
+	    }   
+    }
+    catch(Exception $e)
+    {
+        echo("Error!");
+    }
+
+    if ($Count == 0) {
+        $return = "Username or Password Incorrect, Login Failed!";
+    } else {
+        //$return =substr($return,0,-1);
+        
+        return "$return^$Count^$Total";
+    }
+
+
 }
 
 

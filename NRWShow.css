@@ -374,6 +374,11 @@ select {
 	text-align:left;
 }
 
+.inventoryhd {
+	background-color:#C9DAE9;
+	text-align:left;
+}
+
 
 .notes {
 	width:100%;
@@ -422,14 +427,12 @@ select {
 
     
 .canceltext2{
-
 	position:relative;
 	height:50px;
 	float:right;
 	top:2px;
 	left:-16px;
 	padding:0px 15px 0px 15px;
-
 }
 
 #change{
@@ -443,7 +446,6 @@ select {
 	height:17px;
 	top:-5px;
 	left:20px;
-	
 }
 
 .datatable {
@@ -457,5 +459,147 @@ font-size:medium;
 	height:87%;
 	overflow:auto;
 	display:inline-block;
+}
+
+.action {
+	position:absolute;
+	left:0;
+	right:0;
+	width:100%;
+	height:100%;
+	background-color:black;
+	opacity: 0.7;
+	z-index:20;
+}
+
+.form1 {
+	width:90%;
+	height:90%;
+	background-color:#F1A983;
+	position:absolute;
+	left:calc(10% / 2);
+	top:calc(10% /2);
+	padding:0px 10px 10px 10px; 
+	display:inline-block;
+	z-index:30;
+}
+
+
+.center {
+	text-align:center;
+}
+
+.center form {
+	display:inline-block;
+}
+
+.calcbutton {
+	width:125px;
+	height:125px;
+	background-color:gray;
+	font-size:30px;
+}	
+
+.input {
+	height:100%;
+	display:inline-block;
+	float:left;
+}
+
+.salescontainer{
+	display:inline-block;
+	width:100%;
+	height:90%;
+}
+
+.selection {
+	display:inline-block;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:x-large;
+	height:103%;
+	width:350px;
+	float:left;
+	padding-left:40px;
+}
+
+.cart{
+	display:inline-block;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:x-large;
+	height:103%;
+	width:700px;
+	float:left;
+	padding-left:60px;
+
+}
+
+.selinput{
+	font-size:xx-large;
+	width:85px;
+}
+
+.selsubmit {
+	font-size:xx-large;
+	width:100%;
+	padding:25px;
+	
+}
+
+.delsubmit {
+	font-size:xx-large;
+	color:black;
+	text-decoration:none;
+	background-color:silver;
+	height:100%;
+	width:100%;
+}
+
+a {
+	text-decoration:none;
+}
+
+.delsubmit:hover{
+	background-color:yellow;
+}
+.inventoryhd {
+	background-color:#C9DAE9;
+	text-align:left;
+}
+
+.locator{
+	font-size:xx-large;
+	width:95%;
+	height:91%;
+	background-color:#dfb49d;
+	border:thin black solid;
+	padding:2px 20px 5px 20px;
+	
+}
+
+.cartcontrols {
+	font-size:xx-large;
+	width:105%;
+	height:91%;
+	background-color:#dfb49d;
+	border:thin black solid;
+	padding:2px 20px 5px 20px;
+
+}
+
+.carttable{
+	font-size:x-large;
+	background-color:white;
+	width:100%;
+	display:table;
+
+
+
+}
+.cartrow{
+	font-size:x-large;
+	background-color:white;
+	vertical-align:top;
+	height:32px;
+	display:table-row
 }
 

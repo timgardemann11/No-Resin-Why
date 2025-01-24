@@ -40,7 +40,37 @@ if (isset($_SESSION["user"])) {
 }
 
 
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
 
+} else {
+    $action = "";
+}
+
+if(isset($_POST["lookuptxt"])) {
+	$lookuptxt = $_POST["lookuptxt"];
+} else {
+	$lookuptxt = "";
+}
+
+if(isset($_POST['subcart'])){
+	$ItemID = $_POST['selid'];
+	$Shape = $_POST['selshape'];
+	$Description = $_POST['seldesc'];
+	$SalePrice = $_POST['saleprice'];
+	$Cost = $_POST['selcost'];
+	$lookuptxt = "";
+	
+	$result = AddCart($ItemID,$Shape,$Description,$SalePrice);
+
+} else {
+	$ItemID = "";
+	$Shape = "";
+	$Description = "";
+	$SalePrice = "";
+	$Cost = "";
+
+}
 
 if(isset($_GET["select"])) {
 	$select = $_GET["select"];
@@ -171,7 +201,141 @@ $html = "
 				document.getElementById('price').value = parts[Total-1];
 				document.getElementById('cost').value = parts[Total-2];
 			}
+			
+			function lookupadd(val){
+				 let current = document.getElementById('lookuptxt').value
+				 let newvalue = +current + +newvalue
+				 document.getElementById('lookuptxt').value = '44';
+			}
+			
+			function calchange(val){
+				Total = document.getElementById('totaldue').value
+				Change = val - Total;
+				document.getElementById('changedue').value = Change;
+			}
 						
+		</script>
+		
+		<script>
+
+		function setFocusToTextBox(){
+		    document.getElementById('lookuptxt').addEventListener('focus', function(){
+				document.getElementById('button1').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button2').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button3').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button4').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button5').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button6').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button7').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button8').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button9').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );	
+				document.getElementById('buttonbs').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('button0').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('buttond').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );
+				document.getElementById('buttonc').setAttribute( 'onClick', 'javascript: LookupClick(this.value);' );	
+				document.getElementById('lookuptxt').focus();
+			});
+			document.getElementById('saleprice').addEventListener('focus', function(){
+				document.getElementById('button1').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button2').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button3').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button4').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button5').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button6').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button7').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button8').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('button9').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('buttonbs').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );	
+				document.getElementById('button0').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );	
+				document.getElementById('buttond').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
+				document.getElementById('buttonc').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );	
+				document.getElementById('saleprice').focus();
+				alert('Sale');
+			});
+			document.getElementById('amounttended').addEventListener('focus', function(){
+				document.getElementById('button1').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button2').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button3').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button4').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button5').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button6').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button7').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button8').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('button9').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('buttonbs').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );	
+				document.getElementById('button0').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );	
+				document.getElementById('buttond').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
+				document.getElementById('buttonc').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );	
+				document.getElementById('amounttended').focus();
+			});		
+		}
+		
+		function LookupClick(val)
+		{
+			let current = document.getElementById('lookuptxt').value;
+			switch (val) {
+				case 'BKSP':
+					slen = current.length -1;
+					newval = current.substring(0,slen);
+					break;
+				case '.':
+					newval = current + val;
+					break;
+				case 'Clear':
+					newval = '';
+					break;
+
+				default:
+					newval = current + val;	
+			}
+			document.getElementById('lookuptxt').value= newval;
+		}
+		
+		function SalePriceClick(val)
+		{
+			let current = document.getElementById('saleprice').value;
+			switch (val) {
+				case 'BKSP':
+					slen = current.length -1;
+					newval = current.substring(0,slen);
+					break;
+				case '.':
+					newval = current + val;
+					break;
+				case 'Clear':
+					newval = '';
+					break;
+
+				default:
+					newval = current + val;	
+			}
+			document.getElementById('saleprice').value= newval;
+		}
+		
+		function TendedClick(val)
+		{ 
+			let current = document.getElementById('amounttended').value;
+			switch (val) {
+				case 'BKSP':
+					slen = current.length -1;
+					newval = current.substring(0,slen);
+					break;
+				case '.':
+					newval = current + val;
+					break;
+				case 'Clear':
+					newval = '';
+					break;
+
+				default:
+					newval = current + val;	
+			}
+			document.getElementById('amounttended').value= newval;
+			calchange(newval);
+		}
+
+		    
+		
 		</script>
 
 		
@@ -277,6 +441,13 @@ $html = "
 					<div class='shownotes'>Show Notes:</div><br>
 					
 					<div class='notes'>";
+						$answer = file_exists('Documents/' . $show . '.txt');
+						
+						If($answer == false){
+							$myfile = fopen('Documents/' . $show . '.txt', 'w');
+							fclose($myfile);
+						}
+						
 						$file = 'Documents/' . $show . '.txt';
 				    	$text = file_get_contents($file);
 				    	
@@ -320,9 +491,102 @@ $html = "
 					$html .= "
 					
 				</div>
-			</div>";
+			</div>
+		</div>";
+			
+			
+			//=====================================================================================================================Hidden Dialogs
+		
+		#----------------------------------------------------Get the Dialog variables
+		
+			
+			
+			#-----------------------------------------------The Actual Dialog Layout
+			
+			switch($action) {
+			case 'SEL':
+				$html .= "<div class='action'></div>
+				
+				<div class='form1'>
+					<a href='show.php'><div class='exit'>Cancel</div></a>
+					<div class='formtitle'>Customer Sales $lookuptxt</div><br><br>
+					<div class='salescontainer'>
+						<div class='input'>
+							<table>
+								<tr>
+									<td><input class='calcbutton' id='button1' type='button' value='1' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button2' type='button' value='2' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button3' type='button' value='3' onclick='LookupClick(this.value)'></td>
+								</tr>
+								<tr>
+									<td><input class='calcbutton' id='button4' type='button' value='4' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button5' type='button' value='5' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button6' type='button' value='6' onclick='LookupClick(this.value)'></td>
+								</tr>
+								<tr>
+									<td><input class='calcbutton' id='button7' type='button' value='7' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button8' type='button' value='8' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button9' type='button' value='9' onclick='LookupClick(this.value)'></td>
+								</tr>
+								<tr>
+									<td><input class='calcbutton' id='buttonbs' type='button' value='BKSP' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='button0' type='button' value='0' onclick='LookupClick(this.value)'></td>
+									<td><input class='calcbutton' id='buttond' type='button' value='.' onclick='LookupClick(this.value)'></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td><input class='calcbutton' id='buttonc' type='button' value='Clear' onclick='LookupClick(this.value)'></td>
+								</tr>
+
+								
+							</table>
+						</div>
+						
+						<div class='selection'>
+							<form action='show.php?action=SEL' method='post' enctype='multipart/form-data'>
+									<div class='locator'>Item Locator<br><br>
+										<input class='selinput' type='text' id='lookuptxt' name='lookuptxt' value='$lookuptxt'><br><br>
+										<input class='selsubmit' type='submit' id='sublookup' name='sublookup' value='Find Item'><br><br>";
+										if($lookuptxt <>""){
+											$showdata = Inventory("","table","","SEL$lookuptxt");
+											$showparts = explode("^",$showdata); #return "$return0^$Total1^$opstable2^$Count3^$Shape4^$EDescShort5^$RAmount6^$Cost7^$IID";
+											$html .= "$showparts[2]<br>Sale Price: <input class='selinput' type='text' id='saleprice' name='saleprice' value=$showparts[6]>
+											<br><br><input class='selsubmit' type='submit' id='subcart' name='subcart' value='Add Item to Cart'>
+											<input type='hidden' id='selid' name='selid' value='$showparts[8]'>
+											<input type='hidden' id='selshape' name='selshape' value='$showparts[4]'>
+											<input type='hidden' id='seldesc' name='seldesc' value='$showparts[5]'>
+											<input type='hidden' id='selamount' name='selamount' value='$showparts[6]'>
+											<input type='hidden' id='selcost' name='selcost' value='$showparts[7]'>";
+										}
+										$html .= "
+									</div>
+							</form>
+						</div>
+						
+						<div class='cart'>
+							<form action='show.php?action=SEL' method='post' enctype='multipart/form-data'>
+									<div class='cartcontrols'>Shopping Cart<br><br>";
+										$CartData = GetCart();
+										$CartParts = explode("^",$CartData);
+										$Total = number_format($CartParts[2],2);
+										$html .= $CartParts[0];
+										$html .="
+										<br>
+										<div style='float:left;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$CartParts[1] Items</div><div style='float:right;'>Total Due: <input class='selinput' type='text' id='totaldue' name='totaldue' value='$Total' disabled='disabled'></div><br><br>
+										<div style='float:left;'>&nbsp;</div><div style='float:right;'>Amount Tended: <input class='selinput' type='text' id='amounttended' name='amounttended' value='' onchange='calchange(this.value);'></div><br><br>
+										<div style='float:left;'>&nbsp;</div><div style='float:right;'>Change Due: <input class='selinput' type='text' id='changedue' name='changedue' disabled='disabled'></div><br>
+
+									</div>
+							</form>
+						</div>
+		
+						
+					</div>
+				</div>";
 	
-	
+			break;		
+		}		
 		
 		$html .= "
 		
