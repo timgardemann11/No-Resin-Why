@@ -8,7 +8,21 @@ include 'functions.php';
 include 'Calendar.php';
 include 'Dialogs.php';
 
-$calendar = new Calendar(Date('Y-m-d'));
+
+if(isset($_GET['calendar'])) {
+	$calop = $_GET['calendar'];
+	$calparts = explode("^",$calop);
+	$caldate = $calparts[1];
+	if($calparts[0] == 'last'){
+		$caldate = Date('Y-m-d', strtotime($caldate. '+1 month'));
+	}else {
+		$caldate = Date('Y-m-d', strtotime($caldate. '-1 month'));
+	}
+} else {
+	$caldate = Date('Y-m-d');
+}
+
+$calendar = new Calendar($caldate);
 $eventdata = GetShows();
 $events = explode("^",$eventdata);
 $count =count($events);
@@ -18,10 +32,6 @@ for ($i=0;$i<=$count-2;$i++){
 	$item = explode(",",$events[$i]);
 	$calendar->add_event($item[0],$item[1]);
 }
-
-
-$calendar->add_event('<a href=\'default.php?toptab=VDR&operation=VDR1\'><div style=\'text-decoration:none;\'>Holiday 8 am to 9 pm</div></a>', '2025-1-17');
-
 
 session_start();
 
@@ -565,7 +575,7 @@ $html = "
 						</table>
 	    		</div>
 	    		
-	    		<div id='site'>&nbsp;&nbsp;&nbsp;Operations&nbsp;&nbsp;&nbsp;$result</div>
+	    		<div id='site'>&nbsp;&nbsp;&nbsp;Operations&nbsp;&nbsp;&nbsp;</div>
     			<div class='menu'>";
     						if($toptab == 'EXP') {
 	    						$html .= "<div class='menuactive' style='background-color:#C00000;'><a style='color:white' href='default.php?toptab=EXP'>Expenses</a></div>";
@@ -697,9 +707,18 @@ $html = "
 						$html .= "
 					</div>";
 					}
+					
+					$now = new \DateTime($caldate);
+					$dispmonth = $now->format('F');
+					$dispyear =  $now->format('Y');
 					$html .= "
 				
 				
+					<div style='display:inline-block;'>
+						<a href='default.php?toptab=$toptab&calendar=next^$caldate'><div class='arrowleft'>&nbsp;</div></a>
+						<div class='caltitle'>$dispmonth $dispyear</div>
+						<a href='default.php?toptab=$toptab&calendar=last^$caldate'><div class='arrowright'>&nbsp;</div></a>
+					</div>
 					
 					<div class='calendar'>
 						$calendar

@@ -137,6 +137,11 @@ if (isset($_GET['file']))
     file_put_contents($file, $_POST['text']);
 }
 
+if(isset($_GET['delcart'])) {
+	$delcart = $_GET['delcart'];
+	$result = DeleteCartItem($delcart);
+}
+
 
 //#############################################################################################################################################Build html Page
 
@@ -148,7 +153,7 @@ $html = "
         <title></title>
         <link href='NRWShow.css' rel='stylesheet' type='text/css'/>
         <link rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.00'>
+        <meta name='viewport' content='width=device-width, initial-scale=0.60'>
         
         <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
 		<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
@@ -250,7 +255,6 @@ $html = "
 				document.getElementById('buttond').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );
 				document.getElementById('buttonc').setAttribute( 'onClick', 'javascript: SalePriceClick(this.value);' );	
 				document.getElementById('saleprice').focus();
-				alert('Sale');
 			});
 			document.getElementById('amounttended').addEventListener('focus', function(){
 				document.getElementById('button1').setAttribute( 'onClick', 'javascript: TendedClick(this.value);' );
@@ -337,7 +341,7 @@ $html = "
 		    
 		
 		</script>
-
+		<body onload='setFocusToTextBox()'>
 		
     </head>";
 
@@ -551,8 +555,15 @@ $html = "
 										if($lookuptxt <>""){
 											$showdata = Inventory("","table","","SEL$lookuptxt");
 											$showparts = explode("^",$showdata); #return "$return0^$Total1^$opstable2^$Count3^$Shape4^$EDescShort5^$RAmount6^$Cost7^$IID";
-											$html .= "$showparts[2]<br>Sale Price: <input class='selinput' type='text' id='saleprice' name='saleprice' value=$showparts[6]>
-											<br><br><input class='selsubmit' type='submit' id='subcart' name='subcart' value='Add Item to Cart'>
+											$html .= "$showparts[2]<br>";
+										}
+										$html .= "	
+										Sale Price: <input class='selinput' type='text' id='saleprice' name='saleprice' value=$showparts[6]>
+											<br><br>";
+										if($lookuptxt <>""){
+											$showparts[5] = substr($showparts[5],0,21) . "...";
+											$html .= "	
+											<input class='selsubmit' type='submit' id='subcart' name='subcart' value='Add Item to Cart'>
 											<input type='hidden' id='selid' name='selid' value='$showparts[8]'>
 											<input type='hidden' id='selshape' name='selshape' value='$showparts[4]'>
 											<input type='hidden' id='seldesc' name='seldesc' value='$showparts[5]'>
@@ -569,14 +580,18 @@ $html = "
 									<div class='cartcontrols'>Shopping Cart<br><br>";
 										$CartData = GetCart();
 										$CartParts = explode("^",$CartData);
-										$Total = number_format($CartParts[2],2);
-										$html .= $CartParts[0];
-										$html .="
-										<br>
-										<div style='float:left;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$CartParts[1] Items</div><div style='float:right;'>Total Due: <input class='selinput' type='text' id='totaldue' name='totaldue' value='$Total' disabled='disabled'></div><br><br>
-										<div style='float:left;'>&nbsp;</div><div style='float:right;'>Amount Tended: <input class='selinput' type='text' id='amounttended' name='amounttended' value='' onchange='calchange(this.value);'></div><br><br>
-										<div style='float:left;'>&nbsp;</div><div style='float:right;'>Change Due: <input class='selinput' type='text' id='changedue' name='changedue' disabled='disabled'></div><br>
-
+										if(count($CartParts) > 1){
+											$Total = number_format($CartParts[2],2);
+											$Count = $CartParts[1];
+											$html .= $CartParts[0];
+										 
+											$html .="
+											<br>
+											<div style='float:left;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Count Items</div><div style='float:right;'>Total Due: <input class='selinput' type='text' id='totaldue' name='totaldue' value='$Total' disabled='disabled'></div><br><br>
+											<div style='float:left;'>&nbsp;</div><div style='float:right;'>Amount Tended: <input class='selinput' type='text' id='amounttended' name='amounttended' value='' onchange='calchange(this.value);'></div><br><br>
+											<div style='float:left;'>&nbsp;</div><div style='float:right;'>Change Due: <input class='selinput' type='text' id='changedue' name='changedue' disabled='disabled'></div><br>";
+										}
+										$html .= "
 									</div>
 							</form>
 						</div>
