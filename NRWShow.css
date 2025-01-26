@@ -141,6 +141,7 @@
 	left:calc(50% / 2);
 	top:calc(50% /2);
 	padding:0px 10px 10px 10px; 
+	z-index:30;
 }
 
 #site {
@@ -154,6 +155,14 @@
      display:inline-block;
      position: relative;
 	 transform: translateY(-70%);
+}
+
+.result {
+	text-shadow: 2px 2px 5px white;
+	padding-top:40px;
+	position:relative;
+	text-align:center;
+	top:50px;
 }
 
 .showswitcher {

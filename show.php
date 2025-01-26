@@ -86,6 +86,7 @@ if(isset($_POST["show"])) {
 	$showname = "No Show Selected";
 }
 
+
 if (isset($_SESSION["show"])){
 	$show = $_SESSION["show"];
 	if($show <> ""){
@@ -129,6 +130,35 @@ if (isset($_SESSION["show"])){
 	$ContactPhone = "";
 
 }
+
+if (isset($_POST['subshoup'])) {
+	$shid = $_POST['shid'];
+	$name = $_POST['name'];
+	$date = $_POST['sdate'];
+	$start = $_POST['start'];
+	$finish = $_POST['finish'];
+	$locaddress = $_POST['locationaddress'];
+	$loccity = $_POST['locationcity'];
+	$locstate = $_POST['locationstate'];
+	$conname = $_POST['contactname'];
+	$conemail = $_POST['contactemail'];
+	$conphone = $_POST['contactphone'];
+	$location = $_POST['location'];
+		$result = UpdateShow($name,$date,$start,$finish,$locaddress,$loccity,$locstate,$conname,$conemail,$conphone,$location,$shid);
+} else {
+	$name = "";
+	$date = "";
+	$start = "";
+	$finish = "";
+	$locaddress = "";
+	$loccity = "";
+	$locstate = "";
+	$conname = "";
+	$conemail = "";
+	$conphone = "";
+	$location = "";
+}
+
 
 #...........................Text Box Submitted - Save Contents
 if (isset($_GET['file']))
@@ -388,7 +418,7 @@ $html = "
 						</table>
 	    		</div>
 	    		
-	    		<div id='site'>&nbsp;&nbsp;&nbsp;Craft Show&nbsp;&nbsp;&nbsp;$result</div>
+	    		<div id='site'>&nbsp;&nbsp;&nbsp;Craft Show</div>
 	    
 	    
 			    <div class='showswitcher'>";
@@ -430,11 +460,18 @@ $html = "
 		<div id='container'>
 			<div id='controls'><br>
 					
-				<div class='sidemenu'>
+				<div class='sidemenu'>";
+				if($show <> ""){
+					$html .= "
 		   			<ul>
 		   					<li><a href='show.php?action=SEL'>Sell Items</a></li>
 							<li><a href='show.php?action=SHO'>Edit Show</a></li>
-		    		</ul>
+							<li><a href='show.php?action=CAL'>Open Calendar</a></li>
+		    		</ul>";
+		    	}
+		    	$html .= "
+		    		<br><br>
+		    		<div class='result'>$result</div>
 				</div>
 			
 	   		</div>
@@ -612,7 +649,54 @@ $html = "
 					</div>
 				</div>";
 	
-			break;		
+			break;	
+		case 'SHO':
+				$action = "EditSHO";
+				$ID = $show;
+
+			$footer = "";
+			
+			$formdata = Dialog($action,$ID,"","","");
+			$formparts = explode("^",$formdata); 
+				$title = $formparts[0];
+				$headers = $formparts[1];
+				$inputs = $formparts[2];
+				$footer = $formparts[3];
+				$subid = $formparts[4];
+				$subtxt = $formparts[5];
+				$top = $formparts[6];
+
+			
+			#-----------------------------------------------The Actual Dialog Layout
+			$html .= "<div class='action'></div>";
+			if($action == 'EXP' or $action == 'EditEXP') {
+				$html .= "<div class='forml'>";
+			} else {
+				$html .= "<div class='form'>";
+			}
+				$html .= "
+				<a href='show.php'><div class='exit'>Cancel</div></a>
+				<div class='formtitle'>$title</div><br><br>
+				<div class='center'>";
+					if($action <> "tag") {$html .= "<form action='show.php' method='post' enctype='multipart/form-data'>";}
+						$html .= "
+						<table>
+							$headers
+							<tr>
+								$inputs
+							</tr>
+						</table><br><br>";
+						if($action == "tag") {$html .= "<form action='show.php' method='post' enctype='multipart/form-data'>";}
+						$html .= "
+						<input type='submit' id='subshoup' name='subshoup' value='Update This Show'>";
+						$html .= $footer;
+						
+					$html .= "</form>";
+					$html .= "
+			</div>";
+		
+
+			break;	
 		}		
 		
 		$html .= "
