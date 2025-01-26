@@ -451,9 +451,17 @@ select {
 .datatable {
 
 background-color:white;
-font-size:medium;
+font-size:large;
 
 }
+
+.seldatatable {
+
+background-color:white;
+font-size:large;
+
+}
+
 
 .datascroll {
 	height:87%;
@@ -498,7 +506,30 @@ font-size:medium;
 	height:125px;
 	background-color:gray;
 	font-size:30px;
+	color:white;
+	text-shadow: 2px 2px 3px black;
 }	
+
+.calcbutton:hover{
+	background-color:yellow;
+}
+
+
+.compbutton {
+	background-color:gray;
+	font-size:30px;
+	color:white;
+	text-shadow: 2px 2px 3px black;
+	vertical-align:middle;
+	text-align:center;
+	padding:35px 10px 35px 10px;
+	border:thin black solid;
+}
+
+.compbutton:hover{
+	background-color:yellow;
+}
+
 
 .input {
 	height:100%;
@@ -535,23 +566,35 @@ font-size:medium;
 
 .selinput{
 	font-size:xx-large;
-	width:85px;
+	width:115px;
 }
 
 .selsubmit {
 	font-size:xx-large;
 	width:100%;
 	padding:25px;
+	background:gray;
+	color:white;
+	text-shadow: 2px 2px 3px black;
+
 	
 }
+.selsubmit:hover{
+	background-color:yellow;
+}
+
 
 .delsubmit {
 	font-size:xx-large;
 	color:black;
 	text-decoration:none;
-	background-color:silver;
+	background-color:gray;
 	height:100%;
 	width:100%;
+	border:thin black solid;
+	color:white;
+	text-shadow: 2px 2px 3px black;
+
 }
 
 a {

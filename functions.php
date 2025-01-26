@@ -772,7 +772,8 @@ function Inventory($search,$type,$toptab,$operation)
 					} else {
 						$EDescShort = $Description;
 					}
-					$opstable = "<div><table class='datatable'>
+					
+						$opstable .= "<div><table class='datatable'>
 									<tr class='inventoryhd'><td colspan='2' sytle='font-weight:bold;' width='300'>Item ID $IID</td></tr>
 									<tr><td>Production Date</td><td>$ProdDate</td></tr>
 									<tr><td>Mold ID</td><td>$MoldID</td></tr>
@@ -780,12 +781,13 @@ function Inventory($search,$type,$toptab,$operation)
 									<tr><td>Description</td><td>$EDescShort</td></tr>
 									<tr><td>Cost</td><td>$Cost</td></tr>
 									<tr><td>Retail Price</td><td>$RAmount</td></tr>
-									<tr><td>Price Add</td><td>$PriceAdd</td></tr>
-									<tr><td>Tags Printed</td><td>$TAG</td></tr>
-									<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+									";
 									
 									if(substr($operation,0,3) <> 'SEL'){
 										$opstable .= "
+										<tr><td>Price Add</td><td>$PriceAdd</td></tr>
+										<tr><td>Tags Printed</td><td>$TAG</td></tr>
+										<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 										<tr>
 											<td><a href='default.php?toptab=$toptab&action=EditITMz$IID' class='button'>Edit</a></td>
 											<td><a href='default.php?toptab=$toptab&action=DeleteITMz$IID' class='button'>Delete</a></td>
@@ -2232,7 +2234,7 @@ function GetCart() {
 	            $Count++;
 	        }
 	        $return .= "</table>";
-	    }   
+	    }  
     }
     catch(Exception $e)
     {
@@ -2240,14 +2242,17 @@ function GetCart() {
     }
 
     if ($Count == 0) {
-        $return = "Username or Password Incorrect, Login Failed!";
+        $return .= "</table>";
+        $Count = "No";
+		$Total = "0.00";
+
     } else {
         //$return =substr($return,0,-1);
         
-        return "$return^$Count^$Total";
+        
     }
 
-
+return "$return^$Count^$Total";
 }
 
 
@@ -2279,6 +2284,55 @@ function DeleteCartItem($delcart)
 
             
     return "$return";
+
+}
+
+
+function FinalizeSale($showname) 
+{
+	$return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "UPDATE `no-resin-why`.`items`
+				INNER JOIN `no-resin-why`.`cart` ON `items`.`ItemID` = `cart`.`ItemID`
+				SET
+				`items`.`SalePrice` = `cart`.`SalePrice`,
+				`items`.`SaleDate` = date_format(curdate(), '%m/%d/%Y'),
+				`items`.`SaleLocation` = '$showname';";
+        
+        
+        if (mysqli_query($conn, $sql)) {
+		     $return = "Sales updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+		
+		$sql = "TRUNCATE`no-resin-why`.`cart`;";
+		
+		if (mysqli_query($conn, $sql)) {
+		     $return = "Sales updated successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+
+ 
+    }
+    catch(Exception $e)
+    {
+        $return = "Username or Password Incorrect, Login Failed!";
+    }
+
+            
+    return "$return";
+
+
+
 
 }
 

@@ -36,7 +36,7 @@
        		header("location:default.php");
        		break;
        	case 'sho':
-       		header("location:Default.php");
+       		header("location:show.php");
        		break;
 		case 'mbl':
        		header("location:mobile.php");

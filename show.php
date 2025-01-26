@@ -142,6 +142,16 @@ if(isset($_GET['delcart'])) {
 	$result = DeleteCartItem($delcart);
 }
 
+if(isset($_GET['cart'])) {
+	$answer = $_GET['cart'];
+	if($answer == 'complete'){
+		$result = FinalizeSale($showname);
+	} else {
+		$answer = "";
+	}
+}
+
+
 
 //#############################################################################################################################################Build html Page
 
@@ -216,6 +226,7 @@ $html = "
 			function calchange(val){
 				Total = document.getElementById('totaldue').value
 				Change = val - Total;
+				Change = (Math.round(Change * 100) / 100).toFixed(2);
 				document.getElementById('changedue').value = Change;
 			}
 						
@@ -588,9 +599,10 @@ $html = "
 											$html .="
 											<br>
 											<div style='float:left;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Count Items</div><div style='float:right;'>Total Due: <input class='selinput' type='text' id='totaldue' name='totaldue' value='$Total' disabled='disabled'></div><br><br>
-											<div style='float:left;'>&nbsp;</div><div style='float:right;'>Amount Tended: <input class='selinput' type='text' id='amounttended' name='amounttended' value='' onchange='calchange(this.value);'></div><br><br>
-											<div style='float:left;'>&nbsp;</div><div style='float:right;'>Change Due: <input class='selinput' type='text' id='changedue' name='changedue' disabled='disabled'></div><br>";
+											<div style='float:left;'>&nbsp;</div><div style='float:right;'>Amount Tended: <input class='selinput' type='text' id='amounttended' name='amounttended' value='' onkeyup='calchange(this.value);'></div><br><br>
+											<a href='show.php?cart=complete'><div class='compbutton' style='float:left;'>Complete Sale</div></a><div style='float:right;'>Change Due: <input class='selinput' type='text' id='changedue' name='changedue' disabled='disabled'></div><br>";
 										}
+										
 										$html .= "
 									</div>
 							</form>
