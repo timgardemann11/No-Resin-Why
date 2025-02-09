@@ -48,6 +48,11 @@ if (isset($_SESSION["user"])) {
 	$title = "";
 }
 
+if(isset($_POST["lookuptxt"])) {
+	$lookuptxt = $_POST["lookuptxt"];
+} else {
+	$lookuptxt = "";
+}
 
 
 //Get Left Tab Variable
@@ -450,6 +455,13 @@ if (isset($_POST['subtag'])) {
 	$result = MarkPrinted();
 } 
 
+if (isset($_POST['subsold'])) {
+	$ItemID = $_POST['selid'];
+	$price = $_POST['saleprice'];
+	$showname = "Mobile Sale";
+	
+	$result = MarkSold($ItemID,$showname,$price);
+} 
 
 
 
@@ -641,6 +653,7 @@ $html = "
 
 							
 		    		</ul>
+		    		$result
 				</div>
 			</div>";
 //=====================================================================================================================Company Metrics and Calendar
@@ -959,6 +972,10 @@ $html = "
 			}
 			$footer = "";
 			
+			if($lookuptxt <> ""){
+				$operation = $lookuptxt;
+			}
+			
 			$formdata = Dialog($action,$ID,$search,$toptab,$operation);
 			$formparts = explode("^",$formdata); 
 				$title = $formparts[0];
@@ -981,7 +998,26 @@ $html = "
 				<a href='default.php?toptab=$toptab'><div class='exit'>Cancel</div></a>
 				<div class='formtitle'>$title</div><br><br>
 				<div class='center'>";
-					if($action <> "tag") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+				
+				
+				switch ($action) {
+					case "tag":
+						$html .= "
+						<table>
+							$headers
+							<tr>
+								$inputs
+							</tr>
+						</table><br><br>
+						
+						<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>
+
+						<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
+						$html .= $footer;
+
+					break;
+					
+					case "SLD":
 						$html .= "
 						<table>
 							$headers
@@ -989,12 +1025,55 @@ $html = "
 								$inputs
 							</tr>
 						</table><br><br>";
-						if($action == "tag") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+						
+						
+						
+						$html .= $footer;
+						
+						
+
+					break;
+					
+					default:
+						$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";
+						
+						$html .= "
+						<table>
+							$headers
+							<tr>
+								$inputs
+							</tr>
+						</table><br><br>";
+						
 						$html .= "
 						<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
 						$html .= $footer;
+						$html .= "</form>";
 						
 					$html .= "</form>";
+
+					break;
+				}
+				
+				
+				
+					#if($action <> "tag" or $action <> "SLD") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+						#$html .= "
+						#<table>
+							#$headers
+							#<tr>
+								#$inputs
+							#</tr>
+						#</table><br><br>";
+						#if($action == "tag") {$html .= "<form action='Default.php?toptab=$top' method='post' enctype='multipart/form-data'>";}
+						#$html .= "
+						#<input type='submit' id='$subid' name='$subid' value='$subtxt'>";
+						#$html .= $footer;
+						
+					#$html .= "</form>";
+					
+					
+					
 					$html .= "
 			</div>";
 		}

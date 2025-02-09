@@ -597,6 +597,45 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$top = 'mnu';
 					break;
 			
+			case 'SLD':
+					$title = "Mark Item as Sold";
+					$showparts[6] = "";
+					$headers = "";
+					
+					$inputs = "<form action='Default.php?action=SLD&toptab=INV' method='post' enctype='multipart/form-data'>
+									<div class='locator2'>Item Locator<br>
+										<input class='selinput' type='text' id='lookuptxt' name='lookuptxt' value='$operation'>
+										<input class='selsubmit' type='submit' id='sublookup' name='sublookup' value='Find Item'><br></div>&nbsp;<br><br>";
+										if($operation <> ""){
+											$showdata = Inventory("","table","","SEL$operation");
+											$showparts = explode("^",$showdata); #return "$return0^$Total1^$opstable2^$Count3^$Shape4^$EDescShort5^$RAmount6^$Cost7^$IID";
+											$inputs .= "$showparts[2]<br></form>";
+										}
+										$inputs .= "<div class='locator'><form action='Default.php?toptab=SAL' method='post' enctype='multipart/form-data'>";
+										if($operation <> ""){
+											$showparts[5] = substr($showparts[5],0,21) . "...";
+											$inputs .= "	
+											Sale Price: <input class='selinput' type='text' id='saleprice' name='saleprice' value=$showparts[6]>
+											<br><br>
+											<input class='selsubmit' type='submit' id='subsold' name='subsold' value='Mark this Item as Sold'>
+											<input type='hidden' id='selid' name='selid' value='$showparts[8]'>
+											<input type='hidden' id='selshape' name='selshape' value='$showparts[4]'>
+											<input type='hidden' id='seldesc' name='seldesc' value='$showparts[5]'>
+											<input type='hidden' id='selamount' name='selamount' value='$showparts[6]'>
+											<input type='hidden' id='selcost' name='selcost' value='$showparts[7]'>";
+										}
+										$inputs .= "
+									</div>
+							</form>";
+								
+					$footer .= "";
+					
+					
+					$subid = 'subsld';
+					$subtxt = "Sell this Item";
+					$top = $toptab;
+					break;
+
 			}	
 			
 	return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";

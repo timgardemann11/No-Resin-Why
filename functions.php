@@ -772,7 +772,7 @@ function Inventory($search,$type,$toptab,$operation)
 					} else {
 						$EDescShort = $Description;
 					}
-					
+						$tempv = substr($operation,0,3);
 						$opstable .= "<div><table class='datatable'>
 									<tr class='inventoryhd'><td colspan='2' sytle='font-weight:bold;' width='300'>Item ID $IID</td></tr>
 									<tr><td>Production Date</td><td>$ProdDate</td></tr>
@@ -805,7 +805,10 @@ function Inventory($search,$type,$toptab,$operation)
 		} else {
 			$return .= "<tr><td>No results</td></tr>";
 		}
+		
 		$return .= "</table></div>";
+		
+		
         // Close connections
 		mysqli_close($conn); 
 	}   
@@ -2331,10 +2334,47 @@ function FinalizeSale($showname)
             
     return "$return";
 
+}
 
 
+
+
+function MarkSold($ItemID,$showname,$price) 
+{
+	$return = "";
+    try
+    {
+        $conn = connect();
+	
+		if ($conn->connect_error) { 
+		     die("Connection failed: " . $conn->connect_error); 
+		} 
+
+        $sql = "UPDATE `no-resin-why`.`items`
+				SET
+				`items`.`SalePrice` = '$price',
+				`items`.`SaleDate` = date_format(curdate(), '%m/%d/%Y'),
+				`items`.`SaleLocation` = '$showname'
+				Where `items`.`ItemID` = '$ItemID';";
+        
+        
+        if (mysqli_query($conn, $sql)) {
+		     $return = "Items marked sold successfully";
+		} else {
+		     $return = "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+ 
+    }
+    catch(Exception $e)
+    {
+        $return = "Username or Password Incorrect, Login Failed!";
+    }
+
+            
+    return "$return";
 
 }
+
 
 
 ?>
