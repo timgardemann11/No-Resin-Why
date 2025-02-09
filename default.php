@@ -458,7 +458,7 @@ if (isset($_POST['subtag'])) {
 if (isset($_POST['subsold'])) {
 	$ItemID = $_POST['selid'];
 	$price = $_POST['saleprice'];
-	$showname = "Mobile Sale";
+	$showname = "Neighbors and Friends";
 	
 	$result = MarkSold($ItemID,$showname,$price);
 } 

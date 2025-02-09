@@ -85,6 +85,24 @@ if (isset($_POST['subexpadd'])) {
 }
 
 
+if(isset($_POST["lookuptxt"])) {
+	$lookuptxt = $_POST["lookuptxt"];
+} else {
+	$lookuptxt = "";
+}
+
+
+if (isset($_POST['subsold'])) {
+	$ItemID = $_POST['selid'];
+	$price = $_POST['saleprice'];
+	$showname = "Mobile Sale";
+	
+	$result = MarkSold($ItemID,$showname,$price);
+} 
+
+
+
+
 //Build Logon Page
 $html = "
 
@@ -178,11 +196,26 @@ $html = "
 					break;
 					
 				case 'itm':
-					$html .= "	
-					<div class='menu'>
-							<a href='mobile.php?action=itm'><div class='button'>itm<br>&nbsp;</div></a><br>
-							<a href='mobile.php?action=exp'><div class='button'>pExpense<br>&nbsp;</div></a><br>
-							<a href='mobile.php?action=sho'><div class='button'>exp<br>&nbsp;</div></a><br>
+					$html .= "<div class='menu'>";
+							$form = Dialog('SLDMBL','','','',$lookuptxt);
+
+							$formparts = explode("^",$form); #return "$title^$headers^$inputs^$footer^$subid^$subtxt^$top";
+							
+							$html .= "
+							<div>
+								
+								<div class='formtitle'>$formparts[0]</div>
+								<div class='center'>
+								
+									
+										$formparts[1]
+										
+										$formparts[2]
+										<br>
+										<a href='mobile.php'><div class='exit'>Cancel</div></a><input class='subbutton' type='submit' id='$formparts[4]' name='$formparts[4]' value='$formparts[5]'>
+										$formparts[3]					
+										
+							</div>
 					</div>";
 					break;
 

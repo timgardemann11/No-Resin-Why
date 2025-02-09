@@ -635,6 +635,45 @@ function Dialog($action,$ID,$search,$toptab,$operation)
 					$subtxt = "Sell this Item";
 					$top = $toptab;
 					break;
+					
+			case 'SLDMBL':
+					$title = "Mark Item as Sold";
+					$showparts[6] = "";
+					$headers = "";
+					
+					$inputs = "<form action='mobile.php?action=itm' method='post' enctype='multipart/form-data'>
+									<div class='locator2'>Item Locator<br>
+										<input class='selinput' type='text' id='lookuptxt' name='lookuptxt' value='$operation'>
+										<input class='selsubmit' type='submit' id='sublookup' name='sublookup' value='Find Item'><br></div>&nbsp;<br><br>";
+										if($operation <> ""){
+											$showdata = Inventory("","table","","SEL$operation");
+											$showparts = explode("^",$showdata); #return "$return0^$Total1^$opstable2^$Count3^$Shape4^$EDescShort5^$RAmount6^$Cost7^$IID";
+											$inputs .= "$showparts[2]<br></form>";
+										}
+										$inputs .= "<div class='locator'><form action='mobile.php?toptab=SAL' method='post' enctype='multipart/form-data'>";
+										if($operation <> ""){
+											$showparts[5] = substr($showparts[5],0,21) . "...";
+											$inputs .= "	
+											Sale Price: <input class='selinput' type='text' id='saleprice' name='saleprice' value=$showparts[6]>
+											<br><br>
+											
+											<input type='hidden' id='selid' name='selid' value='$showparts[8]'>
+											<input type='hidden' id='selshape' name='selshape' value='$showparts[4]'>
+											<input type='hidden' id='seldesc' name='seldesc' value='$showparts[5]'>
+											<input type='hidden' id='selamount' name='selamount' value='$showparts[6]'>
+											<input type='hidden' id='selcost' name='selcost' value='$showparts[7]'>";
+										}
+										$inputs .= "
+									</div>";
+								
+					$footer .= "</form>";
+					
+					
+					$subid = 'subsold';
+					$subtxt = "Sell this Item";
+					$top = $toptab;
+					break;
+
 
 			}	
 			
