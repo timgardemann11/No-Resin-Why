@@ -8,6 +8,7 @@
 	width: 12%;
 	height:100%;
 	float:left;
+	background-color:#f6f5f0;
 }
 
 #top {
@@ -21,12 +22,13 @@
 
 #site {
      font-size: xx-large;
-     width:36%;
+     width:30%;
      color:#32563c;
      background: #f6f5f0;
      text-shadow: 2px 2px 5px #814f2a;
      display:inline-block;
 	 transform: translateY(-20%);
+	 padding-top:5px;
 }
 
 #logo {
@@ -139,6 +141,7 @@
     padding: 0px;
     overflow: hidden;
     background-color: #C0C0C0;
+    width:95%;
     float:left;
 }
 
