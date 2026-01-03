@@ -90,39 +90,39 @@ $html = "
     			
 			<div class='menu'>";
 						if($toptab == 'COMP') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=COMP'>Comps & ARV</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=COMP'>Comps & ARV</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=COMP'>Comps & ARV</a></div>";
     					}
     					if($toptab == 'MAO') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=MAO'>Offer Calc MAO</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=MAO'>Offer Calc MAO</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=MAO'>Offer Calc MAO</a></div>";
     					}
     					if($toptab == 'BUD') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=BUD'>Repair Budget</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=BUD'>Repair Budget</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=BUD'>Repair Budget</a></div>";
     					}
     					
     					
 						if($toptab == 'HOL') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=HOL'>Holding & Selling Costs</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=HOL'>Holding & Selling Costs</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=HOL'>Holding & Selling Costs</a></div>";
     					}
 						if($toptab == 'FUND') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=FUND'>Molds</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=FUND'>Molds</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=FUND'>Funding</a></div>";
     					}
 						if($toptab == 'TAX') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=TAX'>Taxes</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=TAX'>Taxes</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=TAX'>Taxes</a></div>";
     					}
     					if($toptab == 'EXP') {
-    						$html .= "<div class='menuactive' style='background-color:#e8cf9e;'><a style='color:black' href='default2.php?toptab=EXP'>Expenses</a></div>";
+    						$html .= "<div class='menuactive' style='background-color:#e9dcc1;'><a style='color:black' href='default2.php?toptab=EXP'>Expenses</a></div>";
     					} else {
     						$html .= "<div class='menu'><a href='default2.php?toptab=EXP'>Expenses</a></div>";
     					}
