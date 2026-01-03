@@ -30,6 +30,14 @@ if (isset($_GET['toptab'])) {
     $toptab = "EXP";
 }
 
+if (isset($_GET['action'])) {
+	$action = $_GET['action'];
+} else {
+	$action = "";
+}
+
+
+
 //#############################################################################################################################################Build html Page
 
 //=====================================================================================================================Page Headers and script
@@ -63,9 +71,9 @@ $html = "
 			<div id='logo'>&nbsp;&nbsp;<img src='LHRimages/Logo.jpg' alt='No Resin Why' style='width:180px;'></div><br><br>
 			<div class='sidemenu'>
 	   			<ul>
-	   					<li><a href='default.php?action=PRJ&toptab=$toptab'>Manage Projects</a></li>
-	   					<li><a href='default.php?action=VND&toptab=$toptab'>Manage Vendors</a></li>
-	   					<li><a href='default.php?action=SNT&toptab=$toptab'>Manage Contractors</a></li>
+	   					<li><a href='default2.php?action=PRJ&toptab=$toptab'>Manage Projects</a></li>
+	   					<li><a href='default2.php?action=VND&toptab=$toptab'>Manage Vendors</a></li>
+	   					<li><a href='default2.php?action=SNT&toptab=$toptab'>Manage Contractors</a></li>
 					
 	    		</ul>
 	    		$result
@@ -86,7 +94,7 @@ $html = "
 				</table>
 	    	</div>
 	    	
-	    	<div id='site'>&nbsp;&nbsp;&nbsp;Legacy Home Renewal&nbsp;&nbsp;&nbsp;</div>
+	    	<div id='site'>&nbsp;&nbsp;&nbsp;Legacy Home Renewal</div>
     			
 			<div class='menu'>";
 						if($toptab == 'COMP') {
@@ -148,13 +156,64 @@ $html = "
 	    	</div>
 	    </div>";
 	    		
+
+
+//=====================================================================================================================Hidden Dialogs
+		
+		#----------------------------------------------------Get the Dialog variables
+		if($action <> ""){
+		
+			#$Data = GetAction("PRJ");
+			#$DataArray = explode("^",$Data);
+			$Title = "Manage Projects";
+			$Headers = "<tr><td>stuff</td></tr>";
+			$Inputs = "<tr><td>The inputs</td></tr>";
+			$Footer = "Not Real Sure";
+			
+			#-----------------------------------------------The Actual Dialog Layout
+			$html .= "<div class='action'>&nbsp;test</div>
+			
+			<div class='form'>
+				<a href='default2.php?toptab=$toptab'><div class='exit'>Cancel</div></a>
+				<div class='formtitle'>$Title</div><br><br>
+				<div class='center'>";
+				
+				switch ($action) {
+					case "PRJ":
+						$html .= "
+						<table>
+							$Headers
+							<tr>
+								$Inputs
+							</tr>
+						</table><br><br>
+						
+						<form action='Default2.php?toptab=$toptab' method='post' enctype='multipart/form-data'>
+	
+						<input type='submit' id='proj' name='Proj' value='Add Project'>";
+						$html .= $Footer;
+	
+					break;
+					
+					case "SLD":
+					
+					break;
+				}
+				
+				$html .= "
+			</div>";
+		}
+		
+
 	    		#=======================================================================================================================Completing the page
 
 		$html .= "
 	</body>
 </html>";
 
+		
 //#############################################################################################################################################echo html Page to screen
-
+				
 echo $html
+
 ?>
