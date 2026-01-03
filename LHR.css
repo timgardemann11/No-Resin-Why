@@ -1,0 +1,178 @@
+﻿body {
+    /*overflow:hidden;*/
+    background:#f6f5f0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#left {
+	width: 12%;
+	height:100%;
+	float:left;
+}
+
+#top {
+    width: 80%;
+    font-size: x-large;
+    float:left;
+    display:inline-block;
+    vertical-align:bottom;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#site {
+     font-size: xx-large;
+     width:36%;
+     color:#32563c;
+     background: #f6f5f0;
+     text-shadow: 2px 2px 5px #814f2a;
+     display:inline-block;
+	 transform: translateY(-20%);
+}
+
+#logo {
+     display:inline-block;
+
+}
+
+#main {
+	width:87%;
+	height:100%;
+	display:inline-block;
+}
+
+#project{
+    width:25%;
+    font-size: large;
+    display:inline-block;
+	float:left;
+}
+
+#project select{
+	width:320px;
+	margin-left:30px;
+
+}
+
+#project select option{
+	background-color:#e8cf9e;
+	color:maroon;
+}
+
+#tabdata{
+	width:73%;
+    font-size: x-large;
+    display:inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+	float: right;
+}
+
+.login{
+	position:absolute;
+	width:200px;
+	height:110px;
+	top:0px;
+	left:calc(100% - 200px);
+    font-size:8px; 
+    padding-top:10px;
+    padding-right:10px;
+    text-align:right;
+    text-shadow: 2px 2px 5px white;
+    float:right;                  
+}
+
+.menu {
+    display:inline-block; 
+    border-radius: 20px 20px 0px 0px; 
+    vertical-align:bottom;
+    
+}
+
+.menuactive {
+	display:inline-block; 
+	border-radius: 20px 20px 0px 0px;
+}
+
+.menu div {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display:inline-block;
+    float: left;
+    font-size:medium;
+    border-right: 1px solid #f6f5f0;
+    background-color:#315740;
+    color:white;
+}
+
+.menu div a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 13px 12px ;
+    text-decoration:none;
+    vertical-align:bottom;
+                                                
+}
+
+.menuactive div a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 13px 12px;
+    text-decoration:none;
+    vertical-align:bottom; 
+    border-radius: 20px 20px 20px 20px;                                           
+}
+
+                                                
+.menu div a:hover {
+    color:white;
+}
+
+ .sidemenu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0px;
+    overflow: hidden;
+    background-color: #C0C0C0;
+    float:left;
+}
+
+.sidemenu li {
+    float: left;
+    width:100%;
+    font-size:medium;
+    border-bottom: 8px solid #f6f5f0;
+                                                    
+}
+                                                
+.sidemenu li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 4px 8px 4px 8px;
+    text-decoration: none;
+    vertical-align:top;                                            
+}
+
+                                                
+.sidemenu li:hover {
+    background-color: #e8cf9e;
+}
+
+
+.tabbody {
+	background-color:#e8cf9e;
+	width:100%;
+	height:100%;
+	float:left;
+	padding:20px 10px 10px 20px;
+	display:inline-block;
+	
+}
+
+
+
+
+
